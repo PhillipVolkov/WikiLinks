@@ -3,6 +3,7 @@ package EEProject.WikiLinks;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -15,21 +16,28 @@ public class App {
 	static final int largestLength = "button".length();
 	
     public static void main(String[] args) {
-        System.out.println(readGitLabPage("https://docs.gitlab.com", "/ee/user/project/clusters/"));
+        Page newPage = readGitLabPage("https://docs.gitlab.com", "/ee/user/project/clusters/");
+        
+        System.out.println(newPage);
     }
     
-    public static String readGitLabPage(String stem, String pages) {
+    public static Page readGitLabPage(String stem, String pages) {
     	try {
             URL url = new URL(stem + pages);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            String output = "";
+            
+            String title = "";
+            ArrayList<String> sections = new ArrayList<String>();
+            ArrayList<String[]> links = new ArrayList<String[]>();
             
             String currLine = "";
+            String output = "";
             boolean mainOpen = false;
             boolean articleContent = false;
             int divsOpen = 0;
-            
+
+    		boolean addSection = false;
             while ((currLine = reader.readLine()) != null) {
             	currLine = currLine.toString();
             	
@@ -56,12 +64,14 @@ public class App {
             		boolean endBracketOpen = false;
             		boolean ignoreCurrChar = false;
             		boolean ignoreBracketContents = false;
+            		boolean lineTitle = false;
             		String newLine = "";
             		String internalText = "";
             		String linkURL = "";
             		String linkText = "";
             		
             		for (int i = 0; i < currLine.length(); i++) {
+            			//detect parses
             			if (currLine.charAt(i) == '<') {
             				singleBracketOpen = true;
             				bracketPrevOpen = i;
@@ -73,19 +83,29 @@ public class App {
             				endBracketOpen = true;
             				ignoreCurrChar = true;
             			}
-            			else if (currLine.charAt(i) == 'h' && bracketPrevOpen == i-1) {
-            				newLine += "\n";
+            			else if (currLine.charAt(i) == 'h' && (bracketPrevOpen == i-1 || bracketPrevClosed == i-1)) {
             				prevHeading = i;
             			}
-            			else if (currLine.charAt(i) == '1' && prevHeading == i-1) {
-            				newLine += "\n";
+            			else if (prevHeading == i-1 && bracketPrevOpen == i-2) {
+            				if (currLine.charAt(i) == '1') {
+            					lineTitle = true;
+            				}
+            				
+            				if (addSection) {
+            					sections.add(output);
+            					addSection = false;
+            				}
+
+            				output = "";
+        					addSection = true;
             			}
             			else if (currLine.charAt(i) == 'a' && bracketPrevOpen == i-1) {
             				singleBracketOpen = false;
             				linkBracketOpen = true;
             				linkUrlParse = true;
             				ignoreCurrChar = true;
-            			}else if (currLine.charAt(i) == 'a' && bracketPrevClosed == i-1) {
+            			}
+            			else if (currLine.charAt(i) == 'a' && bracketPrevClosed == i-1) {
             				linkBracketOpen = false;
             			}
             			else if (currLine.charAt(i) == '>') {
@@ -135,11 +155,11 @@ public class App {
             					while (scan.hasNext()) {
             						String currStr = scan.next();
             						
-            						String[] title = currStr.split("title=");
+            						String[] currTitle = currStr.split("title=");
             						String[] href = currStr.split("href=");
             						
-            						if (title.length != 1) {
-            							if (title[1].equals("Permalink")) ignore = true;
+            						if (currTitle.length != 1) {
+            							if (currTitle[1].equals("Permalink")) ignore = true;
             						}
             						else if (href.length != 1) {
             							link = href[1];
@@ -163,9 +183,27 @@ public class App {
 	            					
 	            					link = fullLink;
             					}
+            					else {
+                					if (!link.substring(0, "https://".length()).equals("https://")) {
+                						String[] pageSlashes = pages.split("/");
+    	            					String fullLink = stem;
+    	            					
+    	            					for (int j = 0; j < pageSlashes.length; j++) {
+    	            						if (j != 0) fullLink += "/" + pageSlashes[j];
+    	            						else fullLink += pageSlashes[j];
+    	            					}
+    	            					
+    	            					fullLink += "/" + link;
+    	            					
+    	            					link = fullLink;
+                					}
+            					}
             					
             					//append final text
-	            				if (!ignore && !linkText.equals("")) newLine += "|" + linkText + "| (" + link + ")";
+	            				if (!ignore && !linkText.equals("")) {
+	            					newLine += linkText;
+		            				links.add(new String[] {linkText, link});
+	            				}
 	            				
 	            				linkURL = "";
 	            				linkText = "";
@@ -176,6 +214,7 @@ public class App {
             		}
             		
             		if (!newLine.equals("")) output += newLine + "\n";
+            		if (lineTitle) title = newLine;
             	}
             	
             	//openers
@@ -190,10 +229,14 @@ public class App {
             		divsOpen += countMatches(currLine, "<div");
             	}
             }
+            //add trailing section
+            if (addSection) {
+            	sections.add(output);
+            }
             
             reader.close();
 
-        	return output;
+        	return new Page(title, sections, links);
         } 
         catch (Exception e) {
             System.out.println(e);
