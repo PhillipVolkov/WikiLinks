@@ -38,15 +38,26 @@ public class App {
     public static void main(String[] args) {
     	String stem = "https://docs.gitlab.com";
     	
-//        Page newPage = readGitLabPage(stem, "/ee/user/project/clusters/index.html");
-        
-//        System.out.println(newPage);
-        
-//        for (String[] linkPair : newPage.getLinks()) {
-//        	getMatch(linkPair, stem);
-//        }
-        
-        System.out.println(getMatch(new String[] {"CI/CD Pipelines", "https://docs.gitlab.com/ee/ci/pipelines/index.html"}, stem));
+        Page newPage = readGitLabPage(stem, "/ee/user/project/clusters/index.html");
+        for (String[] linkPair : newPage.getLinks()) {
+        	double match = getMatch(linkPair, stem);
+        	if (match != -1) {
+            	System.out.printf("| %-22s",match);
+            	
+            	if (match >= 0.1) System.out.printf("| true\n");
+            	else System.out.printf("| false\n");
+        	}
+        }
+
+//    	System.out.printf("| %-10s",getMatch(new String[] {"Cluster management project", "https://docs.gitlab.com/ee/user/clusters/management_project.html"}, stem) + "\n");
+//    	System.out.printf("| %-10s",getMatch(new String[] {"Pipeline Clusters", "https://docs.gitlab.com/ee/user/clusters/management_project.html"}, stem) + "\n");
+//    	System.out.printf("| %-10s",getMatch(new String[] {"CI/CD Pipelines", "https://docs.gitlab.com/ee/ci/pipelines/index.html"}, stem) + "\n");
+//    	System.out.printf("| %-10s",getMatch(new String[] {"Cluster integrations", "https://docs.gitlab.com/ee/user/clusters/integrations.html"}, stem) + "\n");
+//    	System.out.printf("| %-10s",getMatch(new String[] {"Deploy Boards", "https://docs.gitlab.com/ee/user/project/deploy_boards.html"}, stem) + "\n");
+//    	System.out.printf("| %-10s",getMatch(new String[] {"role-based or attribute-based access controls", "https://docs.gitlab.com/ee/user/project/clusters/cluster_access.html"}, stem) + "\n");
+//    	System.out.printf("| %-10s",getMatch(new String[] {"Read more about Kubernetes monitoring", "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/kubernetes.html"}, stem) + "\n");
+//    	System.out.printf("| %-10s",getMatch(new String[] {"Kubernetes podlogs", "https://docs.gitlab.com/ee/user/project/clusters/kubernetes_pod_logs.html"}, stem) + "\n");
+//        System.out.printf("| %-10s",getMatch(new String[] {"Auto DevOps", "https://docs.gitlab.com/ee/user/project/clusters/#auto-devops"}, stem) + "\n");
     }
     
     public static double getMatch(String[] linkPair, String stem) {
@@ -54,118 +65,152 @@ public class App {
     	
     	//tokenize the search phrase
     	if (linkPair[1].substring(0, stem.length()).equals(stem)) {
+    		boolean subSection = linkPair[1].indexOf("#") != -1;
+    		
 			Properties props = new Properties();
 		    props.setProperty("annotators", "tokenize,ssplit,pos,lemma");
 		    StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
 		    CoreDocument document = pipeline.processToCoreDocument(linkPair[0]);
 		    
 		    for (CoreLabel token : document.tokens()) {
-		    	if (!contains(stopWords, token.lemma())) {
-		    		tokens.add(token.lemma().toLowerCase());
+	    		String currToken = token.lemma().toLowerCase();
+		    	if (!contains(stopWords, currToken) && !tokens.contains(currToken)) {
+	    			tokens.add(currToken);
 		    	}
 		    }
-    	}
     	
-    	System.out.println(tokens);
-    	System.out.println(stem + linkPair[1].substring(stem.length(), linkPair[1].length()) + "\n\n");
-    	
-    	//get lamma page contents of search url
-    	Page searchPage = readGitLabPage(stem, linkPair[1].substring(stem.length(), linkPair[1].length()));
-    	System.out.println(searchPage.getLemmaString());
-    	
-    	//Initialize arraylist
-    	ArrayList<ArrayList<Integer>> occurences = new ArrayList<ArrayList<Integer>>();
-    	for (int i = 0; i < tokens.size(); i++) {
-    		occurences.add(new ArrayList<Integer>());
-    	}
-    	
-    	//find occurrences
-    	int wordCount = 0;
-    	for (ArrayList<String> section : searchPage.getLemma()) {
-    		for (String word : section) {
-	    		for (int tokenId = 0; tokenId < tokens.size(); tokenId++) {
-	    			if (tokens.get(tokenId).equals(word)) {
-    					occurences.get(tokenId).add(wordCount);
-	    			}
-	    		}
-	    		wordCount++;
-    		}
-    	}
-    	
-    	for (ArrayList<Integer> occurs : occurences) {
-    		System.out.print(occurs.size() + "\t" +	((double)occurs.size()/wordCount) + "\t");
-    		System.out.println(occurs);
-    	}
-    	
-    	//iterate and find distances between
-    	double score = 0.0;
-    	int[] indexes = new int[occurences.size()];
-    	int maxLength = occurences.get(0).size();
-    	for (int token = 0; token < occurences.size(); token++) {
-    		if (occurences.get(token).size() > maxLength) maxLength = occurences.get(token).size();
-    	}
-    	
-    	boolean indexIncreasing = true;
-    	while (indexIncreasing) {
-    		for (int i = 0; i < indexes.length; i++) {
-    			//System.out.print(indexes[i] + ": " + occurences.get(i).get(indexes[i]) + "\t\t");
-    		}
+			System.out.printf("%-44s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
 			
-    		for (int ind1 = 0; ind1 < indexes.length; ind1++) {
-    			for (int ind2 = ind1+1; ind2 < indexes.length; ind2++) {
-    				int ind1Index = occurences.get(ind1).get(indexes[ind1]);
-    				int ind2Index = occurences.get(ind2).get(indexes[ind2]);
-    				
-    				score += (20/Math.abs((double)ind1Index - ind2Index));
-    				//System.out.print("\t\t" + (20/Math.abs((double)ind1Index - ind2Index)));
-        		}
-    		}
-    		
-    		double[] averageAdd = new double[indexes.length];
-    		boolean canAdd = false;
-    		for (int ind1 = 0; ind1 < indexes.length; ind1++) {
-        		if (occurences.get(ind1).size()-1 > indexes[ind1]) {
-        			int count = 0;
-
-	    			for (int ind2 = 0; ind2 < indexes.length; ind2++) {
-	    				if (ind1 != ind2) {
-		        			int ind1IndexAdd = occurences.get(ind1).get(indexes[ind1]+1);
-		    				int ind2Index = occurences.get(ind2).get(indexes[ind2]);
-		        			
-		    				averageAdd[ind1] += (20/Math.abs((double)ind1IndexAdd - ind2Index));
-		    				count++;
-	    				}
-	    			}
-	    			
-	    			if (count != 0) {
-	    				averageAdd[ind1] /= count;
-	    			}
-	    			
-	    			canAdd = true;
-        		}
-        	}
-    		
-    		if (canAdd) {
-	    		double mostAdd = 0;
-	    		int mostAddIndex = 0;
-	    		for (int av = 0; av < averageAdd.length; av++) {
-	    			if (mostAdd < averageAdd[av]) {
-	    				mostAdd = averageAdd[av];
-	    				mostAddIndex = av;
-	    			}
+			//get lamma page contents of search url
+			Page searchPage = readGitLabPage(stem, linkPair[1].substring(stem.length(), linkPair[1].length()));
+			
+			//Initialize arraylist
+			ArrayList<ArrayList<Integer>> occurences = new ArrayList<ArrayList<Integer>>();
+			for (int i = 0; i < tokens.size(); i++) {
+				occurences.add(new ArrayList<Integer>());
+			}
+			
+			//find occurrences
+			int wordCount = 0;
+			for (ArrayList<String> section : searchPage.getLemma()) {
+				boolean sectionMatches = true;
+				
+				if (subSection) {
+					for (int i = 0; i < tokens.size(); i++) {
+						if (section.size()-1 <= i) {
+							sectionMatches = false;
+							break;
+						}
+						
+						if (!tokens.get(i).equals(section.get(i))) {
+							sectionMatches = false;
+							break;
+						}
+					}
+				}
+				
+				if (sectionMatches) {
+					for (String word : section) {
+			    		for (int tokenId = 0; tokenId < tokens.size(); tokenId++) {
+			    			if (tokens.get(tokenId).equals(word)) {
+								occurences.get(tokenId).add(wordCount);
+			    			}
+			    		}
+			    		wordCount++;
+					}
+				}
+			}
+			
+	    	for (int i = 0; i < occurences.size(); i++) {
+	    		if (occurences.get(i).size() == 0) {
+	    			occurences.remove(i);
+		    		i--;
 	    		}
-    		
-	    		indexes[mostAddIndex]++;
-    		}
-    		else {
-    			indexIncreasing = false;
-    		}
-        	
-        	//System.out.println();
+	    		
+//	    		System.out.println(occurences.get(i));
+	    	}
+			
+			//iterate and find distances between
+	    	if (occurences.size() != 0) {
+				double score = 0.0;
+				int[] indexes = new int[occurences.size()];
+				int maxLength = occurences.get(0).size();
+				for (int token = 0; token < occurences.size(); token++) {
+					if (occurences.get(token).size() > maxLength) maxLength = occurences.get(token).size();
+				}
+				
+				if (indexes.length > 1) {
+					boolean indexIncreasing = true;
+					while (indexIncreasing) {
+						for (int i = 0; i < indexes.length; i++) {
+//							System.out.print(indexes[i] + ": " + occurences.get(i).get(indexes[i]) + "\t\t");
+						}
+						
+						for (int ind1 = 0; ind1 < indexes.length; ind1++) {
+							for (int ind2 = ind1+1; ind2 < indexes.length; ind2++) {
+								int ind1Index = occurences.get(ind1).get(indexes[ind1]);
+								int ind2Index = occurences.get(ind2).get(indexes[ind2]);
+								
+								score += (20/Math.abs((double)ind1Index - ind2Index));
+//								System.out.print("\t\t" + (20/Math.abs((double)ind1Index - ind2Index)));
+				    		}
+						}
+						
+						double[] averageAdd = new double[indexes.length];
+						boolean canAdd = false;
+						for (int ind1 = 0; ind1 < indexes.length; ind1++) {
+				    		if (occurences.get(ind1).size()-1 > indexes[ind1]) {
+				    			int count = 0;
+				
+				    			for (int ind2 = 0; ind2 < indexes.length; ind2++) {
+				    				if (ind1 != ind2) {
+					        			int ind1IndexAdd = occurences.get(ind1).get(indexes[ind1]+1);
+					    				int ind2Index = occurences.get(ind2).get(indexes[ind2]);
+					        			
+					    				averageAdd[ind1] += (20/Math.abs((double)ind1IndexAdd - ind2Index));
+					    				count++;
+				    				}
+				    			}
+				    			
+				    			if (count != 0) {
+				    				averageAdd[ind1] /= count;
+				    			}
+				    			
+				    			canAdd = true;
+				    		}
+				    	}
+						
+						if (canAdd) {
+				    		double mostAdd = 0;
+				    		int mostAddIndex = 0;
+				    		for (int av = 0; av < averageAdd.length; av++) {
+				    			if (mostAdd < averageAdd[av]) {
+				    				mostAdd = averageAdd[av];
+				    				mostAddIndex = av;
+				    			}
+				    		}
+						
+				    		indexes[mostAddIndex]++;
+						}
+						else {
+							indexIncreasing = false;
+						}
+//				    	System.out.println();
+					}
+					
+					//calculate ranking
+					
+//					System.out.println(score);
+					
+					return (score * ((double)4/(Math.pow(indexes.length,2))))/wordCount;
+				}
+				else {
+					return (double)occurences.get(0).size()/wordCount;
+				}
+	    	}
     	}
-
-    	//calculate ranking
-    	return (score/indexes.length)/wordCount;
+    	
+    	return -1;
     }
     
     //parse the page into the object
@@ -344,7 +389,7 @@ public class App {
 	            					String[] pageSlashes = pages.split("/");
 	            					String fullLink = stem;
 	            					
-	            					for (int j = 0; j < pageSlashes.length-count+1; j++) {
+	            					for (int j = 0; j < pageSlashes.length-count; j++) {
 	            						if (j != 0) fullLink += "/" + pageSlashes[j];
 	            						else fullLink += pageSlashes[j];
 	            					}
@@ -354,21 +399,23 @@ public class App {
 	            					link = fullLink;
             					}
             					else {
-                					if (!link.substring(0, "https://".length()).equals("https://")) {
-                						String[] pageSlashes = pages.split("/");
-    	            					String fullLink = stem;
-    	            					
-    	            					for (int j = 0; j < pageSlashes.length-1; j++) {
-    	            						if (j != 0) fullLink += "/" + pageSlashes[j];
-    	            						else fullLink += pageSlashes[j];
-    	            					}
-    	            					
-    	            					fullLink += "/" + link;
-    	            					
-    	            					//System.out.println(link + "\t-->\t" + fullLink);
-    	            					
-    	            					link = fullLink;
-                					}
+            						if (link.length() > "https://".length()) {
+	                					if (!link.substring(0, "https://".length()).equals("https://")) {
+	                						String[] pageSlashes = pages.split("/");
+	    	            					String fullLink = stem;
+	    	            					
+	    	            					for (int j = 0; j < pageSlashes.length-1; j++) {
+	    	            						if (j != 0) fullLink += "/" + pageSlashes[j];
+	    	            						else fullLink += pageSlashes[j];
+	    	            					}
+	    	            					
+	    	            					fullLink += "/" + link;
+	    	            					
+	    	            					//System.out.println(link + "\t-->\t" + fullLink);
+	    	            					
+	    	            					link = fullLink;
+	                					}
+            						}
             					}
             					
             					//append final text
@@ -434,7 +481,7 @@ public class App {
             System.out.println(e);
         }
     	
-    	return null;
+    	return new Page("", new ArrayList<String>(), new ArrayList<ArrayList<String>>(), new ArrayList<String[]>());
     }
     
     public static int countMatches(String str, String pattern) {
