@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Properties;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -35,36 +34,65 @@ public class NaiveAlgorithm {
 			"you're", "you've", "your", "yours", "yourself", "yourselves", ",", ".", "!", "?", "(", ")", "+", "-", "_", "/", ":",
 			"#", "’s", "'s", "<", ">", "--"};
 	
+	static final boolean testLinks = true;
+	static final boolean debugPrint = true;
+	
     public static void main(String[] args) {
     	String stem = "https://docs.gitlab.com";
     	
-        Page newPage = readGitLabPage(stem, "/ee/user/project/clusters/index.html");
-        for (String[] linkPair : newPage.getLinks()) {
-        	double match = getMatch(linkPair, stem);
-        	if (match != -1) {
-            	System.out.printf("| %-22s",match);
-            	
-            	if (match >= 0.1) System.out.printf("| true\n");
-            	else System.out.printf("| false\n");
-        	}
-        }
-        
-        System.out.println();
-
-//    	System.out.printf("| %-10s",getMatch(new String[] {"Cluster management project", "https://docs.gitlab.com/ee/user/clusters/management_project.html"}, stem) + "\n");
-//    	System.out.printf("| %-10s",getMatch(new String[] {"Pipeline Clusters", "https://docs.gitlab.com/ee/user/clusters/management_project.html"}, stem) + "\n");
-//    	System.out.printf("| %-10s",getMatch(new String[] {"CI/CD Pipelines", "https://docs.gitlab.com/ee/ci/pipelines/index.html"}, stem) + "\n");
-//    	System.out.printf("| %-10s",getMatch(new String[] {"Cluster integrations", "https://docs.gitlab.com/ee/user/clusters/integrations.html"}, stem) + "\n");
-//    	System.out.printf("| %-10s",getMatch(new String[] {"Deploy Boards", "https://docs.gitlab.com/ee/user/project/deploy_boards.html"}, stem) + "\n");
-//    	System.out.printf("| %-10s",getMatch(new String[] {"role-based or attribute-based access controls", "https://docs.gitlab.com/ee/user/project/clusters/cluster_access.html"}, stem) + "\n");
-//    	System.out.printf("| %-10s",getMatch(new String[] {"Read more about Kubernetes monitoring", "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/kubernetes.html"}, stem) + "\n");
-//    	System.out.printf("| %-10s",getMatch(new String[] {"Kubernetes podlogs", "https://docs.gitlab.com/ee/user/project/clusters/kubernetes_pod_logs.html"}, stem) + "\n");
-//        System.out.printf("| %-10s",getMatch(new String[] {"Auto DevOps", "https://docs.gitlab.com/ee/user/project/clusters/#auto-devops"}, stem) + "\n");
-//        System.out.printf("| %-10s",getMatch(new String[] {"the Prometheus cluster integration is enabled", "https://docs.gitlab.com/ee/user/clusters/integrations.html#prometheus-cluster-integration"}, stem) + "\n");
+    	if (!testLinks) {
+	        Page newPage = readGitLabPage(stem, "/ee/user/project/clusters/index.html");
+	        
+	        
+	        for (String[] linkPair : newPage.getLinks()) {
+	        	double match = getMatch(linkPair, stem, debugPrint);
+	        	if (match != -1) {
+	            	System.out.printf("| %-22s",match);
+	            	
+	            	if (match >= 0.1) System.out.printf("| true\n");
+	            	else System.out.printf("| false\n");
+	        	}
+	        }
+    	}
+    	else {
+	    	ArrayList<String[]> testLinks = new ArrayList<String[]>();
+	    	testLinks.add(new String[] {"Cluster management project", "https://docs.gitlab.com/ee/user/clusters/management_project.html"});
+	    	testLinks.add(new String[] {"Kubernetes Pipeline", "https://docs.gitlab.com/ee/user/clusters/management_project.html"});
+	    	
+	    	testLinks.add(new String[] {"CI/CD Pipelines", "https://docs.gitlab.com/ee/ci/pipelines/index.html"});
+	    	testLinks.add(new String[] {"GitLab to manage your cluster for you", "https://docs.gitlab.com/ee/user/project/clusters/gitlab_managed_clusters.html"});
+	    	testLinks.add(new String[] {"Infrastructure as Code", "https://docs.gitlab.com/ee/user/infrastructure"});
+	    	testLinks.add(new String[] {"Deploy Boards", "https://docs.gitlab.com/ee/user/project/deploy_boards.html"});
+	    	testLinks.add(new String[] {"role-based or attribute-based access controls", "https://docs.gitlab.com/ee/user/project/clusters/cluster_access.html"});
+	    	testLinks.add(new String[] {"Read more about Kubernetes monitoring", "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/kubernetes.html"});
+	    	testLinks.add(new String[] {"Kubernetes podlogs", "https://docs.gitlab.com/ee/user/project/clusters/kubernetes_pod_logs.html"});
+	    	testLinks.add(new String[] {"Kubernetes with Knative", "https://docs.gitlab.com/ee/user/project/clusters/serverless/index.html"});
+	    	testLinks.add(new String[] {"NGINX Ingress", "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/nginx.html"});
+	    	testLinks.add(new String[] {"environment", "https://docs.gitlab.com/ee/ci/environments/index.html"});
+	    	testLinks.add(new String[] {"group", "https://docs.gitlab.com/ee/user/group/clusters/index.html"});
+	    	testLinks.add(new String[] {"instance", "https://docs.gitlab.com/ee/user/instance/clusters/index.html"});
+	    	testLinks.add(new String[] {"developer", "https://docs.gitlab.com/ee/user/permissions.html"});
+	    	testLinks.add(new String[] {"Auto DevOps", "https://docs.gitlab.com/ee/user/project/clusters/#auto-devops"});
+	    	testLinks.add(new String[] {"the Prometheus cluster integration is enabled", "https://docs.gitlab.com/ee/user/clusters/integrations.html#prometheus-cluster-integration"});
+	    	
+	    	double startTime = System.nanoTime();
+	    	for (String[] linkPair : testLinks) {
+	        	double match = getMatch(linkPair, stem, debugPrint);
+	        	if (match != -1 && debugPrint) {
+	            	System.out.printf("| %-22s",match);
+	            	
+	            	if (match >= 0.1) System.out.printf("| true\n");
+	            	else System.out.printf("| false\n");
+	        	}
+	        }
+	    	double endTime = System.nanoTime();
+	    	
+	    	System.out.println("\nTime Elapsed: " + ((endTime-startTime)/Math.pow(10, 9)) + " seconds");
+    	}
     }
     
-    //TODO allow for multiple categories in weighting (in case of unnecessary word inclusion), increase weights for single words
-    public static double getMatch(String[] linkPair, String stem) {
+    //TODO if token is under-represented then ignore, factor in titles, curve for word count?, OPTIMIZE
+    public static double getMatch(String[] linkPair, String stem, boolean print) {
     	ArrayList<String> tokens = new ArrayList<String>();
     	
     	//tokenize the search phrase
@@ -83,12 +111,12 @@ public class NaiveAlgorithm {
 		    	}
 		    }
     	
-			System.out.printf("%-44s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
+		    if (print) System.out.printf("%-44s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
 			
-			//get lamma page contents of search url
+			//get lemmatized page contents of search URL
 			Page searchPage = readGitLabPage(stem, linkPair[1].substring(stem.length(), linkPair[1].length()));
 			
-			//Initialize arraylist
+			//Initialize ArrayList
 			ArrayList<ArrayList<Integer>> occurences = new ArrayList<ArrayList<Integer>>();
 			for (int i = 0; i < tokens.size(); i++) {
 				occurences.add(new ArrayList<Integer>());
@@ -134,7 +162,7 @@ public class NaiveAlgorithm {
 //	    		System.out.println(occurences.get(i));
 	    	}
 			
-			//iterate and find distances between
+			//iterate, find and weigh distances between words
 	    	if (occurences.size() != 0) {
 				double score = 0.0;
 				int[] indexes = new int[occurences.size()];
@@ -209,7 +237,7 @@ public class NaiveAlgorithm {
 					return (score * ((double)4/(Math.pow(indexes.length,2))))/wordCount;
 				}
 				else {
-					return (double)occurences.get(0).size()/wordCount;
+					return (double)occurences.get(0).size()*4/wordCount;
 				}
 	    	}
 	    	else {
