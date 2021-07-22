@@ -4,23 +4,171 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Properties;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-/**
- * Hello world!
- *
- */
+import edu.stanford.nlp.ling.CoreLabel;
+import edu.stanford.nlp.pipeline.CoreDocument;
+import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+
+
 public class App {
 	static final String[] ignoreTokens = new String[] {"li", "ul", "div", "button"};
 	static final int largestLength = "button".length();
 	
+	static final String[] stopWords = new String[] {"a", "about", "above", "after", "again", "against", 
+			"all", "am", "an", "and", "any", "are", "aren't", "as", "at", "be", "because", "been", "before", 
+			"being", "below", "between", "both", "but", "by", "can't", "cannot", "could", "couldn't", "did", 
+			"didn't", "do", "does", "doesn't", "doing", "don't", "down", "during", "each", "few", "for", "from", 
+			"further", "had", "hadn't", "has", "hasn't", "have", "haven't", "having", "he", "he'd", "he'll", "he's", 
+			"her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", 
+			"i'm", "i've", "if", "in", "into", "is", "isn't", "it", "it's", "its", "itself", "let's", "me", "more", 
+			"most", "mustn't", "my", "myself", "no", "nor", "not", "of", "off", "on", "once", "only", "or", "other", 
+			"ought", "our", "ours ourselves", "out", "over", "own", "same", "shan't", "she", "she'd", "she'll", 
+			"she's", "should", "shouldn't", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", 
+			"them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", 
+			"this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "wasn't", "we", "we'd", 
+			"we'll", "we're", "we've", "were", "weren't", "what", "what's", "when", "when's", "where", "where's", "which", 
+			"while", "who", "who's", "whom", "why", "why's", "with", "won't", "would", "wouldn't", "you", "you'd", "you'll", 
+			"you're", "you've", "your", "yours", "yourself", "yourselves", ",", ".", "!", "?", "(", ")", "+", "-", "_", "/", ":",
+			"#", "’s", "'s", "<", ">", "--"};
+	
     public static void main(String[] args) {
-        Page newPage = readGitLabPage("https://docs.gitlab.com", "/ee/user/project/clusters/");
+    	String stem = "https://docs.gitlab.com";
+    	
+//        Page newPage = readGitLabPage(stem, "/ee/user/project/clusters/index.html");
         
-        System.out.println(newPage);
+//        System.out.println(newPage);
+        
+//        for (String[] linkPair : newPage.getLinks()) {
+//        	getMatch(linkPair, stem);
+//        }
+        
+        System.out.println(getMatch(new String[] {"CI/CD Pipelines", "https://docs.gitlab.com/ee/ci/pipelines/index.html"}, stem));
     }
     
+    public static double getMatch(String[] linkPair, String stem) {
+    	ArrayList<String> tokens = new ArrayList<String>();
+    	
+    	//tokenize the search phrase
+    	if (linkPair[1].substring(0, stem.length()).equals(stem)) {
+			Properties props = new Properties();
+		    props.setProperty("annotators", "tokenize,ssplit,pos,lemma");
+		    StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+		    CoreDocument document = pipeline.processToCoreDocument(linkPair[0]);
+		    
+		    for (CoreLabel token : document.tokens()) {
+		    	if (!contains(stopWords, token.lemma())) {
+		    		tokens.add(token.lemma().toLowerCase());
+		    	}
+		    }
+    	}
+    	
+    	System.out.println(tokens);
+    	System.out.println(stem + linkPair[1].substring(stem.length(), linkPair[1].length()) + "\n\n");
+    	
+    	//get lamma page contents of search url
+    	Page searchPage = readGitLabPage(stem, linkPair[1].substring(stem.length(), linkPair[1].length()));
+    	System.out.println(searchPage.getLemmaString());
+    	
+    	//Initialize arraylist
+    	ArrayList<ArrayList<Integer>> occurences = new ArrayList<ArrayList<Integer>>();
+    	for (int i = 0; i < tokens.size(); i++) {
+    		occurences.add(new ArrayList<Integer>());
+    	}
+    	
+    	//find occurrences
+    	int wordCount = 0;
+    	for (ArrayList<String> section : searchPage.getLemma()) {
+    		for (String word : section) {
+	    		for (int tokenId = 0; tokenId < tokens.size(); tokenId++) {
+	    			if (tokens.get(tokenId).equals(word)) {
+    					occurences.get(tokenId).add(wordCount);
+	    			}
+	    		}
+	    		wordCount++;
+    		}
+    	}
+    	
+    	for (ArrayList<Integer> occurs : occurences) {
+    		System.out.print(occurs.size() + "\t" +	((double)occurs.size()/wordCount) + "\t");
+    		System.out.println(occurs);
+    	}
+    	
+    	//iterate and find distances between
+    	double score = 0.0;
+    	int[] indexes = new int[occurences.size()];
+    	int maxLength = occurences.get(0).size();
+    	for (int token = 0; token < occurences.size(); token++) {
+    		if (occurences.get(token).size() > maxLength) maxLength = occurences.get(token).size();
+    	}
+    	
+    	boolean indexIncreasing = true;
+    	while (indexIncreasing) {
+    		for (int i = 0; i < indexes.length; i++) {
+    			//System.out.print(indexes[i] + ": " + occurences.get(i).get(indexes[i]) + "\t\t");
+    		}
+			
+    		for (int ind1 = 0; ind1 < indexes.length; ind1++) {
+    			for (int ind2 = ind1+1; ind2 < indexes.length; ind2++) {
+    				int ind1Index = occurences.get(ind1).get(indexes[ind1]);
+    				int ind2Index = occurences.get(ind2).get(indexes[ind2]);
+    				
+    				score += (20/Math.abs((double)ind1Index - ind2Index));
+    				//System.out.print("\t\t" + (20/Math.abs((double)ind1Index - ind2Index)));
+        		}
+    		}
+    		
+    		double[] averageAdd = new double[indexes.length];
+    		boolean canAdd = false;
+    		for (int ind1 = 0; ind1 < indexes.length; ind1++) {
+        		if (occurences.get(ind1).size()-1 > indexes[ind1]) {
+        			int count = 0;
+
+	    			for (int ind2 = 0; ind2 < indexes.length; ind2++) {
+	    				if (ind1 != ind2) {
+		        			int ind1IndexAdd = occurences.get(ind1).get(indexes[ind1]+1);
+		    				int ind2Index = occurences.get(ind2).get(indexes[ind2]);
+		        			
+		    				averageAdd[ind1] += (20/Math.abs((double)ind1IndexAdd - ind2Index));
+		    				count++;
+	    				}
+	    			}
+	    			
+	    			if (count != 0) {
+	    				averageAdd[ind1] /= count;
+	    			}
+	    			
+	    			canAdd = true;
+        		}
+        	}
+    		
+    		if (canAdd) {
+	    		double mostAdd = 0;
+	    		int mostAddIndex = 0;
+	    		for (int av = 0; av < averageAdd.length; av++) {
+	    			if (mostAdd < averageAdd[av]) {
+	    				mostAdd = averageAdd[av];
+	    				mostAddIndex = av;
+	    			}
+	    		}
+    		
+	    		indexes[mostAddIndex]++;
+    		}
+    		else {
+    			indexIncreasing = false;
+    		}
+        	
+        	//System.out.println();
+    	}
+
+    	//calculate ranking
+    	return (score/indexes.length)/wordCount;
+    }
+    
+    //parse the page into the object
     public static Page readGitLabPage(String stem, String pages) {
     	try {
             URL url = new URL(stem + pages);
@@ -29,6 +177,7 @@ public class App {
             
             String title = "";
             ArrayList<String> sections = new ArrayList<String>();
+            ArrayList<ArrayList<String>> lemma = new ArrayList<ArrayList<String>>();
             ArrayList<String[]> links = new ArrayList<String[]>();
             
             String currLine = "";
@@ -65,10 +214,12 @@ public class App {
             		boolean ignoreCurrChar = false;
             		boolean ignoreBracketContents = false;
             		boolean lineTitle = false;
+            		boolean escapeSequence = false;
             		String newLine = "";
             		String internalText = "";
             		String linkURL = "";
             		String linkText = "";
+            		String escapeCharacters = "";
             		
             		for (int i = 0; i < currLine.length(); i++) {
             			//detect parses
@@ -115,18 +266,37 @@ public class App {
             				
         					ignoreCurrChar = true;
             			}
+            			else if (currLine.charAt(i) == '&') {
+            				escapeSequence = true;
+            				escapeCharacters = "";
+            			}
+            			else if (currLine.charAt(i) == ';' && escapeSequence) {
+            				escapeSequence = false;
+            				ignoreCurrChar = true;
+            			}
             			
             			//System.out.print(currLine.charAt(i) + " " + singleBracketOpen);
             			
             			//write currentChar
             			if (!endBracketOpen && !ignoreCurrChar) {
-            				if (singleBracketOpen) internalText += currLine.charAt(i);
+            				if (escapeSequence) escapeCharacters += currLine.charAt(i);
+            				
+            				else if (singleBracketOpen) internalText += currLine.charAt(i);
             				
             				else if (linkUrlParse) linkURL += currLine.charAt(i);
             				
             				else if (linkBracketOpen) linkText += currLine.charAt(i);
             				
             				else newLine += currLine.charAt(i);
+            			}
+            			
+            			//handle escape sequences
+            			if (!escapeCharacters.equals("") && !escapeSequence) {
+        					if (escapeCharacters.equals("&lt")) newLine += "<";
+        					else if (escapeCharacters.equals("&gt")) newLine += ">";
+        					else newLine += escapeCharacters + ";";
+        					
+        					escapeCharacters = "";
             			}
             			
             			//handle internal text
@@ -188,12 +358,14 @@ public class App {
                 						String[] pageSlashes = pages.split("/");
     	            					String fullLink = stem;
     	            					
-    	            					for (int j = 0; j < pageSlashes.length; j++) {
+    	            					for (int j = 0; j < pageSlashes.length-1; j++) {
     	            						if (j != 0) fullLink += "/" + pageSlashes[j];
     	            						else fullLink += pageSlashes[j];
     	            					}
     	            					
     	            					fullLink += "/" + link;
+    	            					
+    	            					//System.out.println(link + "\t-->\t" + fullLink);
     	            					
     	            					link = fullLink;
                 					}
@@ -212,6 +384,9 @@ public class App {
             			
         				ignoreCurrChar = false;
             		}
+            		
+            		//System.out.println(currLine + "|");
+            		//System.out.println(newLine + "\n");
             		
             		if (!newLine.equals("")) output += newLine + "\n";
             		if (lineTitle) title = newLine;
@@ -235,8 +410,25 @@ public class App {
             }
             
             reader.close();
+            
+            for (String section : sections) {
+    	    	ArrayList<String> tokens = new ArrayList<String>();
+	    		
+    			Properties props = new Properties();
+    		    props.setProperty("annotators", "tokenize,ssplit,pos,lemma");
+    		    StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+    		    CoreDocument document = pipeline.processToCoreDocument(section);
+    		    
+    		    for (CoreLabel token : document.tokens()) {
+    		    	if (!contains(stopWords, token.lemma())) {
+    		    		tokens.add(token.lemma().toLowerCase());
+    		    	}
+    		    }
+    	    	
+    	    	lemma.add(tokens);
+            }
 
-        	return new Page(title, sections, links);
+        	return new Page(title, sections, lemma, links);
         } 
         catch (Exception e) {
             System.out.println(e);
