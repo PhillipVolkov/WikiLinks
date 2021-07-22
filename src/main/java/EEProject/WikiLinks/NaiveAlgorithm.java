@@ -14,7 +14,7 @@ import edu.stanford.nlp.pipeline.CoreDocument;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 
 
-public class App {
+public class NaiveAlgorithm {
 	static final String[] ignoreTokens = new String[] {"li", "ul", "div", "button"};
 	static final int largestLength = "button".length();
 	
@@ -48,6 +48,8 @@ public class App {
             	else System.out.printf("| false\n");
         	}
         }
+        
+        System.out.println();
 
 //    	System.out.printf("| %-10s",getMatch(new String[] {"Cluster management project", "https://docs.gitlab.com/ee/user/clusters/management_project.html"}, stem) + "\n");
 //    	System.out.printf("| %-10s",getMatch(new String[] {"Pipeline Clusters", "https://docs.gitlab.com/ee/user/clusters/management_project.html"}, stem) + "\n");
@@ -58,8 +60,10 @@ public class App {
 //    	System.out.printf("| %-10s",getMatch(new String[] {"Read more about Kubernetes monitoring", "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/kubernetes.html"}, stem) + "\n");
 //    	System.out.printf("| %-10s",getMatch(new String[] {"Kubernetes podlogs", "https://docs.gitlab.com/ee/user/project/clusters/kubernetes_pod_logs.html"}, stem) + "\n");
 //        System.out.printf("| %-10s",getMatch(new String[] {"Auto DevOps", "https://docs.gitlab.com/ee/user/project/clusters/#auto-devops"}, stem) + "\n");
+//        System.out.printf("| %-10s",getMatch(new String[] {"the Prometheus cluster integration is enabled", "https://docs.gitlab.com/ee/user/clusters/integrations.html#prometheus-cluster-integration"}, stem) + "\n");
     }
     
+    //TODO allow for multiple categories in weighting (in case of unnecessary word inclusion), increase weights for single words
     public static double getMatch(String[] linkPair, String stem) {
     	ArrayList<String> tokens = new ArrayList<String>();
     	
@@ -207,6 +211,9 @@ public class App {
 				else {
 					return (double)occurences.get(0).size()/wordCount;
 				}
+	    	}
+	    	else {
+	    		return 0;
 	    	}
     	}
     	
