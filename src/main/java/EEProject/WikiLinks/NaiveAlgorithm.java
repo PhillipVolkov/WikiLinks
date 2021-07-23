@@ -32,7 +32,7 @@ public class NaiveAlgorithm {
 			"we'll", "we're", "we've", "were", "weren't", "what", "what's", "when", "when's", "where", "where's", "which", 
 			"while", "who", "who's", "whom", "why", "why's", "with", "won't", "would", "wouldn't", "you", "you'd", "you'll", 
 			"you're", "you've", "your", "yours", "yourself", "yourselves", ",", ".", "!", "?", "(", ")", "+", "-", "_", "/", ":",
-			"#", "’s", "'s", "<", ">", "--"};
+			"#", "’s", "'s", "<", ">", "--", "=", "\""};
 	
 	static final boolean testLinks = false;
 	static final boolean debugPrint = false;
@@ -48,14 +48,13 @@ public class NaiveAlgorithm {
     	
 
 		if (!debugPrint) {
-			System.out.printf("%-44s| %-128s| %-12s| %-12s| %-22s| %-1s", "Tokens", "URL", "Search Time", "Algo Time", "Score", "Match?");
+			System.out.printf("%-44s| %-128s| %-12s| %-12s| %-22s| %-1s", "Tokens", "URL", "Parse Time", "Algo Time", "Score", "Match?");
 			System.out.println();
 		}
     	
     	if (!testLinks) {
 	    	double startTime = System.nanoTime();
-	        Page newPage = readGitLabPage(stem, "/ee/user/project/clusters/index.html");
-	        
+	        Page newPage = readGitLabPage(stem, "/ee/user/project/clusters/serverless/index.html");
 	        
 	        for (String[] linkPair : newPage.getLinks()) {
 	        	double match = getMatch(linkPair, stem);
@@ -115,246 +114,258 @@ public class NaiveAlgorithm {
     	ArrayList<String> tokens = new ArrayList<String>();
     	
     	//tokenize the search phrase
-    	if (linkPair[1].substring(0, stem.length()).equals(stem)) {
-	    	double startTime = System.nanoTime();
-    		boolean subSection = linkPair[1].indexOf("#") != -1;
-    		
-    		String[] tokenSplit = linkPair[0].toLowerCase().split(" ");
-    		for (int i = 0; i < tokenSplit.length; i++) {
-    			if (contains(stopWords, tokenSplit[i])) {
-    				tokenSplit[i] = "";
-		    	}
-    		}
-    		
-			Properties props = new Properties();
-		    props.setProperty("annotators", "tokenize,ssplit,pos,lemma");
-		    StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
-		    CoreDocument document = pipeline.processToCoreDocument(String.join(" ", tokenSplit));
-		    
-		    for (CoreLabel token : document.tokens()) {
-	    		String currToken = token.lemma().toLowerCase();
+    	if (linkPair[1].length() >= stem.length()) {
+	    	if (linkPair[1].substring(0, stem.length()).equals(stem)) {
+		    	double startTime = System.nanoTime();
+	    		boolean subSection = linkPair[1].indexOf("#") != -1;
 	    		
-	    		if (!contains(stopWords, currToken) && !tokens.contains(currToken)) tokens.add(currToken);
-		    }
-
-	    	double startTimeSearch = System.nanoTime();
-			//get lemmatized page contents of search URL
-			Page searchPage = readGitLabPage(stem, linkPair[1].substring(stem.length(), linkPair[1].length()));
-	    	double endTimeSearch = System.nanoTime();
-			
-			//set up title token list
-    		String stringTitle = searchPage.getTitle();
-    		if (subSection) {
-    			stringTitle = String.join(" ", linkPair[1].split("#")[1].split("-"));
-    		}
-    		
-    		ArrayList<String> title = new ArrayList<String>();
-    		document = pipeline.processToCoreDocument(stringTitle.toLowerCase());
-		    for (CoreLabel token : document.tokens()) {
-	    		String currToken = token.lemma().toLowerCase();
-		    	if (!contains(stopWords, currToken)) {
-		    		title.add(currToken);
-		    	}
-		    }
-    				
-			//Initialize ArrayList
-			ArrayList<ArrayList<Integer>> occurences = new ArrayList<ArrayList<Integer>>();
-			for (int i = 0; i < tokens.size(); i++) {
-				occurences.add(new ArrayList<Integer>());
-			}
-			
-			//find occurrences
-			int wordCount = 0;
-			for (ArrayList<String> section : searchPage.getLemma()) {
-				boolean sectionMatches = true;
+	    		String[] tokenSplit = linkPair[0].toLowerCase().split(" ");
+	    		for (int i = 0; i < tokenSplit.length; i++) {
+	    			if (contains(stopWords, tokenSplit[i])) {
+	    				tokenSplit[i] = "";
+			    	}
+	    		}
+	    		
+				Properties props = new Properties();
+			    props.setProperty("annotators", "tokenize,ssplit,pos,lemma");
+			    StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+			    CoreDocument document = pipeline.processToCoreDocument(String.join(" ", tokenSplit));
+			    
+			    for (CoreLabel token : document.tokens()) {
+		    		String currToken = token.lemma().toLowerCase();
+		    		
+		    		if (!contains(stopWords, currToken) && !tokens.contains(currToken)) tokens.add(currToken);
+			    }
+	
+		    	double startTimeSearch = System.nanoTime();
+				//get lemmatized page contents of search URL
+				Page searchPage = readGitLabPage(stem, linkPair[1].substring(stem.length(), linkPair[1].length()));
+		    	double endTimeSearch = System.nanoTime();
 				
-				if (subSection) {
-					for (int i = 0; i < title.size(); i++) {
-						if (section.size()-1 <= i) {
-							sectionMatches = false;
-							break;
-						}
-						
-						if (!title.get(i).equals(section.get(i))) {
-							sectionMatches = false;
-							break;
-						}
-					}
+				//set up title token list
+	    		String stringTitle = searchPage.getTitle();
+	    		if (subSection) {
+	    			String[] headingTokens = linkPair[1].split("#")[1].split("-");
+	    			
+	    			for (int i = 0; i < headingTokens.length; i++) {
+	    				try {
+	    					Integer.parseInt(headingTokens[i]);
+	    					headingTokens[i] = "";
+	    				}
+	    				catch (Exception e) {}
+	    			}
+	    			
+	    			stringTitle = String.join(" ", headingTokens);
+	    		}
+	    		
+	    		ArrayList<String> title = new ArrayList<String>();
+	    		document = pipeline.processToCoreDocument(stringTitle.toLowerCase());
+			    for (CoreLabel token : document.tokens()) {
+		    		String currToken = token.lemma().toLowerCase();
+			    	if (!contains(stopWords, currToken)) {
+			    		title.add(currToken);
+			    	}
+			    }
+	    				
+				//Initialize ArrayList
+				ArrayList<ArrayList<Integer>> occurences = new ArrayList<ArrayList<Integer>>();
+				for (int i = 0; i < tokens.size(); i++) {
+					occurences.add(new ArrayList<Integer>());
 				}
 				
-				if (sectionMatches) {
-					for (String word : section) {
-			    		for (int tokenId = 0; tokenId < tokens.size(); tokenId++) {
-			    			if (tokens.get(tokenId).equals(word)) {
-								occurences.get(tokenId).add(wordCount);
-			    			}
-			    		}
-			    		wordCount++;
+				//find occurrences
+				int wordCount = 0;
+				for (ArrayList<String> section : searchPage.getLemma()) {
+					boolean sectionMatches = true;
+					
+					if (subSection) {
+						for (int i = 0; i < title.size(); i++) {
+							if (section.size()-1 < i) {
+								sectionMatches = false;
+								break;
+							}
+							
+							if (!title.get(i).equals(section.get(i))) {
+								sectionMatches = false;
+								break;
+							}
+						}
 					}
 					
-					if (subSection) break;
+					if (sectionMatches) {
+						for (String word : section) {
+				    		for (int tokenId = 0; tokenId < tokens.size(); tokenId++) {
+				    			if (tokens.get(tokenId).equals(word)) {
+									occurences.get(tokenId).add(wordCount);
+				    			}
+				    		}
+				    		wordCount++;
+						}
+						
+						if (subSection) break;
+					}
 				}
-			}
-			
-			//remove zero tokens
-	    	for (int i = 0; i < occurences.size(); i++) {
-	    		if (occurences.get(i).size() == 0) {
-	    			occurences.remove(i);
-	    			tokens.remove(i);
-		    		i--;
-	    		}
-	    	}
-	    	
-			double score = 0.0;
-			int scoreCount = 0;
-    		if (occurences.size() != 0) {
-		    	//get median after zero removal
-		    	int[] sizes = new int[occurences.size()];
-		    	for (int i = 0; i < sizes.length; i++) {
-		    		sizes[i] = occurences.get(i).size();
-		    	}
-		    	
-		    	for (int i = 0; i < sizes.length; i++) {
-		    		for (int j = i+1; j < sizes.length; j++) {
-		    			if (sizes[i] > sizes[j]) {
-		    				int temp = sizes[i];
-		    				sizes[i] = sizes[j];
-		    				sizes[j] = temp;
-		    			}
-		    		}
-		    	}
-		    	
-		    	double median = 0;
-		    	if (sizes.length % 2 == 0) {
-		    		median = ((double)sizes[sizes.length/2] + sizes[sizes.length/2 - 1])/2;
-		    	}
-		    	else {
-		    		median = sizes[(sizes.length-1)/2];
-		    	}
-		    	
-		    	//remove tokens under median*0.2
+				
+				//remove zero tokens
 		    	for (int i = 0; i < occurences.size(); i++) {
-		    		if (occurences.get(i).size() < median*0.2) {
+		    		if (occurences.get(i).size() == 0) {
 		    			occurences.remove(i);
 		    			tokens.remove(i);
 			    		i--;
 		    		}
 		    	}
-				
-		    	if (!debugPrint) System.out.printf("%-44s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
-	    	
-				//iterate, find and weigh distances between words
-				int[] indexes = new int[occurences.size()];
-				int maxLength = occurences.get(0).size();
-				for (int token = 0; token < occurences.size(); token++) {
-					if (occurences.get(token).size() > maxLength) maxLength = occurences.get(token).size();
-				}
-				
-				if (indexes.length > 1) {
-					boolean indexIncreasing = true;
-					while (indexIncreasing) {
-						for (int i = 0; i < indexes.length; i++) {
-						}
-						
-						for (int ind1 = 0; ind1 < indexes.length; ind1++) {
-							for (int ind2 = ind1+1; ind2 < indexes.length; ind2++) {
-								int ind1Index = occurences.get(ind1).get(indexes[ind1]);
-								int ind2Index = occurences.get(ind2).get(indexes[ind2]);
-								
-								score += (maxTokenSeperation/Math.abs((double)ind1Index - ind2Index))/maxTokenSeperation;
-								scoreCount++;
-				    		}
-						}
-						
-						double[] averageAdd = new double[indexes.length];
-						boolean canAdd = false;
-						for (int ind1 = 0; ind1 < indexes.length; ind1++) {
-				    		if (occurences.get(ind1).size()-1 > indexes[ind1]) {
-				    			int count = 0;
-				
-				    			for (int ind2 = 0; ind2 < indexes.length; ind2++) {
-				    				if (ind1 != ind2) {
-					        			int ind1IndexAdd = occurences.get(ind1).get(indexes[ind1]+1);
-					    				int ind2Index = occurences.get(ind2).get(indexes[ind2]);
-					        			
-					    				averageAdd[ind1] += (maxTokenSeperation/Math.abs((double)ind1IndexAdd - ind2Index))/maxTokenSeperation;
-					    				count++;
-				    				}
-				    			}
-				    			
-				    			if (count != 0) {
-				    				averageAdd[ind1] /= count;
-				    			}
-				    			
-				    			canAdd = true;
-				    		}
-				    	}
-						
-						if (canAdd) {
-				    		double mostAdd = 0;
-				    		int mostAddIndex = 0;
-				    		for (int av = 0; av < averageAdd.length; av++) {
-				    			if (mostAdd < averageAdd[av]) {
-				    				mostAdd = averageAdd[av];
-				    				mostAddIndex = av;
-				    			}
-				    		}
-						
-				    		indexes[mostAddIndex]++;
-						}
-						else {
-							indexIncreasing = false;
+		    	
+				double score = 0.0;
+				int scoreCount = 0;
+	    		if (occurences.size() != 0) {
+			    	//get median after zero removal
+			    	int[] sizes = new int[occurences.size()];
+			    	for (int i = 0; i < sizes.length; i++) {
+			    		sizes[i] = occurences.get(i).size();
+			    	}
+			    	
+			    	for (int i = 0; i < sizes.length; i++) {
+			    		for (int j = i+1; j < sizes.length; j++) {
+			    			if (sizes[i] > sizes[j]) {
+			    				int temp = sizes[i];
+			    				sizes[i] = sizes[j];
+			    				sizes[j] = temp;
+			    			}
+			    		}
+			    	}
+			    	
+			    	double median = 0;
+			    	if (sizes.length % 2 == 0) {
+			    		median = ((double)sizes[sizes.length/2] + sizes[sizes.length/2 - 1])/2;
+			    	}
+			    	else {
+			    		median = sizes[(sizes.length-1)/2];
+			    	}
+			    	
+			    	//remove tokens under median*0.2
+			    	for (int i = 0; i < occurences.size(); i++) {
+			    		if (occurences.get(i).size() < median*0.2) {
+			    			occurences.remove(i);
+			    			tokens.remove(i);
+				    		i--;
+			    		}
+			    	}
+					
+			    	if (!debugPrint) System.out.printf("%-44s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
+		    	
+					//iterate, find and weigh distances between words
+					int[] indexes = new int[occurences.size()];
+					int maxLength = occurences.get(0).size();
+					for (int token = 0; token < occurences.size(); token++) {
+						if (occurences.get(token).size() > maxLength) maxLength = occurences.get(token).size();
+					}
+					
+					if (indexes.length > 1) {
+						boolean indexIncreasing = true;
+						while (indexIncreasing) {
+							for (int i = 0; i < indexes.length; i++) {
+							}
+							
+							for (int ind1 = 0; ind1 < indexes.length; ind1++) {
+								for (int ind2 = ind1+1; ind2 < indexes.length; ind2++) {
+									int ind1Index = occurences.get(ind1).get(indexes[ind1]);
+									int ind2Index = occurences.get(ind2).get(indexes[ind2]);
+									
+									score += (maxTokenSeperation/Math.abs((double)ind1Index - ind2Index))/maxTokenSeperation;
+									scoreCount++;
+					    		}
+							}
+							
+							double[] averageAdd = new double[indexes.length];
+							boolean canAdd = false;
+							for (int ind1 = 0; ind1 < indexes.length; ind1++) {
+					    		if (occurences.get(ind1).size()-1 > indexes[ind1]) {
+					    			int count = 0;
+					
+					    			for (int ind2 = 0; ind2 < indexes.length; ind2++) {
+					    				if (ind1 != ind2) {
+						        			int ind1IndexAdd = occurences.get(ind1).get(indexes[ind1]+1);
+						    				int ind2Index = occurences.get(ind2).get(indexes[ind2]);
+						        			
+						    				averageAdd[ind1] += (maxTokenSeperation/Math.abs((double)ind1IndexAdd - ind2Index))/maxTokenSeperation;
+						    				count++;
+					    				}
+					    			}
+					    			
+					    			if (count != 0) {
+					    				averageAdd[ind1] /= count;
+					    			}
+					    			
+					    			canAdd = true;
+					    		}
+					    	}
+							
+							if (canAdd) {
+					    		double mostAdd = 0;
+					    		int mostAddIndex = 0;
+					    		for (int av = 0; av < averageAdd.length; av++) {
+					    			if (mostAdd < averageAdd[av]) {
+					    				mostAdd = averageAdd[av];
+					    				mostAddIndex = av;
+					    			}
+					    		}
+							
+					    		indexes[mostAddIndex]++;
+							}
+							else {
+								indexIncreasing = false;
+							}
 						}
 					}
-				}
-				else {
-					scoreCount = occurences.get(0).size();
-					score = (double)scoreCount;
-				}
-				
-				//calculate title ranking
-				int titleMatch = 0;
-				for (String titleToken : title) {
-					for (String token : tokens) {
-						if (token.equals(titleToken)) {
-							titleMatch += 1;
-							break;
+					else {
+						scoreCount = occurences.get(0).size();
+						score = (double)scoreCount;
+					}
+					
+					//calculate title ranking
+					int titleMatch = 0;
+					for (String titleToken : title) {
+						for (String token : tokens) {
+							if (token.equals(titleToken)) {
+								titleMatch += 1;
+								break;
+							}
 						}
 					}
-				}
-				
-				//calculate ranking
-				int totalOccurences = 0;
-				for (ArrayList<Integer> occurence : occurences) {
-					totalOccurences += occurence.size();
-				}
-
-				//factors impacting score
-				double tokenQuantityFactor = (((double)maxTokenQuantity-1)/-indexes.length + maxTokenQuantity)/maxTokenQuantity;
-				double tokenProximityFactor = (double)score/scoreCount;
-				double wordCountFactor = (-wordCountMultiplier/((double)wordCount+wordCountMultiplier)+1);
-				double tokenWordCountFactor = (double)totalOccurences/wordCount*wordCountFactor;
-				double titleMatchFactor = (double)titleMatch/title.size();
-				
-				//balancing of token proximity weight
-				tokenProximityFactor *= 1-(1/(double)indexes.length);
-				tokenWordCountFactor *= 1/(double)indexes.length;
-				
-				double finalScore = ((tokenProximityFactor + tokenWordCountFactor)*(1-titleFactorWeight) + titleMatchFactor*titleFactorWeight) * 100;
-				if (debugPrint) {
-					System.out.printf("| %-24s| %-24s| %-12s| %-12s| %-24s|", tokenProximityFactor, tokenWordCountFactor, wordCount, titleMatchFactor, finalScore);
-					System.out.println();
-				}
-				
-				double endTime = System.nanoTime();
-				if (!debugPrint) System.out.printf("| %-12s| %-12s", ((endTimeSearch-startTimeSearch)/Math.pow(10, 9)), ((endTime-startTime - (endTimeSearch-startTimeSearch))/Math.pow(10, 9)));
-				
-				return finalScore;
-	    	}
-	    	else {
-	    		if (!debugPrint) System.out.printf("%-44s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
-	    		
-	    		return 0;
+					
+					//calculate ranking
+					int totalOccurences = 0;
+					for (ArrayList<Integer> occurence : occurences) {
+						totalOccurences += occurence.size();
+					}
+	
+					//factors impacting score
+					double tokenQuantityFactor = (((double)maxTokenQuantity-1)/-indexes.length + maxTokenQuantity)/maxTokenQuantity;
+					double tokenProximityFactor = (double)score/scoreCount;
+					double wordCountFactor = (-wordCountMultiplier/((double)wordCount+wordCountMultiplier)+1);
+					double tokenWordCountFactor = (double)totalOccurences/wordCount*wordCountFactor;
+					double titleMatchFactor = (double)titleMatch/title.size();
+					
+					//balancing of token proximity weight
+					tokenProximityFactor *= 1-(1/(double)indexes.length);
+					tokenWordCountFactor *= 1/(double)indexes.length;
+					
+					double finalScore = ((tokenProximityFactor + tokenWordCountFactor)*(1-titleFactorWeight) + titleMatchFactor*titleFactorWeight) * 100;
+					if (debugPrint) {
+						System.out.printf("| %-24s| %-24s| %-12s| %-12s| %-24s|", tokenProximityFactor, tokenWordCountFactor, wordCount, titleMatchFactor, finalScore);
+						System.out.println();
+					}
+					
+					double endTime = System.nanoTime();
+					if (!debugPrint) System.out.printf("| %-12s| %-12s", ((endTimeSearch-startTimeSearch)/Math.pow(10, 9)), ((endTime-startTime - (endTimeSearch-startTimeSearch))/Math.pow(10, 9)));
+					
+					return finalScore;
+		    	}
+		    	else {
+		    		if (!debugPrint) System.out.printf("%-44s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
+		    		
+		    		return 0;
+		    	}
 	    	}
     	}
 
@@ -551,7 +562,7 @@ public class NaiveAlgorithm {
             					}
             					else {
             						if (link.length() > "https://".length()) {
-	                					if (!link.substring(0, "https://".length()).equals("https://")) {
+	                					if (!link.substring(0, "https://".length()).equals("https://") && !link.substring(0, "http://".length()).equals("http://")) {
 	                						String[] pageSlashes = pages.split("/");
 	    	            					String fullLink = stem;
 	    	            					
@@ -618,6 +629,10 @@ public class NaiveAlgorithm {
     		    CoreDocument document = pipeline.processToCoreDocument(section.toLowerCase());
     		    
     		    for (CoreLabel token : document.tokens()) {
+    		    	if (token.originalText().equals("aliases")) {
+    		    		token.setLemma("alias");
+    		    	}
+    		    	
     		    	if (!contains(stopWords, token.lemma())) {
     		    		tokens.add(token.lemma().toLowerCase());
     		    	}
