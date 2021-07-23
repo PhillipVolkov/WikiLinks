@@ -36,10 +36,9 @@ public class NaiveAlgorithm {
 	
 	static final boolean testLinks = true;
 	static final boolean debugPrint = true;
-	static final double threshold = 10f;
+	static final double threshold = 5f;
 	static final int maxTokenSeperation = 20;
 	static final int maxTokenQuantity = 3;
-	static final double closenessWeighting = 2;
 	
     public static void main(String[] args) {
     	String stem = "https://docs.gitlab.com";
@@ -60,9 +59,8 @@ public class NaiveAlgorithm {
     	}
     	else {
 	    	ArrayList<String[]> testLinks = new ArrayList<String[]>();
+	    	testLinks.add(new String[] {"Auto DevOps", "https://docs.gitlab.com/ee/user/project/clusters/#auto-devops"});
 	    	testLinks.add(new String[] {"Cluster management project", "https://docs.gitlab.com/ee/user/clusters/management_project.html"});
-	    	testLinks.add(new String[] {"Kubernetes Pipeline", "https://docs.gitlab.com/ee/user/clusters/management_project.html"});
-	    	
 	    	testLinks.add(new String[] {"CI/CD Pipelines", "https://docs.gitlab.com/ee/ci/pipelines/index.html"});
 	    	testLinks.add(new String[] {"cluster integrations", "https://docs.gitlab.com/ee/user/clusters/integrations.html"});
 	    	testLinks.add(new String[] {"GitLab to manage your cluster for you", "https://docs.gitlab.com/ee/user/project/clusters/gitlab_managed_clusters.html"});
@@ -70,15 +68,18 @@ public class NaiveAlgorithm {
 	    	testLinks.add(new String[] {"Deploy Boards", "https://docs.gitlab.com/ee/user/project/deploy_boards.html"});
 	    	testLinks.add(new String[] {"role-based or attribute-based access controls", "https://docs.gitlab.com/ee/user/project/clusters/cluster_access.html"});
 	    	testLinks.add(new String[] {"Read more about Kubernetes monitoring", "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/kubernetes.html"});
+
+	    	testLinks.add(new String[] {"Kubernetes Pipeline", "https://docs.gitlab.com/ee/user/clusters/management_project.html"});
+
+	    	testLinks.add(new String[] {"environment", "https://docs.gitlab.com/ee/ci/environments/index.html"});
+	    	testLinks.add(new String[] {"NGINX Ingress", "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/nginx.html"});
+	    	testLinks.add(new String[] {"instance", "https://docs.gitlab.com/ee/user/instance/clusters/index.html"});
 	    	testLinks.add(new String[] {"Kubernetes podlogs", "https://docs.gitlab.com/ee/user/project/clusters/kubernetes_pod_logs.html"});
 	    	testLinks.add(new String[] {"Kubernetes with Knative", "https://docs.gitlab.com/ee/user/project/clusters/serverless/index.html"});
-	    	testLinks.add(new String[] {"NGINX Ingress", "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/nginx.html"});
-	    	testLinks.add(new String[] {"environment", "https://docs.gitlab.com/ee/ci/environments/index.html"});
 	    	testLinks.add(new String[] {"group", "https://docs.gitlab.com/ee/user/group/clusters/index.html"});
-	    	testLinks.add(new String[] {"instance", "https://docs.gitlab.com/ee/user/instance/clusters/index.html"});
+	    	
 	    	testLinks.add(new String[] {"developer", "https://docs.gitlab.com/ee/user/permissions.html"});
-	    	testLinks.add(new String[] {"Auto DevOps", "https://docs.gitlab.com/ee/user/project/clusters/#auto-devops"});
-	    	testLinks.add(new String[] {"the Prometheus cluster integration is enabled", "https://docs.gitlab.com/ee/user/clusters/integrations.html#prometheus-cluster-integration"});
+	    	//testLinks.add(new String[] {"the Prometheus cluster integration is enabled", "https://docs.gitlab.com/ee/user/clusters/integrations.html#prometheus-cluster-integration"});
 	    	
 	    	double startTime = System.nanoTime();
 	    	for (String[] linkPair : testLinks) {
@@ -290,14 +291,16 @@ public class NaiveAlgorithm {
 				double tokenProximityFactor = (double)score/scoreCount;
 				double tokenWordCountFactor = (double)totalOccurences/wordCount;
 				
-				if (indexes.length != 1) {
-					tokenProximityFactor *= closenessWeighting;
-					tokenWordCountFactor /= closenessWeighting;
-				}
+				tokenProximityFactor *= 1-(1/(double)indexes.length);
+				tokenWordCountFactor *= 1/(double)indexes.length;
+//				
+//				if (indexes.length != 1) tokenOccuranceFactor = (tokenProximityFactor + tokenWordCountFactor)/2;
+//				else tokenOccuranceFactor = tokenProximityFactor * tokenWordCountFactor;
 				
-				double finalScore = tokenQuantityFactor * (tokenProximityFactor + tokenWordCountFactor)/2 * 100;
+				double finalScore = (tokenProximityFactor + tokenWordCountFactor) * 100;
+
+//				System.out.println(tokenQuantityFactor + "\t" + tokenProximityFactor + "\t" + tokenWordCountFactor + "\t" + finalScore);
 				
-				//System.out.println(tokenQuantityFactor + "\t" + tokenProximityFactor + "\t" + tokenWordCountFactor + "\t" + finalScore);
 				return finalScore;
 	    	}
 	    	else {
