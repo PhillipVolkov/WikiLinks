@@ -36,6 +36,10 @@ public class NaiveAlgorithm {
 	
 	static final boolean testLinks = true;
 	static final boolean debugPrint = true;
+	static final double threshold = 10f;
+	static final int maxTokenSeperation = 20;
+	static final int maxTokenQuantity = 3;
+	static final double closenessWeighting = 2;
 	
     public static void main(String[] args) {
     	String stem = "https://docs.gitlab.com";
@@ -49,7 +53,7 @@ public class NaiveAlgorithm {
 	        	if (match != -1) {
 	            	System.out.printf("| %-22s",match);
 	            	
-	            	if (match >= 0.1) System.out.printf("| true\n");
+	            	if (match >= threshold) System.out.printf("| true\n");
 	            	else System.out.printf("| false\n");
 	        	}
 	        }
@@ -60,6 +64,7 @@ public class NaiveAlgorithm {
 	    	testLinks.add(new String[] {"Kubernetes Pipeline", "https://docs.gitlab.com/ee/user/clusters/management_project.html"});
 	    	
 	    	testLinks.add(new String[] {"CI/CD Pipelines", "https://docs.gitlab.com/ee/ci/pipelines/index.html"});
+	    	testLinks.add(new String[] {"cluster integrations", "https://docs.gitlab.com/ee/user/clusters/integrations.html"});
 	    	testLinks.add(new String[] {"GitLab to manage your cluster for you", "https://docs.gitlab.com/ee/user/project/clusters/gitlab_managed_clusters.html"});
 	    	testLinks.add(new String[] {"Infrastructure as Code", "https://docs.gitlab.com/ee/user/infrastructure"});
 	    	testLinks.add(new String[] {"Deploy Boards", "https://docs.gitlab.com/ee/user/project/deploy_boards.html"});
@@ -78,10 +83,11 @@ public class NaiveAlgorithm {
 	    	double startTime = System.nanoTime();
 	    	for (String[] linkPair : testLinks) {
 	        	double match = getMatch(linkPair, stem, debugPrint);
+	        	
 	        	if (match != -1 && debugPrint) {
 	            	System.out.printf("| %-22s",match);
 	            	
-	            	if (match >= 0.1) System.out.printf("| true\n");
+	            	if (match >= threshold) System.out.printf("| true\n");
 	            	else System.out.printf("| false\n");
 	        	}
 	        }
@@ -91,7 +97,7 @@ public class NaiveAlgorithm {
     	}
     }
     
-    //TODO if token is under-represented then ignore, factor in titles, curve for word count?, OPTIMIZE
+    //TODO ADDITIONAL TESTS, OPTIMIZE, factor in titles?
     public static double getMatch(String[] linkPair, String stem, boolean print) {
     	ArrayList<String> tokens = new ArrayList<String>();
     	
@@ -110,8 +116,6 @@ public class NaiveAlgorithm {
 	    			tokens.add(currToken);
 		    	}
 		    }
-    	
-		    if (print) System.out.printf("%-44s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
 			
 			//get lemmatized page contents of search URL
 			Page searchPage = readGitLabPage(stem, linkPair[1].substring(stem.length(), linkPair[1].length()));
@@ -153,18 +157,57 @@ public class NaiveAlgorithm {
 				}
 			}
 			
+			//remove zero tokens
 	    	for (int i = 0; i < occurences.size(); i++) {
+//	    		System.out.print(occurences.get(i).size() + "\t");
+	    		
 	    		if (occurences.get(i).size() == 0) {
 	    			occurences.remove(i);
+	    			tokens.remove(i);
 		    		i--;
 	    		}
-	    		
-//	    		System.out.println(occurences.get(i));
 	    	}
-			
-			//iterate, find and weigh distances between words
-	    	if (occurences.size() != 0) {
-				double score = 0.0;
+	    	
+//    		System.out.print("\t|");
+			double score = 0.0;
+			int scoreCount = 0;
+    		if (occurences.size() != 0) {
+		    	//get median after zero removal
+		    	int[] sizes = new int[occurences.size()];
+		    	for (int i = 0; i < sizes.length; i++) {
+		    		sizes[i] = occurences.get(i).size();
+		    	}
+		    	
+		    	for (int i = 0; i < sizes.length; i++) {
+		    		for (int j = i+1; j < sizes.length; j++) {
+		    			if (sizes[i] > sizes[j]) {
+		    				int temp = sizes[i];
+		    				sizes[i] = sizes[j];
+		    				sizes[j] = temp;
+		    			}
+		    		}
+		    	}
+		    	
+		    	double median = 0;
+		    	if (sizes.length % 2 == 0) {
+		    		median = ((double)sizes[sizes.length/2] + sizes[sizes.length/2 - 1])/2;
+		    	}
+		    	else {
+		    		median = sizes[(sizes.length-1)/2];
+		    	}
+		    	
+		    	//remove tokens under median*0.2
+		    	for (int i = 0; i < occurences.size(); i++) {
+		    		if (occurences.get(i).size() < median*0.2) {
+		    			occurences.remove(i);
+		    			tokens.remove(i);
+			    		i--;
+		    		}
+		    	}
+				
+		    	if (print) System.out.printf("%-44s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
+	    	
+				//iterate, find and weigh distances between words
 				int[] indexes = new int[occurences.size()];
 				int maxLength = occurences.get(0).size();
 				for (int token = 0; token < occurences.size(); token++) {
@@ -183,8 +226,9 @@ public class NaiveAlgorithm {
 								int ind1Index = occurences.get(ind1).get(indexes[ind1]);
 								int ind2Index = occurences.get(ind2).get(indexes[ind2]);
 								
-								score += (20/Math.abs((double)ind1Index - ind2Index));
-//								System.out.print("\t\t" + (20/Math.abs((double)ind1Index - ind2Index)));
+								score += (maxTokenSeperation/Math.abs((double)ind1Index - ind2Index))/maxTokenSeperation;
+								scoreCount++;
+//								System.out.print("\t\t" + (maxWordSeperation/Math.abs((double)ind1Index - ind2Index))/maxWordSeperation);
 				    		}
 						}
 						
@@ -199,7 +243,7 @@ public class NaiveAlgorithm {
 					        			int ind1IndexAdd = occurences.get(ind1).get(indexes[ind1]+1);
 					    				int ind2Index = occurences.get(ind2).get(indexes[ind2]);
 					        			
-					    				averageAdd[ind1] += (20/Math.abs((double)ind1IndexAdd - ind2Index));
+					    				averageAdd[ind1] += (maxTokenSeperation/Math.abs((double)ind1IndexAdd - ind2Index))/maxTokenSeperation;
 					    				count++;
 				    				}
 				    			}
@@ -229,21 +273,41 @@ public class NaiveAlgorithm {
 						}
 //				    	System.out.println();
 					}
-					
-					//calculate ranking
-					
-//					System.out.println(score);
-					
-					return (score * ((double)4/(Math.pow(indexes.length,2))))/wordCount;
 				}
 				else {
-					return (double)occurences.get(0).size()*4/wordCount;
+					scoreCount = occurences.get(0).size();
+					score = (double)scoreCount;
 				}
+				
+				//calculate ranking
+				
+				int totalOccurences = 0;
+				for (ArrayList<Integer> occurence : occurences) {
+					totalOccurences += occurence.size();
+				}
+
+				double tokenQuantityFactor = (((double)maxTokenQuantity-1)/-indexes.length + maxTokenQuantity)/maxTokenQuantity;
+				double tokenProximityFactor = (double)score/scoreCount;
+				double tokenWordCountFactor = (double)totalOccurences/wordCount;
+				
+				if (indexes.length != 1) {
+					tokenProximityFactor *= closenessWeighting;
+					tokenWordCountFactor /= closenessWeighting;
+				}
+				
+				double finalScore = tokenQuantityFactor * (tokenProximityFactor + tokenWordCountFactor)/2 * 100;
+				
+				//System.out.println(tokenQuantityFactor + "\t" + tokenProximityFactor + "\t" + tokenWordCountFactor + "\t" + finalScore);
+				return finalScore;
 	    	}
 	    	else {
+	    		if (print) System.out.printf("%-44s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
+	    		
 	    		return 0;
 	    	}
     	}
+
+		if (print) System.out.printf("%-44s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
     	
     	return -1;
     }
