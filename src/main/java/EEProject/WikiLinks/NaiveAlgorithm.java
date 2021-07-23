@@ -35,7 +35,7 @@ public class NaiveAlgorithm {
 			"#", "’s", "'s", "<", ">", "--"};
 	
 	static final boolean testLinks = true;
-	static final boolean debugPrint = true;
+	static final boolean debugPrint = false;
 	static final double threshold = 5f;
 	static final int maxTokenSeperation = 20;
 	static final int maxTokenQuantity = 3;
@@ -44,13 +44,16 @@ public class NaiveAlgorithm {
     public static void main(String[] args) {
     	String stem = "https://docs.gitlab.com";
     	
+
+		if (!debugPrint) System.out.printf("%-44s| %-128s|%-12s|%-12s| %-22s", "Tokens", "URL", "Search Time", "Algo Time", "Score", "Match?");
+    	
     	if (!testLinks) {
 	        Page newPage = readGitLabPage(stem, "/ee/user/project/clusters/index.html");
 	        
 	        
 	        for (String[] linkPair : newPage.getLinks()) {
-	        	double match = getMatch(linkPair, stem, debugPrint);
-	        	if (match != -1) {
+	        	double match = getMatch(linkPair, stem);
+	        	if (match != -1 && !debugPrint) {
 	            	System.out.printf("| %-22s",match);
 	            	
 	            	if (match >= threshold) System.out.printf("| true\n");
@@ -84,9 +87,9 @@ public class NaiveAlgorithm {
 	    	
 	    	double startTime = System.nanoTime();
 	    	for (String[] linkPair : testLinks) {
-	        	double match = getMatch(linkPair, stem, debugPrint);
+	        	double match = getMatch(linkPair, stem);
 	        	
-	        	if (match != -1 && debugPrint) {
+	        	if (match != -1 && !debugPrint) {
 	            	System.out.printf("| %-22s",match);
 	            	
 	            	if (match >= threshold) System.out.printf("| true\n");
@@ -100,11 +103,12 @@ public class NaiveAlgorithm {
     }
     
     //TODO word-count curve, OPTIMIZE
-    public static double getMatch(String[] linkPair, String stem, boolean print) {
+    public static double getMatch(String[] linkPair, String stem) {
     	ArrayList<String> tokens = new ArrayList<String>();
     	
     	//tokenize the search phrase
     	if (linkPair[1].substring(0, stem.length()).equals(stem)) {
+	    	double startTime = System.nanoTime();
     		boolean subSection = linkPair[1].indexOf("#") != -1;
     		
     		String[] tokenSplit = linkPair[0].split(" ");
@@ -124,9 +128,11 @@ public class NaiveAlgorithm {
 	    		
 	    		if (!tokens.contains(currToken)) tokens.add(currToken);
 		    }
-			
+
+	    	double startTimeSearch = System.nanoTime();
 			//get lemmatized page contents of search URL
 			Page searchPage = readGitLabPage(stem, linkPair[1].substring(stem.length(), linkPair[1].length()));
+	    	double endTimeSearch = System.nanoTime();
 			
 			//set up title token list
     		String stringTitle = searchPage.getTitle();
@@ -184,8 +190,6 @@ public class NaiveAlgorithm {
 			
 			//remove zero tokens
 	    	for (int i = 0; i < occurences.size(); i++) {
-//	    		System.out.print(occurences.get(i).size() + "\t");
-	    		
 	    		if (occurences.get(i).size() == 0) {
 	    			occurences.remove(i);
 	    			tokens.remove(i);
@@ -193,7 +197,6 @@ public class NaiveAlgorithm {
 	    		}
 	    	}
 	    	
-//    		System.out.print("\t|");
 			double score = 0.0;
 			int scoreCount = 0;
     		if (occurences.size() != 0) {
@@ -230,7 +233,7 @@ public class NaiveAlgorithm {
 		    		}
 		    	}
 				
-		    	if (print) System.out.printf("%-44s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
+		    	if (!debugPrint) System.out.printf("%-44s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
 	    	
 				//iterate, find and weigh distances between words
 				int[] indexes = new int[occurences.size()];
@@ -243,7 +246,6 @@ public class NaiveAlgorithm {
 					boolean indexIncreasing = true;
 					while (indexIncreasing) {
 						for (int i = 0; i < indexes.length; i++) {
-//							System.out.print(indexes[i] + ": " + occurences.get(i).get(indexes[i]) + "\t\t");
 						}
 						
 						for (int ind1 = 0; ind1 < indexes.length; ind1++) {
@@ -253,7 +255,6 @@ public class NaiveAlgorithm {
 								
 								score += (maxTokenSeperation/Math.abs((double)ind1Index - ind2Index))/maxTokenSeperation;
 								scoreCount++;
-//								System.out.print("\t\t" + (maxWordSeperation/Math.abs((double)ind1Index - ind2Index))/maxWordSeperation);
 				    		}
 						}
 						
@@ -296,7 +297,6 @@ public class NaiveAlgorithm {
 						else {
 							indexIncreasing = false;
 						}
-//				    	System.out.println();
 					}
 				}
 				else {
@@ -306,9 +306,9 @@ public class NaiveAlgorithm {
 				
 				//calculate title ranking
 				int titleMatch = 0;
-				for (String token : tokens) {
-					for (String titleToken : title) {
-						if (titleToken.equals(token)) {
+				for (String titleToken : title) {
+					for (String token : tokens) {
+						if (token.equals(titleToken)) {
 							titleMatch += 1;
 							break;
 						}
@@ -332,19 +332,21 @@ public class NaiveAlgorithm {
 				tokenWordCountFactor *= 1/(double)indexes.length;
 				
 				double finalScore = ((tokenProximityFactor + tokenWordCountFactor)*(1-titleFactorWeight) + titleMatchFactor*titleFactorWeight) * 100;
-
-//				System.out.println(tokenProximityFactor + "\t" + tokenWordCountFactor + "\t" + titleMatchFactor + "\t" + finalScore);
+				if (debugPrint) System.out.println(tokenProximityFactor + "\t" + tokenWordCountFactor + "\t" + titleMatchFactor + "\t" + finalScore);
+				
+				double endTime = System.nanoTime();
+				if (!debugPrint) System.out.printf("|%-12s|%-12s", ((endTimeSearch-startTimeSearch)/Math.pow(10, 9)), ((endTime-startTime - (endTimeSearch-startTimeSearch))/Math.pow(10, 9)));
 				
 				return finalScore;
 	    	}
 	    	else {
-	    		if (print) System.out.printf("%-44s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
+	    		if (!debugPrint) System.out.printf("%-44s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
 	    		
 	    		return 0;
 	    	}
     	}
 
-		if (print) System.out.printf("%-44s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
+		if (!debugPrint) System.out.printf("%-44s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
     	
     	return -1;
     }
