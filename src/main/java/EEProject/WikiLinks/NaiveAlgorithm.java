@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -42,20 +43,29 @@ public class NaiveAlgorithm {
 	static final int wordCountMultiplier = 115;
 	static final double titleFactorWeight = 0.3;
 	
+	static Hashtable<String, Page> savedPages = new Hashtable<String, Page>();
+	
 	//TODO keep track of existing pages using URL dictionary, optimize?
     public static void main(String[] args) {
     	String stem = "https://docs.gitlab.com";
+    	String page = "/ee/user/project/clusters/serverless/index.html";
     	
 
 		if (!debugPrint) {
 			System.out.printf("%-44s| %-128s| %-12s| %-12s| %-22s| %-1s", "Tokens", "URL", "Parse Time", "Algo Time", "Score", "Match?");
 			System.out.println();
 		}
-    	
+		
     	if (!testLinks) {
-	    	double startTime = System.nanoTime();
-	        Page newPage = readGitLabPage(stem, "/ee/user/project/clusters/serverless/index.html");
-	        
+	    	double startTime1 = System.nanoTime();
+	        Page newPage = readGitLabPage(stem, page);
+	        savedPages.put(stem+page, newPage);
+	    	double endTime1 = System.nanoTime();
+	    	
+			System.out.printf("%-44s| %-128s| %-12s| %-12s| %-22s| %-1s", "Initial Page", stem+page, ((endTime1-startTime1)/Math.pow(10, 9)), "N/A", "N/A", "N/A");
+			System.out.println();
+
+	    	double startTime2 = System.nanoTime();
 	        for (String[] linkPair : newPage.getLinks()) {
 	        	double match = getMatch(linkPair, stem);
 	        	if (match != -1 && !debugPrint) {
@@ -65,9 +75,9 @@ public class NaiveAlgorithm {
 	            	else System.out.printf("| false\n");
 	        	}
 	        }
-	    	double endTime = System.nanoTime();
+	    	double endTime2 = System.nanoTime();
 	    	
-	    	System.out.println("\nTime Elapsed: " + ((endTime-startTime)/Math.pow(10, 9)) + " seconds");
+	    	System.out.println("\nTime Elapsed: " + ((endTime2-startTime2)/Math.pow(10, 9)) + " seconds");
     	}
     	else {
 	    	ArrayList<String[]> testLinks = new ArrayList<String[]>();
@@ -136,10 +146,20 @@ public class NaiveAlgorithm {
 		    		
 		    		if (!contains(stopWords, currToken) && !tokens.contains(currToken)) tokens.add(currToken);
 			    }
-	
-		    	double startTimeSearch = System.nanoTime();
+
 				//get lemmatized page contents of search URL
-				Page searchPage = readGitLabPage(stem, linkPair[1].substring(stem.length(), linkPair[1].length()));
+		    	double startTimeSearch = System.nanoTime();
+				Page searchPage;
+				String searchUrl = linkPair[1].split("#")[0];
+				
+				//check saved dictionary by url
+		    	if (savedPages.containsKey(searchUrl)) {
+		    		searchPage = savedPages.get(searchUrl);
+		    	}
+		    	else {
+		    		searchPage = readGitLabPage(stem, linkPair[1].substring(stem.length(), linkPair[1].length()));
+		    		savedPages.put(searchUrl, searchPage);
+		    	}
 		    	double endTimeSearch = System.nanoTime();
 				
 				//set up title token list
@@ -563,19 +583,24 @@ public class NaiveAlgorithm {
             					else {
             						if (link.length() > "https://".length()) {
 	                					if (!link.substring(0, "https://".length()).equals("https://") && !link.substring(0, "http://".length()).equals("http://")) {
-	                						String[] pageSlashes = pages.split("/");
-	    	            					String fullLink = stem;
-	    	            					
-	    	            					for (int j = 0; j < pageSlashes.length-1; j++) {
-	    	            						if (j != 0) fullLink += "/" + pageSlashes[j];
-	    	            						else fullLink += pageSlashes[j];
-	    	            					}
-	    	            					
-	    	            					fullLink += "/" + link;
-	    	            					
-	    	            					//System.out.println(link + "\t-->\t" + fullLink);
-	    	            					
-	    	            					link = fullLink;
+	                						if (link.charAt(0) == '#') {
+	                							link = stem + pages + link;
+	                						}
+	                						else {
+		                						String[] pageSlashes = pages.split("/");
+		    	            					String fullLink = stem;
+		    	            					
+		    	            					for (int j = 0; j < pageSlashes.length-1; j++) {
+		    	            						if (j != 0) fullLink += "/" + pageSlashes[j];
+		    	            						else fullLink += pageSlashes[j];
+		    	            					}
+		    	            					
+		    	            					fullLink += "/" + link;
+		    	            					
+		    	            					//System.out.println(link + "\t-->\t" + fullLink);
+		    	            					
+		    	            					link = fullLink;
+	                						}
 	                					}
             						}
             					}
