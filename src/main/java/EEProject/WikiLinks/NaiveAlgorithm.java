@@ -39,6 +39,7 @@ public class NaiveAlgorithm {
 	static final double threshold = 5f;
 	static final int maxTokenSeperation = 20;
 	static final int maxTokenQuantity = 3;
+	static final double titleFactorWeight = 0.3;
 	
     public static void main(String[] args) {
     	String stem = "https://docs.gitlab.com";
@@ -60,6 +61,7 @@ public class NaiveAlgorithm {
     	else {
 	    	ArrayList<String[]> testLinks = new ArrayList<String[]>();
 	    	testLinks.add(new String[] {"Auto DevOps", "https://docs.gitlab.com/ee/user/project/clusters/#auto-devops"});
+	    	testLinks.add(new String[] {"the Prometheus cluster integration is enabled", "https://docs.gitlab.com/ee/user/clusters/integrations.html#prometheus-cluster-integration"});
 	    	testLinks.add(new String[] {"Cluster management project", "https://docs.gitlab.com/ee/user/clusters/management_project.html"});
 	    	testLinks.add(new String[] {"CI/CD Pipelines", "https://docs.gitlab.com/ee/ci/pipelines/index.html"});
 	    	testLinks.add(new String[] {"cluster integrations", "https://docs.gitlab.com/ee/user/clusters/integrations.html"});
@@ -75,11 +77,10 @@ public class NaiveAlgorithm {
 	    	testLinks.add(new String[] {"NGINX Ingress", "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/nginx.html"});
 	    	testLinks.add(new String[] {"instance", "https://docs.gitlab.com/ee/user/instance/clusters/index.html"});
 	    	testLinks.add(new String[] {"Kubernetes podlogs", "https://docs.gitlab.com/ee/user/project/clusters/kubernetes_pod_logs.html"});
-	    	testLinks.add(new String[] {"Kubernetes with Knative", "https://docs.gitlab.com/ee/user/project/clusters/serverless/index.html"});
 	    	testLinks.add(new String[] {"group", "https://docs.gitlab.com/ee/user/group/clusters/index.html"});
+	    	testLinks.add(new String[] {"Kubernetes with Knative", "https://docs.gitlab.com/ee/user/project/clusters/serverless/index.html"});
 	    	
 	    	testLinks.add(new String[] {"developer", "https://docs.gitlab.com/ee/user/permissions.html"});
-	    	//testLinks.add(new String[] {"the Prometheus cluster integration is enabled", "https://docs.gitlab.com/ee/user/clusters/integrations.html#prometheus-cluster-integration"});
 	    	
 	    	double startTime = System.nanoTime();
 	    	for (String[] linkPair : testLinks) {
@@ -98,7 +99,7 @@ public class NaiveAlgorithm {
     	}
     }
     
-    //TODO ADDITIONAL TESTS, OPTIMIZE, factor in titles?
+    //TODO word-count curve, OPTIMIZE
     public static double getMatch(String[] linkPair, String stem, boolean print) {
     	ArrayList<String> tokens = new ArrayList<String>();
     	
@@ -106,21 +107,42 @@ public class NaiveAlgorithm {
     	if (linkPair[1].substring(0, stem.length()).equals(stem)) {
     		boolean subSection = linkPair[1].indexOf("#") != -1;
     		
+    		String[] tokenSplit = linkPair[0].split(" ");
+    		for (int i = 0; i < tokenSplit.length; i++) {
+    			if (contains(stopWords, tokenSplit[i])) {
+    				tokenSplit[i] = "";
+		    	}
+    		}
+    		
 			Properties props = new Properties();
 		    props.setProperty("annotators", "tokenize,ssplit,pos,lemma");
 		    StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
-		    CoreDocument document = pipeline.processToCoreDocument(linkPair[0]);
+		    CoreDocument document = pipeline.processToCoreDocument(String.join(" ", tokenSplit));
 		    
 		    for (CoreLabel token : document.tokens()) {
 	    		String currToken = token.lemma().toLowerCase();
-		    	if (!contains(stopWords, currToken) && !tokens.contains(currToken)) {
-	    			tokens.add(currToken);
-		    	}
+	    		
+	    		if (!tokens.contains(currToken)) tokens.add(currToken);
 		    }
 			
 			//get lemmatized page contents of search URL
 			Page searchPage = readGitLabPage(stem, linkPair[1].substring(stem.length(), linkPair[1].length()));
 			
+			//set up title token list
+    		String stringTitle = searchPage.getTitle();
+    		if (subSection) {
+    			stringTitle = String.join(" ", linkPair[1].split("#")[1].split("-"));
+    		}
+    		
+    		ArrayList<String> title = new ArrayList<String>();
+    		document = pipeline.processToCoreDocument(stringTitle);
+		    for (CoreLabel token : document.tokens()) {
+	    		String currToken = token.lemma().toLowerCase();
+		    	if (!contains(stopWords, currToken)) {
+		    		title.add(currToken);
+		    	}
+		    }
+    				
 			//Initialize ArrayList
 			ArrayList<ArrayList<Integer>> occurences = new ArrayList<ArrayList<Integer>>();
 			for (int i = 0; i < tokens.size(); i++) {
@@ -133,13 +155,13 @@ public class NaiveAlgorithm {
 				boolean sectionMatches = true;
 				
 				if (subSection) {
-					for (int i = 0; i < tokens.size(); i++) {
+					for (int i = 0; i < title.size(); i++) {
 						if (section.size()-1 <= i) {
 							sectionMatches = false;
 							break;
 						}
 						
-						if (!tokens.get(i).equals(section.get(i))) {
+						if (!title.get(i).equals(section.get(i))) {
 							sectionMatches = false;
 							break;
 						}
@@ -155,6 +177,8 @@ public class NaiveAlgorithm {
 			    		}
 			    		wordCount++;
 					}
+					
+					if (subSection) break;
 				}
 			}
 			
@@ -280,26 +304,36 @@ public class NaiveAlgorithm {
 					score = (double)scoreCount;
 				}
 				
-				//calculate ranking
+				//calculate title ranking
+				int titleMatch = 0;
+				for (String token : tokens) {
+					for (String titleToken : title) {
+						if (titleToken.equals(token)) {
+							titleMatch += 1;
+							break;
+						}
+					}
+				}
 				
+				//calculate ranking
 				int totalOccurences = 0;
 				for (ArrayList<Integer> occurence : occurences) {
 					totalOccurences += occurence.size();
 				}
 
+				//factors impacting score
 				double tokenQuantityFactor = (((double)maxTokenQuantity-1)/-indexes.length + maxTokenQuantity)/maxTokenQuantity;
 				double tokenProximityFactor = (double)score/scoreCount;
 				double tokenWordCountFactor = (double)totalOccurences/wordCount;
+				double titleMatchFactor = (double)titleMatch/title.size();
 				
+				//balancing of token proximity weight
 				tokenProximityFactor *= 1-(1/(double)indexes.length);
 				tokenWordCountFactor *= 1/(double)indexes.length;
-//				
-//				if (indexes.length != 1) tokenOccuranceFactor = (tokenProximityFactor + tokenWordCountFactor)/2;
-//				else tokenOccuranceFactor = tokenProximityFactor * tokenWordCountFactor;
 				
-				double finalScore = (tokenProximityFactor + tokenWordCountFactor) * 100;
+				double finalScore = ((tokenProximityFactor + tokenWordCountFactor)*(1-titleFactorWeight) + titleMatchFactor*titleFactorWeight) * 100;
 
-//				System.out.println(tokenQuantityFactor + "\t" + tokenProximityFactor + "\t" + tokenWordCountFactor + "\t" + finalScore);
+//				System.out.println(tokenProximityFactor + "\t" + tokenWordCountFactor + "\t" + titleMatchFactor + "\t" + finalScore);
 				
 				return finalScore;
 	    	}
