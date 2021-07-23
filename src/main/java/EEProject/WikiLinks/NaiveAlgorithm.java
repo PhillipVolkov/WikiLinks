@@ -34,7 +34,7 @@ public class NaiveAlgorithm {
 			"you're", "you've", "your", "yours", "yourself", "yourselves", ",", ".", "!", "?", "(", ")", "+", "-", "_", "/", ":",
 			"#", "’s", "'s", "<", ">", "--"};
 	
-	static final boolean testLinks = true;
+	static final boolean testLinks = false;
 	static final boolean debugPrint = false;
 	static final double threshold = 5f;
 	static final int maxTokenSeperation = 20;
@@ -42,6 +42,7 @@ public class NaiveAlgorithm {
 	static final int wordCountMultiplier = 115;
 	static final double titleFactorWeight = 0.3;
 	
+	//TODO keep track of existing pages using URL dictionary, optimize?
     public static void main(String[] args) {
     	String stem = "https://docs.gitlab.com";
     	
@@ -52,6 +53,7 @@ public class NaiveAlgorithm {
 		}
     	
     	if (!testLinks) {
+	    	double startTime = System.nanoTime();
 	        Page newPage = readGitLabPage(stem, "/ee/user/project/clusters/index.html");
 	        
 	        
@@ -64,6 +66,9 @@ public class NaiveAlgorithm {
 	            	else System.out.printf("| false\n");
 	        	}
 	        }
+	    	double endTime = System.nanoTime();
+	    	
+	    	System.out.println("\nTime Elapsed: " + ((endTime-startTime)/Math.pow(10, 9)) + " seconds");
     	}
     	else {
 	    	ArrayList<String[]> testLinks = new ArrayList<String[]>();
@@ -106,7 +111,6 @@ public class NaiveAlgorithm {
     	}
     }
     
-    //TODO OPTIMIZE
     public static double getMatch(String[] linkPair, String stem) {
     	ArrayList<String> tokens = new ArrayList<String>();
     	
@@ -115,7 +119,7 @@ public class NaiveAlgorithm {
 	    	double startTime = System.nanoTime();
     		boolean subSection = linkPair[1].indexOf("#") != -1;
     		
-    		String[] tokenSplit = linkPair[0].split(" ");
+    		String[] tokenSplit = linkPair[0].toLowerCase().split(" ");
     		for (int i = 0; i < tokenSplit.length; i++) {
     			if (contains(stopWords, tokenSplit[i])) {
     				tokenSplit[i] = "";
@@ -130,7 +134,7 @@ public class NaiveAlgorithm {
 		    for (CoreLabel token : document.tokens()) {
 	    		String currToken = token.lemma().toLowerCase();
 	    		
-	    		if (!tokens.contains(currToken)) tokens.add(currToken);
+	    		if (!contains(stopWords, currToken) && !tokens.contains(currToken)) tokens.add(currToken);
 		    }
 
 	    	double startTimeSearch = System.nanoTime();
@@ -145,7 +149,7 @@ public class NaiveAlgorithm {
     		}
     		
     		ArrayList<String> title = new ArrayList<String>();
-    		document = pipeline.processToCoreDocument(stringTitle);
+    		document = pipeline.processToCoreDocument(stringTitle.toLowerCase());
 		    for (CoreLabel token : document.tokens()) {
 	    		String currToken = token.lemma().toLowerCase();
 		    	if (!contains(stopWords, currToken)) {
@@ -354,7 +358,7 @@ public class NaiveAlgorithm {
 	    	}
     	}
 
-		if (!debugPrint) System.out.printf("%-44s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
+//		if (!debugPrint) System.out.printf("%-44s| %-128s", tokens, (linkPair[1]));
     	
     	return -1;
     }
@@ -363,7 +367,7 @@ public class NaiveAlgorithm {
     public static Page readGitLabPage(String stem, String pages) {
     	try {
             URL url = new URL(stem + pages);
-
+            
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             
             String title = "";
@@ -378,6 +382,7 @@ public class NaiveAlgorithm {
             int divsOpen = 0;
 
     		boolean addSection = false;
+    		
             while ((currLine = reader.readLine()) != null) {
             	currLine = currLine.toString();
             	
@@ -610,14 +615,14 @@ public class NaiveAlgorithm {
     			Properties props = new Properties();
     		    props.setProperty("annotators", "tokenize,ssplit,pos,lemma");
     		    StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
-    		    CoreDocument document = pipeline.processToCoreDocument(section);
+    		    CoreDocument document = pipeline.processToCoreDocument(section.toLowerCase());
     		    
     		    for (CoreLabel token : document.tokens()) {
     		    	if (!contains(stopWords, token.lemma())) {
     		    		tokens.add(token.lemma().toLowerCase());
     		    	}
     		    }
-    	    	
+
     	    	lemma.add(tokens);
             }
 
