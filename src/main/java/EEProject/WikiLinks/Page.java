@@ -28,6 +28,10 @@ public class Page {
 		return this.sections;
 	}
 	
+	public Hashtable<String, Integer> getPermaLinks() {
+		return this.permaLinks;
+	}
+	
 	public ArrayList<String> getPermaLinkSection(String permaLink) {
 		return this.lemma.get(permaLinks.get(permaLink));
 	}

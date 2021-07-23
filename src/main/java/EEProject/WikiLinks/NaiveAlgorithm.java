@@ -45,14 +45,14 @@ public class NaiveAlgorithm {
 	
 	static Hashtable<String, Page> savedPages = new Hashtable<String, Page>();
 	
-	//TODO keep track of existing pages using URL dictionary, optimize?
+	//TODO find if .index, debugging?, Compile test link list
     public static void main(String[] args) {
     	String stem = "https://docs.gitlab.com";
-    	String page = "/ee/user/permissions.html";
+    	String page = "/ee/user/project/clusters/index.html";
     	
 
 		if (!debugPrint) {
-			System.out.printf("%-44s| %-128s| %-12s| %-12s| %-22s| %-1s", "Tokens", "URL", "Parse Time", "Algo Time", "Score", "Match?");
+			System.out.printf("%-46s| %-128s| %-12s| %-12s| %-22s| %-1s", "Tokens", "URL", "Parse Time", "Algo Time", "Score", "Match?");
 			System.out.println();
 		}
 		
@@ -62,7 +62,7 @@ public class NaiveAlgorithm {
 	        savedPages.put(stem+page, newPage);
 	    	double endTime1 = System.nanoTime();
 	    	
-			System.out.printf("%-44s| %-128s| %-12s| %-12s| %-22s| %-1s", "Initial Page", stem+page, ((endTime1-startTime1)/Math.pow(10, 9)), "N/A", "N/A", "N/A");
+			System.out.printf("%-46s| %-128s| %-12s| %-12s| %-22s| %-1s", "Initial Page", stem+page, ((endTime1-startTime1)/Math.pow(10, 9)), "N/A", "N/A", "N/A");
 			System.out.println();
 
 	    	double startTime2 = System.nanoTime();
@@ -86,21 +86,24 @@ public class NaiveAlgorithm {
 	    	testLinks.add(new String[] {"Cluster management project", "https://docs.gitlab.com/ee/user/clusters/management_project.html"});
 	    	testLinks.add(new String[] {"CI/CD Pipelines", "https://docs.gitlab.com/ee/ci/pipelines/index.html"});
 	    	testLinks.add(new String[] {"cluster integrations", "https://docs.gitlab.com/ee/user/clusters/integrations.html"});
+	    	testLinks.add(new String[] {"project access tokens", "https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html"});
 	    	testLinks.add(new String[] {"GitLab to manage your cluster for you", "https://docs.gitlab.com/ee/user/project/clusters/gitlab_managed_clusters.html"});
 	    	testLinks.add(new String[] {"Infrastructure as Code", "https://docs.gitlab.com/ee/user/infrastructure"});
 	    	testLinks.add(new String[] {"Deploy Boards", "https://docs.gitlab.com/ee/user/project/deploy_boards.html"});
 	    	testLinks.add(new String[] {"role-based or attribute-based access controls", "https://docs.gitlab.com/ee/user/project/clusters/cluster_access.html"});
 	    	testLinks.add(new String[] {"Read more about Kubernetes monitoring", "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/kubernetes.html"});
 	    	testLinks.add(new String[] {"Kubernetes with Knative", "https://docs.gitlab.com/ee/user/project/clusters/serverless/index.html"});
+	    	testLinks.add(new String[] {"related documentation", "https://docs.gitlab.com/ee/user/analytics/value_stream_analytics.html#permissions"});
+	    	testLinks.add(new String[] {"Through the API", "https://docs.gitlab.com/ee/api/users.html#user-modification"});
 
 	    	testLinks.add(new String[] {"Kubernetes Pipeline", "https://docs.gitlab.com/ee/user/clusters/management_project.html"});
 
+	    	testLinks.add(new String[] {"package", "https://docs.gitlab.com/ee/user/packages/index.html"});
 	    	testLinks.add(new String[] {"environment", "https://docs.gitlab.com/ee/ci/environments/index.html"});
 	    	testLinks.add(new String[] {"NGINX Ingress", "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/nginx.html"});
 	    	testLinks.add(new String[] {"instance", "https://docs.gitlab.com/ee/user/instance/clusters/index.html"});
 	    	testLinks.add(new String[] {"Kubernetes podlogs", "https://docs.gitlab.com/ee/user/project/clusters/kubernetes_pod_logs.html"});
 	    	testLinks.add(new String[] {"group", "https://docs.gitlab.com/ee/user/group/clusters/index.html"});
-	    	
 	    	testLinks.add(new String[] {"developer", "https://docs.gitlab.com/ee/user/permissions.html"});
 	    	
 	    	double startTime = System.nanoTime();
@@ -196,11 +199,13 @@ public class NaiveAlgorithm {
 				//find occurrences
 				int wordCount = 0;
 				if (subSection) {
-//					System.out.println(linkPair[1].split("#")[1]);
-//					System.out.println(searchPage.getPermaLinkString());
-					ArrayList<String> section = searchPage.getPermaLinkSection(linkPair[1].split("#")[1]);
-//					System.out.println(searchPage.getLemmaString());
-//					System.out.println(section);
+					ArrayList<String> section;
+					if (searchPage.getPermaLinks().containsKey(linkPair[1].split("#")[1])) section = searchPage.getPermaLinkSection(linkPair[1].split("#")[1]);
+					else {
+						if (!debugPrint) System.out.printf("%-46s| %-128s| %-12s| %-12s", linkPair[0], (stem + linkPair[1].substring(stem.length(), linkPair[1].length())), 
+								((endTimeSearch-startTimeSearch)/Math.pow(10, 9)), ((System.nanoTime()-startTime - (endTimeSearch-startTimeSearch))/Math.pow(10, 9)));
+						return 0;
+					}
 					
 					for (String word : section) {
 			    		for (int tokenId = 0; tokenId < tokens.size(); tokenId++) {
@@ -269,7 +274,7 @@ public class NaiveAlgorithm {
 			    		}
 			    	}
 					
-			    	if (!debugPrint) System.out.printf("%-44s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
+			    	if (!debugPrint) System.out.printf("%-46s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
 		    	
 					//iterate, find and weigh distances between words
 					int[] indexes = new int[occurences.size()];
@@ -380,7 +385,7 @@ public class NaiveAlgorithm {
 					return finalScore;
 		    	}
 		    	else {
-		    		if (!debugPrint) System.out.printf("%-44s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
+					if (!debugPrint) System.out.printf("%-46s| %-128s| %-12s| %-12s", linkPair[0], (stem + linkPair[1].substring(stem.length(), linkPair[1].length())), "N/A", "N/A");
 		    		
 		    		return 0;
 		    	}
