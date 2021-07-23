@@ -48,7 +48,7 @@ public class NaiveAlgorithm {
 	//TODO keep track of existing pages using URL dictionary, optimize?
     public static void main(String[] args) {
     	String stem = "https://docs.gitlab.com";
-    	String page = "/ee/user/project/clusters/serverless/index.html";
+    	String page = "/ee/user/permissions.html";
     	
 
 		if (!debugPrint) {
@@ -195,24 +195,24 @@ public class NaiveAlgorithm {
 				
 				//find occurrences
 				int wordCount = 0;
-				for (ArrayList<String> section : searchPage.getLemma()) {
-					boolean sectionMatches = true;
+				if (subSection) {
+//					System.out.println(linkPair[1].split("#")[1]);
+//					System.out.println(searchPage.getPermaLinkString());
+					ArrayList<String> section = searchPage.getPermaLinkSection(linkPair[1].split("#")[1]);
+//					System.out.println(searchPage.getLemmaString());
+//					System.out.println(section);
 					
-					if (subSection) {
-						for (int i = 0; i < title.size(); i++) {
-							if (section.size()-1 < i) {
-								sectionMatches = false;
-								break;
-							}
-							
-							if (!title.get(i).equals(section.get(i))) {
-								sectionMatches = false;
-								break;
-							}
-						}
+					for (String word : section) {
+			    		for (int tokenId = 0; tokenId < tokens.size(); tokenId++) {
+			    			if (tokens.get(tokenId).equals(word)) {
+								occurences.get(tokenId).add(wordCount);
+			    			}
+			    		}
+			    		wordCount++;
 					}
-					
-					if (sectionMatches) {
+				}
+				else {
+					for (ArrayList<String> section : searchPage.getLemma()) {
 						for (String word : section) {
 				    		for (int tokenId = 0; tokenId < tokens.size(); tokenId++) {
 				    			if (tokens.get(tokenId).equals(word)) {
@@ -221,8 +221,6 @@ public class NaiveAlgorithm {
 				    		}
 				    		wordCount++;
 						}
-						
-						if (subSection) break;
 					}
 				}
 				
@@ -405,6 +403,7 @@ public class NaiveAlgorithm {
             ArrayList<String> sections = new ArrayList<String>();
             ArrayList<ArrayList<String>> lemma = new ArrayList<ArrayList<String>>();
             ArrayList<String[]> links = new ArrayList<String[]>();
+            Hashtable<String, Integer> permaLinks = new Hashtable<String, Integer>();
             
             String currLine = "";
             String output = "";
@@ -545,8 +544,10 @@ public class NaiveAlgorithm {
             			if (!linkURL.equals("")) {
             				if (!linkBracketOpen) {
             					Scanner scan = new Scanner(linkURL);
-            					boolean ignore = false;
+            					boolean permaLink = false;
             					String link = "";
+            					
+            					if (pages.contains("#")) pages = pages.split("#")[0];
             					
             					//find link
             					while (scan.hasNext()) {
@@ -556,9 +557,11 @@ public class NaiveAlgorithm {
             						String[] href = currStr.split("href=");
             						
             						if (currTitle.length != 1) {
-            							if (currTitle[1].equals("Permalink")) ignore = true;
+            							if (currTitle[1].equals("Permalink")) {
+            								permaLink = true;
+            							}
             						}
-            						else if (href.length != 1) {
+            						if (href.length != 1) {
             							link = href[1];
             						}
             					}
@@ -606,9 +609,12 @@ public class NaiveAlgorithm {
             					}
             					
             					//append final text
-	            				if (!ignore && !linkText.equals("")) {
+	            				if (!permaLink && !linkText.equals("")) {
 	            					newLine += linkText;
 		            				links.add(new String[] {linkText, link});
+	            				}
+	            				else if (permaLink) {
+	            					permaLinks.put(link.split("#")[1], sections.size());
 	            				}
 	            				
 	            				linkURL = "";
@@ -666,13 +672,13 @@ public class NaiveAlgorithm {
     	    	lemma.add(tokens);
             }
 
-        	return new Page(title, sections, lemma, links);
+        	return new Page(title, sections, lemma, links, permaLinks);
         } 
         catch (Exception e) {
             System.out.println(e);
         }
     	
-    	return new Page("", new ArrayList<String>(), new ArrayList<ArrayList<String>>(), new ArrayList<String[]>());
+    	return new Page("", new ArrayList<String>(), new ArrayList<ArrayList<String>>(), new ArrayList<String[]>(), new Hashtable<String, Integer>());
     }
     
     public static int countMatches(String str, String pattern) {
