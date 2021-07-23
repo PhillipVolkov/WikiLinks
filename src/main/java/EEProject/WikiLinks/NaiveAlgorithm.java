@@ -39,6 +39,7 @@ public class NaiveAlgorithm {
 	static final double threshold = 5f;
 	static final int maxTokenSeperation = 20;
 	static final int maxTokenQuantity = 3;
+	static final int wordCountMultiplier = 115;
 	static final double titleFactorWeight = 0.3;
 	
     public static void main(String[] args) {
@@ -76,6 +77,7 @@ public class NaiveAlgorithm {
 	    	testLinks.add(new String[] {"Deploy Boards", "https://docs.gitlab.com/ee/user/project/deploy_boards.html"});
 	    	testLinks.add(new String[] {"role-based or attribute-based access controls", "https://docs.gitlab.com/ee/user/project/clusters/cluster_access.html"});
 	    	testLinks.add(new String[] {"Read more about Kubernetes monitoring", "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/kubernetes.html"});
+	    	testLinks.add(new String[] {"Kubernetes with Knative", "https://docs.gitlab.com/ee/user/project/clusters/serverless/index.html"});
 
 	    	testLinks.add(new String[] {"Kubernetes Pipeline", "https://docs.gitlab.com/ee/user/clusters/management_project.html"});
 
@@ -84,7 +86,6 @@ public class NaiveAlgorithm {
 	    	testLinks.add(new String[] {"instance", "https://docs.gitlab.com/ee/user/instance/clusters/index.html"});
 	    	testLinks.add(new String[] {"Kubernetes podlogs", "https://docs.gitlab.com/ee/user/project/clusters/kubernetes_pod_logs.html"});
 	    	testLinks.add(new String[] {"group", "https://docs.gitlab.com/ee/user/group/clusters/index.html"});
-	    	testLinks.add(new String[] {"Kubernetes with Knative", "https://docs.gitlab.com/ee/user/project/clusters/serverless/index.html"});
 	    	
 	    	testLinks.add(new String[] {"developer", "https://docs.gitlab.com/ee/user/permissions.html"});
 	    	
@@ -105,7 +106,7 @@ public class NaiveAlgorithm {
     	}
     }
     
-    //TODO word-count curve, OPTIMIZE
+    //TODO OPTIMIZE
     public static double getMatch(String[] linkPair, String stem) {
     	ArrayList<String> tokens = new ArrayList<String>();
     	
@@ -327,7 +328,8 @@ public class NaiveAlgorithm {
 				//factors impacting score
 				double tokenQuantityFactor = (((double)maxTokenQuantity-1)/-indexes.length + maxTokenQuantity)/maxTokenQuantity;
 				double tokenProximityFactor = (double)score/scoreCount;
-				double tokenWordCountFactor = (double)totalOccurences/wordCount;
+				double wordCountFactor = (-wordCountMultiplier/((double)wordCount+wordCountMultiplier)+1);
+				double tokenWordCountFactor = (double)totalOccurences/wordCount*wordCountFactor;
 				double titleMatchFactor = (double)titleMatch/title.size();
 				
 				//balancing of token proximity weight
@@ -335,7 +337,10 @@ public class NaiveAlgorithm {
 				tokenWordCountFactor *= 1/(double)indexes.length;
 				
 				double finalScore = ((tokenProximityFactor + tokenWordCountFactor)*(1-titleFactorWeight) + titleMatchFactor*titleFactorWeight) * 100;
-				if (debugPrint) System.out.println(tokenProximityFactor + "\t" + tokenWordCountFactor + "\t" + titleMatchFactor + "\t" + finalScore);
+				if (debugPrint) {
+					System.out.printf("| %-24s| %-24s| %-12s| %-12s| %-24s|", tokenProximityFactor, tokenWordCountFactor, wordCount, titleMatchFactor, finalScore);
+					System.out.println();
+				}
 				
 				double endTime = System.nanoTime();
 				if (!debugPrint) System.out.printf("| %-12s| %-12s", ((endTimeSearch-startTimeSearch)/Math.pow(10, 9)), ((endTime-startTime - (endTimeSearch-startTimeSearch))/Math.pow(10, 9)));
