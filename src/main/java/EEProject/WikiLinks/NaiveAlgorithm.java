@@ -45,7 +45,10 @@ public class NaiveAlgorithm {
     	String stem = "https://docs.gitlab.com";
     	
 
-		if (!debugPrint) System.out.printf("%-44s| %-128s|%-12s|%-12s| %-22s", "Tokens", "URL", "Search Time", "Algo Time", "Score", "Match?");
+		if (!debugPrint) {
+			System.out.printf("%-44s| %-128s| %-12s| %-12s| %-22s| %-1s", "Tokens", "URL", "Search Time", "Algo Time", "Score", "Match?");
+			System.out.println();
+		}
     	
     	if (!testLinks) {
 	        Page newPage = readGitLabPage(stem, "/ee/user/project/clusters/index.html");
@@ -335,7 +338,7 @@ public class NaiveAlgorithm {
 				if (debugPrint) System.out.println(tokenProximityFactor + "\t" + tokenWordCountFactor + "\t" + titleMatchFactor + "\t" + finalScore);
 				
 				double endTime = System.nanoTime();
-				if (!debugPrint) System.out.printf("|%-12s|%-12s", ((endTimeSearch-startTimeSearch)/Math.pow(10, 9)), ((endTime-startTime - (endTimeSearch-startTimeSearch))/Math.pow(10, 9)));
+				if (!debugPrint) System.out.printf("| %-12s| %-12s", ((endTimeSearch-startTimeSearch)/Math.pow(10, 9)), ((endTime-startTime - (endTimeSearch-startTimeSearch))/Math.pow(10, 9)));
 				
 				return finalScore;
 	    	}
