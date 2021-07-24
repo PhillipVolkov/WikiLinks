@@ -35,16 +35,18 @@ public class NaiveAlgorithm {
 			"you're", "you've", "your", "yours", "yourself", "yourselves", ",", ".", "!", "?", "(", ")", "+", "-", "_", "/", ":",
 			"#", "’s", "'s", "<", ">", "--", "=", "\""};
 	
-	static final boolean testLinks = false;
+	static final boolean testLinks = true;
 	static final boolean debugPrint = false;
-	static final double threshold = 5f;
+	static final double threshold = 15;
 	static final int maxTokenSeperation = 20;
 	static final int maxTokenQuantity = 3;
 	static final int wordCountMultiplier = 115;
-	static final double titleFactorWeight = 0.3;
+	static final int occurenceDifferencePenalty = 75;
+	static final double titleFactorWeight = 0.4;
 	
 	static Hashtable<String, Page> savedPages = new Hashtable<String, Page>();
 	
+	//TODO add sentence context into search phrase
 	//TODO find if .index, debugging?, Compile test link list
     public static void main(String[] args) {
     	String stem = "https://docs.gitlab.com";
@@ -93,18 +95,25 @@ public class NaiveAlgorithm {
 	    	testLinks.add(new String[] {"role-based or attribute-based access controls", "https://docs.gitlab.com/ee/user/project/clusters/cluster_access.html"});
 	    	testLinks.add(new String[] {"Read more about Kubernetes monitoring", "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/kubernetes.html"});
 	    	testLinks.add(new String[] {"Kubernetes with Knative", "https://docs.gitlab.com/ee/user/project/clusters/serverless/index.html"});
+
+	    	testLinks.add(new String[] {"Kubernetes Engine", "https://docs.gitlab.com/ee/user/project/clusters/gitlab_managed_clusters.html"});
+	    	testLinks.add(new String[] {"Kubernetes Pipeline", "https://docs.gitlab.com/ee/user/clusters/management_project.html"});
+	    	testLinks.add(new String[] {"find users' api tokens", "https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html"});
+	    	//context issues
 	    	testLinks.add(new String[] {"related documentation", "https://docs.gitlab.com/ee/user/analytics/value_stream_analytics.html#permissions"});
 	    	testLinks.add(new String[] {"Through the API", "https://docs.gitlab.com/ee/api/users.html#user-modification"});
-
-	    	testLinks.add(new String[] {"Kubernetes Pipeline", "https://docs.gitlab.com/ee/user/clusters/management_project.html"});
 
 	    	testLinks.add(new String[] {"package", "https://docs.gitlab.com/ee/user/packages/index.html"});
 	    	testLinks.add(new String[] {"environment", "https://docs.gitlab.com/ee/ci/environments/index.html"});
 	    	testLinks.add(new String[] {"NGINX Ingress", "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/nginx.html"});
-	    	testLinks.add(new String[] {"instance", "https://docs.gitlab.com/ee/user/instance/clusters/index.html"});
 	    	testLinks.add(new String[] {"Kubernetes podlogs", "https://docs.gitlab.com/ee/user/project/clusters/kubernetes_pod_logs.html"});
+	    	//context issues
+	    	testLinks.add(new String[] {"instance", "https://docs.gitlab.com/ee/user/instance/clusters/index.html"});
 	    	testLinks.add(new String[] {"group", "https://docs.gitlab.com/ee/user/group/clusters/index.html"});
 	    	testLinks.add(new String[] {"developer", "https://docs.gitlab.com/ee/user/permissions.html"});
+	    	
+	    	testLinks.add(new String[] {"dynamic names", "https://docs.gitlab.com/ee/ci/environments/index.html"});
+	    	testLinks.add(new String[] {"dependency", "https://docs.gitlab.com/ee/user/packages/index.html"});
 	    	
 	    	double startTime = System.nanoTime();
 	    	for (String[] linkPair : testLinks) {
@@ -358,8 +367,15 @@ public class NaiveAlgorithm {
 					
 					//calculate ranking
 					int totalOccurences = 0;
+					int minOccurence = occurences.get(0).size();
+					int maxOccurence = occurences.get(0).size();
 					for (ArrayList<Integer> occurence : occurences) {
-						totalOccurences += occurence.size();
+						int size = occurence.size();
+						
+						if (minOccurence > size) minOccurence = size;
+						else if (maxOccurence < size) maxOccurence = size;
+						
+						totalOccurences += size;
 					}
 	
 					//factors impacting score
@@ -368,14 +384,15 @@ public class NaiveAlgorithm {
 					double wordCountFactor = (-wordCountMultiplier/((double)wordCount+wordCountMultiplier)+1);
 					double tokenWordCountFactor = (double)totalOccurences/wordCount*wordCountFactor;
 					double titleMatchFactor = (double)titleMatch/title.size();
+					double singleWordReliancePenalty = occurenceDifferencePenalty*(totalOccurences/(((double)maxOccurence-minOccurence)+occurenceDifferencePenalty))/totalOccurences;
 					
 					//balancing of token proximity weight
 					tokenProximityFactor *= 1-(1/(double)indexes.length);
 					tokenWordCountFactor *= 1/(double)indexes.length;
 					
-					double finalScore = ((tokenProximityFactor + tokenWordCountFactor)*(1-titleFactorWeight) + titleMatchFactor*titleFactorWeight) * 100;
+					double finalScore = ((tokenProximityFactor + tokenWordCountFactor)*(1-titleFactorWeight) + titleMatchFactor*titleFactorWeight) * singleWordReliancePenalty * 100;
 					if (debugPrint) {
-						System.out.printf("| %-24s| %-24s| %-12s| %-12s| %-24s|", tokenProximityFactor, tokenWordCountFactor, wordCount, titleMatchFactor, finalScore);
+						System.out.printf("| %-24s| %-24s| %-24s| %-24s| %-24s| %-24s|", tokenProximityFactor, tokenWordCountFactor, wordCount, titleMatchFactor, singleWordReliancePenalty, finalScore);
 						System.out.println();
 					}
 					
@@ -391,8 +408,6 @@ public class NaiveAlgorithm {
 		    	}
 	    	}
     	}
-
-//		if (!debugPrint) System.out.printf("%-44s| %-128s", tokens, (linkPair[1]));
     	
     	return -1;
     }
