@@ -46,8 +46,7 @@ public class NaiveAlgorithm {
 	
 	static Hashtable<String, Page> savedPages = new Hashtable<String, Page>();
 	
-	//TODO add sentence context into search phrase
-	//TODO find if .index, debugging?, Compile test link list
+	//TODO add sentence context into search phrase, find if index.html
     public static void main(String[] args) {
     	String stem = "https://docs.gitlab.com";
     	String page = "/ee/user/project/clusters/index.html";
@@ -83,7 +82,7 @@ public class NaiveAlgorithm {
     	}
     	else {
 	    	ArrayList<String[]> testLinks = new ArrayList<String[]>();
-	    	testLinks.add(new String[] {"Auto DevOps", "https://docs.gitlab.com/ee/user/project/clusters/#auto-devops"});
+	    	testLinks.add(new String[] {"Auto DevOps", "https://docs.gitlab.com/ee/user/project/clusters/index.html#auto-devops"});
 	    	testLinks.add(new String[] {"the Prometheus cluster integration is enabled", "https://docs.gitlab.com/ee/user/clusters/integrations.html#prometheus-cluster-integration"});
 	    	testLinks.add(new String[] {"Cluster management project", "https://docs.gitlab.com/ee/user/clusters/management_project.html"});
 	    	testLinks.add(new String[] {"CI/CD Pipelines", "https://docs.gitlab.com/ee/ci/pipelines/index.html"});
@@ -132,6 +131,7 @@ public class NaiveAlgorithm {
     	}
     }
     
+    //TODO stem detection?
     public static double getMatch(String[] linkPair, String stem) {
     	ArrayList<String> tokens = new ArrayList<String>();
     	
@@ -295,9 +295,6 @@ public class NaiveAlgorithm {
 					if (indexes.length > 1) {
 						boolean indexIncreasing = true;
 						while (indexIncreasing) {
-							for (int i = 0; i < indexes.length; i++) {
-							}
-							
 							for (int ind1 = 0; ind1 < indexes.length; ind1++) {
 								for (int ind2 = ind1+1; ind2 < indexes.length; ind2++) {
 									int ind1Index = occurences.get(ind1).get(indexes[ind1]);
@@ -367,13 +364,13 @@ public class NaiveAlgorithm {
 					
 					//calculate ranking
 					int totalOccurences = 0;
-					int minOccurence = occurences.get(0).size();
+					int secondMaxOccurence = occurences.get(0).size();
 					int maxOccurence = occurences.get(0).size();
 					for (ArrayList<Integer> occurence : occurences) {
 						int size = occurence.size();
 						
-						if (minOccurence > size) minOccurence = size;
-						else if (maxOccurence < size) maxOccurence = size;
+						if (size > maxOccurence) maxOccurence = size;
+						else if (size > secondMaxOccurence) secondMaxOccurence = size;
 						
 						totalOccurences += size;
 					}
@@ -384,7 +381,7 @@ public class NaiveAlgorithm {
 					double wordCountFactor = (-wordCountMultiplier/((double)wordCount+wordCountMultiplier)+1);
 					double tokenWordCountFactor = (double)totalOccurences/wordCount*wordCountFactor;
 					double titleMatchFactor = (double)titleMatch/title.size();
-					double singleWordReliancePenalty = occurenceDifferencePenalty*(totalOccurences/(((double)maxOccurence-minOccurence)+occurenceDifferencePenalty))/totalOccurences;
+					double singleWordReliancePenalty = occurenceDifferencePenalty*(totalOccurences/(((double)maxOccurence-secondMaxOccurence)+occurenceDifferencePenalty))/totalOccurences;
 					
 					//balancing of token proximity weight
 					tokenProximityFactor *= 1-(1/(double)indexes.length);
