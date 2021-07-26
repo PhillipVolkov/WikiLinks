@@ -63,6 +63,16 @@ public class Page {
 		return this.links;
 	}
 	
+	public void printLinks() {
+		System.out.printf("%-48s -> %-110s (%-1s)", "linkText", "linkUrl", "linkContext");
+		System.out.println();
+		
+		for (String[] linkPair : links) {
+			System.out.printf("%-48s -> %-110s (%-1s)", linkPair[0], linkPair[1], linkPair[2]);
+			System.out.println();
+		}
+	}
+	
 	@Override
 	public String toString() {
 		String output = "Title: " + title + "\n\n";
@@ -79,7 +89,7 @@ public class Page {
 		
 		output += "\nLinks:\n";
 		for (String[] linkPair : links) {
-			output += linkPair[0] + "\t -> \t" + linkPair[1] + "\n";
+			output += String.format("%-48s -> %-110s (%-1s)", linkPair[0], linkPair[1], linkPair[2]) + "\n";
 		}
 		
 		output += "\nPermalinks:\n";

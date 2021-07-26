@@ -35,7 +35,7 @@ public class NaiveAlgorithm {
 			"you're", "you've", "your", "yours", "yourself", "yourselves", ",", ".", "!", "?", "(", ")", "+", "-", "_", "/", ":",
 			"#", "’s", "'s", "<", ">", "--", "=", "\""};
 	
-	static final boolean testLinks = true;
+	static final boolean testLinks = false;
 	static final boolean debugPrint = false;
 	static final double threshold = 15;
 	static final int maxTokenSeperation = 20;
@@ -61,24 +61,27 @@ public class NaiveAlgorithm {
 	    	double startTime1 = System.nanoTime();
 	        Page newPage = readGitLabPage(stem, page);
 	        savedPages.put(stem+page, newPage);
-	    	double endTime1 = System.nanoTime();
-	    	
-			System.out.printf("%-46s| %-128s| %-12s| %-12s| %-22s| %-1s", "Initial Page", stem+page, ((endTime1-startTime1)/Math.pow(10, 9)), "N/A", "N/A", "N/A");
-			System.out.println();
-
-	    	double startTime2 = System.nanoTime();
-	        for (String[] linkPair : newPage.getLinks()) {
-	        	double match = getMatch(linkPair, stem);
-	        	if (match != -1 && !debugPrint) {
-	            	System.out.printf("| %-22s",match);
-	            	
-	            	if (match >= threshold) System.out.printf("| true\n");
-	            	else System.out.printf("| false\n");
-	        	}
-	        }
-	    	double endTime2 = System.nanoTime();
-	    	
-	    	System.out.println("\nTime Elapsed: " + ((endTime2-startTime2)/Math.pow(10, 9)) + " seconds");
+//	        newPage.printLinks();
+	        System.out.println(newPage);
+	        
+//	    	double endTime1 = System.nanoTime();
+//	    	
+//			System.out.printf("%-46s| %-128s| %-12s| %-12s| %-22s| %-1s", "Initial Page", stem+page, ((endTime1-startTime1)/Math.pow(10, 9)), "N/A", "N/A", "N/A");
+//			System.out.println();
+//
+//	    	double startTime2 = System.nanoTime();
+//	        for (String[] linkPair : newPage.getLinks()) {
+//	        	double match = getMatch(linkPair, stem);
+//	        	if (match != -1 && !debugPrint) {
+//	            	System.out.printf("| %-22s",match);
+//	            	
+//	            	if (match >= threshold) System.out.printf("| true\n");
+//	            	else System.out.printf("| false\n");
+//	        	}
+//	        }
+//	    	double endTime2 = System.nanoTime();
+//	    	
+//	    	System.out.println("\nTime Elapsed: " + ((endTime2-startTime2)/Math.pow(10, 9)) + " seconds");
     	}
     	else {
 	    	ArrayList<String[]> testLinks = new ArrayList<String[]>();
@@ -424,11 +427,16 @@ public class NaiveAlgorithm {
             
             String currLine = "";
             String output = "";
+            String liOutput = "";
+    		String linkContext = "";
+            boolean addLiLine = false;
+            boolean ulOpen = false;
             boolean mainOpen = false;
             boolean articleContent = false;
             int divsOpen = 0;
 
     		boolean addSection = false;
+    		ArrayList<Integer> noContextLinks = new ArrayList<Integer>();
     		
             while ((currLine = reader.readLine()) != null) {
             	currLine = currLine.toString();
@@ -451,8 +459,12 @@ public class NaiveAlgorithm {
             		int bracketPrevOpen = -2;
             		int bracketPrevClosed = -2;
             		int prevHeading = -2;
+            		int prevPeriod = -2;
+            		int prevL = -2;
+            		int prevU = -2;
             		boolean linkBracketOpen = false;
             		boolean linkUrlParse = false;
+            		boolean linkSentence = false;
             		boolean endBracketOpen = false;
             		boolean ignoreCurrChar = false;
             		boolean ignoreBracketContents = false;
@@ -463,6 +475,8 @@ public class NaiveAlgorithm {
             		String linkURL = "";
             		String linkText = "";
             		String escapeCharacters = "";
+
+            		System.out.println(currLine);
             		
             		for (int i = 0; i < currLine.length(); i++) {
             			//detect parses
@@ -476,6 +490,22 @@ public class NaiveAlgorithm {
             				bracketPrevClosed = i;
             				endBracketOpen = true;
             				ignoreCurrChar = true;
+            			}
+            			else if (currLine.charAt(i) == 'u' && (bracketPrevOpen == i-1 || bracketPrevClosed == i-1)) {
+            				prevU = i;
+            			}else if (currLine.charAt(i) == 'l' && prevU == i-1) {
+                    		if (bracketPrevOpen == i-2) {
+                    			ulOpen = true;
+                    		}
+                    		else if (bracketPrevClosed == i-2) {
+                    			ulOpen = false;
+                    		}
+            			}
+            			else if (currLine.charAt(i) == 'l' && bracketPrevOpen == i-1) {
+                    		prevL = i;
+            			}
+            			else if (currLine.charAt(i) == 'i' && prevL == i-1) {
+            				addLiLine = true;
             			}
             			else if (currLine.charAt(i) == 'h' && (bracketPrevOpen == i-1 || bracketPrevClosed == i-1)) {
             				prevHeading = i;
@@ -498,9 +528,40 @@ public class NaiveAlgorithm {
             				linkBracketOpen = true;
             				linkUrlParse = true;
             				ignoreCurrChar = true;
+            				linkSentence = true;
             			}
             			else if (currLine.charAt(i) == 'a' && bracketPrevClosed == i-1) {
             				linkBracketOpen = false;
+            			}
+            			else if (currLine.charAt(i) == '.' && linkSentence && !linkBracketOpen) {
+            				prevPeriod = i;
+            				
+            				if (i == currLine.length()-1) {
+            					linkSentence = false;
+            					String sentenceLine = liOutput + newLine;
+            					String[] sentences = sentenceLine.split("\\. ");
+        						
+        						if (sentences.length != 0) linkContext = sentences[sentences.length-1];
+                				else linkContext = sentenceLine;
+        						
+                				while (noContextLinks.size() != 0) {
+                					links.get(noContextLinks.get(0))[2] = linkContext;
+                					noContextLinks.remove(0);
+                				}
+            				}
+            			}
+            			else if (currLine.charAt(i) == ' ' && prevPeriod == i-1 && linkSentence && !linkBracketOpen) {
+            				linkSentence = false;
+        					String sentenceLine = liOutput + newLine;
+        					String[] sentences = sentenceLine.split("\\. ");
+    						
+    						if (sentences.length != 0) linkContext = sentences[sentences.length-1];
+            				else linkContext = sentenceLine;
+    						
+            				while (noContextLinks.size() != 0) {
+            					links.get(noContextLinks.get(0))[2] = linkContext;
+            					noContextLinks.remove(0);
+            				}
             			}
             			else if (currLine.charAt(i) == '>') {
             				if (singleBracketOpen) singleBracketOpen = false;
@@ -551,7 +612,6 @@ public class NaiveAlgorithm {
             				}
             				
             				if (!singleBracketOpen) {
-	            				//if (!contains(ignoreTokens, internalText) && !ignoreBracketContents) newLine += "<" + internalText + ">";
 	    						internalText = "";
 	    						ignoreBracketContents = false;
             				}
@@ -628,7 +688,9 @@ public class NaiveAlgorithm {
             					//append final text
 	            				if (!permaLink && !linkText.equals("")) {
 	            					newLine += linkText;
-		            				links.add(new String[] {linkText, link});
+		            				links.add(new String[] {linkText, link, ""});
+		            				noContextLinks.add(links.size()-1);
+//		        					System.out.println(linkText + " " + noContextLinks);
 	            				}
 	            				else if (permaLink) {
 	            					permaLinks.put(link.split("#")[1], sections.size());
@@ -641,11 +703,28 @@ public class NaiveAlgorithm {
             			
         				ignoreCurrChar = false;
             		}
-            		
+        			
             		//System.out.println(currLine + "|");
-            		//System.out.println(newLine + "\n");
+            		if (ulOpen && ((liOutput.equals("") && addLiLine) || !addLiLine)) {
+            			if (!newLine.equals("")) liOutput += newLine + " ";
+            		}
+            		else if (!ulOpen && !liOutput.equals("")) {
+            			output += liOutput + "\n";
+    					liOutput = "";
+    					addLiLine = false;
+    					noContextLinks = new ArrayList<Integer>();
+            		}
+            		else if (addLiLine && !liOutput.equals("")) {
+    					output += liOutput + "\n";
+    					liOutput = "";
+    					addLiLine = false;
+    					noContextLinks = new ArrayList<Integer>();
+    				}
+            		else if (!newLine.equals("") && !ulOpen) {
+            			output += newLine + "\n";
+            			noContextLinks = new ArrayList<Integer>();
+            		}
             		
-            		if (!newLine.equals("")) output += newLine + "\n";
             		if (lineTitle) title = newLine;
             	}
             	
