@@ -53,7 +53,7 @@ public class NaiveAlgorithm {
     	
 
 		if (!debugPrint) {
-			System.out.printf("%-46s| %-128s| %-12s| %-12s| %-22s| %-1s", "Tokens", "URL", "Parse Time", "Algo Time", "Score", "Match?");
+			System.out.printf("%-72s| %-128s| %-12s| %-12s| %-22s| %-1s", "Tokens", "URL", "Parse Time", "Algo Time", "Score", "Match?");
 			System.out.println();
 		}
 		
@@ -64,15 +64,13 @@ public class NaiveAlgorithm {
 	        
 	    	double endTime1 = System.nanoTime();
 	    	
-			System.out.printf("%-46s| %-128s| %-12s| %-12s| %-22s| %-1s", "Initial Page", stem+page, ((endTime1-startTime1)/Math.pow(10, 9)), "N/A", "N/A", "N/A");
+			System.out.printf("%-72s| %-128s| %-12s| %-12s| %-22s| %-1s", "Initial Page", stem+page, ((endTime1-startTime1)/Math.pow(10, 9)), "N/A", "N/A", "N/A");
 			System.out.println();
 
 	    	double startTime2 = System.nanoTime();
 	        for (String[] linkPair : newPage.getLinks()) {
 	        	double match = getMatch(linkPair, stem);
 	        	if (match != -1 && !debugPrint) {
-	            	System.out.printf("| %-22s",match);
-	            	
 	            	if (match >= threshold) System.out.printf("| true\n");
 	            	else System.out.printf("| false\n");
 	        	}
@@ -90,28 +88,27 @@ public class NaiveAlgorithm {
 	    			"Attach a Cluster management project to your cluster to manage shared resources requiring cluster-admin privileges for installation, such as an Ingress controller"});
 	    	testLinks.add(new String[] {"CI/CD Pipelines", "https://docs.gitlab.com/ee/ci/pipelines/index.html", "Create CI/CD Pipelines to build, test, and deploy to your cluster"});
 	    	testLinks.add(new String[] {"cluster integrations", "https://docs.gitlab.com/ee/user/clusters/integrations.html", "Connect GitLab to in-cluster applications using cluster integrations"});
-	    	testLinks.add(new String[] {"project access tokens", "https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html", ""});
+	    	testLinks.add(new String[] {"project access tokens", "https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html", "project access tokens"});
 	    	testLinks.add(new String[] {"GitLab to manage your cluster for you", "https://docs.gitlab.com/ee/user/project/clusters/gitlab_managed_clusters.html", "See how to allow GitLab to manage your cluster for you"});
-	    	testLinks.add(new String[] {"Infrastructure as Code", "https://docs.gitlab.com/ee/user/infrastructure", ""});
+	    	testLinks.add(new String[] {"Infrastructure as Code", "https://docs.gitlab.com/ee/user/infrastructure", 
+	    			"GitLab provides you with great solutions to help you manage your infrastrucure: Infrastructure as Code and GitOps"});
 	    	testLinks.add(new String[] {"Deploy Boards", "https://docs.gitlab.com/ee/user/project/deploy_boards.html", "Use Deploy Boards to see the health and status of each CI environment running on your Kubernetes cluster"});
 	    	testLinks.add(new String[] {"role-based or attribute-based access controls", "https://docs.gitlab.com/ee/user/project/clusters/cluster_access.html", "Use role-based or attribute-based access controls"});
 	    	testLinks.add(new String[] {"Read more about Kubernetes monitoring", "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/kubernetes.html", "Read more about Kubernetes monitoring"});
 	    	testLinks.add(new String[] {"Kubernetes with Knative", "https://docs.gitlab.com/ee/user/project/clusters/serverless/index.html", "Run serverless workloads on Kubernetes with Knative"});
+	    	testLinks.add(new String[] {"related documentation", "https://docs.gitlab.com/ee/user/analytics/value_stream_analytics.html#permissions", "Find the current permissions on the Value Stream Analytics dashboard, as described in related documentation"});
+	    	testLinks.add(new String[] {"Through the API", "https://docs.gitlab.com/ee/api/users.html", "You can also create users through the API as an admin"});
 
 	    	testLinks.add(new String[] {"Kubernetes Engine", "https://docs.gitlab.com/ee/user/project/clusters/gitlab_managed_clusters.html", ""});
 	    	testLinks.add(new String[] {"Kubernetes Pipeline", "https://docs.gitlab.com/ee/user/clusters/management_project.html", ""});
 	    	testLinks.add(new String[] {"find users' api tokens", "https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html", ""});
-	    	//context issues
-	    	testLinks.add(new String[] {"related documentation", "https://docs.gitlab.com/ee/user/analytics/value_stream_analytics.html#permissions", ""});
-	    	testLinks.add(new String[] {"Through the API", "https://docs.gitlab.com/ee/api/users.html#user-modification", ""});
 
 	    	testLinks.add(new String[] {"package", "https://docs.gitlab.com/ee/user/packages/index.html", ""});
 	    	testLinks.add(new String[] {"environment", "https://docs.gitlab.com/ee/ci/environments/index.html", "Use Deploy Boards to see the health and status of each CI environment running on your Kubernetes cluster"});
 	    	testLinks.add(new String[] {"NGINX Ingress", "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/nginx.html", "Automatic monitoring of NGINX Ingress is also supported"});
 	    	testLinks.add(new String[] {"Kubernetes podlogs", "https://docs.gitlab.com/ee/user/project/clusters/kubernetes_pod_logs.html", "View your Kubernetes podlogs directly in GitLab"});
-	    	//context issues
-	    	testLinks.add(new String[] {"instance level", "https://docs.gitlab.com/ee/user/instance/clusters/index.html", "On the group level, to use the same cluster across multiple projects within your group"});
-	    	testLinks.add(new String[] {"group level", "https://docs.gitlab.com/ee/user/group/clusters/index.html", "On the instance level, to use the same cluster across multiple groups and projects."});
+	    	testLinks.add(new String[] {"instance", "https://docs.gitlab.com/ee/user/instance/clusters/index.html", "On the group level, to use the same cluster across multiple projects within your group"});
+	    	testLinks.add(new String[] {"group", "https://docs.gitlab.com/ee/user/group/clusters/index.html", "On the instance level, to use the same cluster across multiple groups and projects."});
 	    	testLinks.add(new String[] {"developers", "https://docs.gitlab.com/ee/user/permissions.html", "cautionThe whole cluster security is based on a model where developers are trusted, so only trusted users should be allowed to control your clusters"});
 	    	
 	    	testLinks.add(new String[] {"dynamic names", "https://docs.gitlab.com/ee/ci/environments/index.html", ""});
@@ -122,8 +119,6 @@ public class NaiveAlgorithm {
 	        	double match = getMatch(linkPair, stem);
 	        	
 	        	if (match != -1 && !debugPrint) {
-	            	System.out.printf("| %-22s",match);
-	            	
 	            	if (match >= threshold) System.out.printf("| true\n");
 	            	else System.out.printf("| false\n");
 	        	}
@@ -389,7 +384,7 @@ public class NaiveAlgorithm {
 					
 					double finalScore = ((tokenProximityFactor + tokenWordCountFactor)*(1-titleFactorWeight) + titleMatchFactor*titleFactorWeight) * singleWordReliancePenalty * 100;
 					
-					if (finalScore < threshold && !linkPair[2].equals("")) {
+					if ((finalScore < threshold || indexes.length == 1) && !linkPair[2].equals("")) {
 						double contextScore = getMatch(new String[] {linkPair[2], linkPair[1], ""}, stem);
 						
 						if (contextScore > finalScore) {
@@ -407,16 +402,19 @@ public class NaiveAlgorithm {
 					
 					double endTime = System.nanoTime();
 					if (!debugPrint) {
-						System.out.printf("%-46s| %-128s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())));
-						System.out.printf("| %-12s| %-12s", ((endTimeSearch-startTimeSearch)/Math.pow(10, 9)), ((endTime-startTime - (endTimeSearch-startTimeSearch))/Math.pow(10, 9)));
+						System.out.printf("%-72s| %-128s| %-12s| %-12s| %-22s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())), 
+								((endTimeSearch-startTimeSearch)/Math.pow(10, 9)), ((endTime-startTime - (endTimeSearch-startTimeSearch))/Math.pow(10, 9)), finalScore);
 					}
-					
+						
 					return finalScore;
 		    	}
 		    	else {
-					if (!debugPrint) System.out.printf("%-46s| %-128s| %-12s| %-12s", linkPair[0], (stem + linkPair[1].substring(stem.length(), linkPair[1].length())), "N/A", "N/A");
+		    		double contextScore = getMatch(new String[] {linkPair[2], linkPair[1], ""}, stem);
+	    			return contextScore;
 		    		
-		    		return 0;
+//					if (!debugPrint) System.out.printf("%-46s| %-128s| %-12s| %-12s", linkPair[0], (stem + linkPair[1].substring(stem.length(), linkPair[1].length())), "N/A", "N/A");
+//		    		
+//		    		return 0;
 		    	}
 	    	}
     	}
