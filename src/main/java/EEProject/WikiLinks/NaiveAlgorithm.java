@@ -427,16 +427,13 @@ public class NaiveAlgorithm {
             
             String currLine = "";
             String output = "";
-            String liOutput = "";
     		String linkContext = "";
-            boolean addLiLine = false;
-            boolean ulOpen = false;
             boolean mainOpen = false;
             boolean articleContent = false;
             int divsOpen = 0;
 
     		boolean addSection = false;
-    		ArrayList<Integer> noContextLinks = new ArrayList<Integer>();
+    		ArrayList<Integer[]> noContext = new ArrayList<Integer[]>();
     		
             while ((currLine = reader.readLine()) != null) {
             	currLine = currLine.toString();
@@ -475,8 +472,6 @@ public class NaiveAlgorithm {
             		String linkURL = "";
             		String linkText = "";
             		String escapeCharacters = "";
-
-            		System.out.println(currLine);
             		
             		for (int i = 0; i < currLine.length(); i++) {
             			//detect parses
@@ -493,19 +488,6 @@ public class NaiveAlgorithm {
             			}
             			else if (currLine.charAt(i) == 'u' && (bracketPrevOpen == i-1 || bracketPrevClosed == i-1)) {
             				prevU = i;
-            			}else if (currLine.charAt(i) == 'l' && prevU == i-1) {
-                    		if (bracketPrevOpen == i-2) {
-                    			ulOpen = true;
-                    		}
-                    		else if (bracketPrevClosed == i-2) {
-                    			ulOpen = false;
-                    		}
-            			}
-            			else if (currLine.charAt(i) == 'l' && bracketPrevOpen == i-1) {
-                    		prevL = i;
-            			}
-            			else if (currLine.charAt(i) == 'i' && prevL == i-1) {
-            				addLiLine = true;
             			}
             			else if (currLine.charAt(i) == 'h' && (bracketPrevOpen == i-1 || bracketPrevClosed == i-1)) {
             				prevHeading = i;
@@ -519,7 +501,7 @@ public class NaiveAlgorithm {
             					sections.add(output);
             					addSection = false;
             				}
-
+            				
             				output = "";
         					addSection = true;
             			}
@@ -532,36 +514,6 @@ public class NaiveAlgorithm {
             			}
             			else if (currLine.charAt(i) == 'a' && bracketPrevClosed == i-1) {
             				linkBracketOpen = false;
-            			}
-            			else if (currLine.charAt(i) == '.' && linkSentence && !linkBracketOpen) {
-            				prevPeriod = i;
-            				
-            				if (i == currLine.length()-1) {
-            					linkSentence = false;
-            					String sentenceLine = liOutput + newLine;
-            					String[] sentences = sentenceLine.split("\\. ");
-        						
-        						if (sentences.length != 0) linkContext = sentences[sentences.length-1];
-                				else linkContext = sentenceLine;
-        						
-                				while (noContextLinks.size() != 0) {
-                					links.get(noContextLinks.get(0))[2] = linkContext;
-                					noContextLinks.remove(0);
-                				}
-            				}
-            			}
-            			else if (currLine.charAt(i) == ' ' && prevPeriod == i-1 && linkSentence && !linkBracketOpen) {
-            				linkSentence = false;
-        					String sentenceLine = liOutput + newLine;
-        					String[] sentences = sentenceLine.split("\\. ");
-    						
-    						if (sentences.length != 0) linkContext = sentences[sentences.length-1];
-            				else linkContext = sentenceLine;
-    						
-            				while (noContextLinks.size() != 0) {
-            					links.get(noContextLinks.get(0))[2] = linkContext;
-            					noContextLinks.remove(0);
-            				}
             			}
             			else if (currLine.charAt(i) == '>') {
             				if (singleBracketOpen) singleBracketOpen = false;
@@ -689,8 +641,10 @@ public class NaiveAlgorithm {
 	            				if (!permaLink && !linkText.equals("")) {
 	            					newLine += linkText;
 		            				links.add(new String[] {linkText, link, ""});
-		            				noContextLinks.add(links.size()-1);
-//		        					System.out.println(linkText + " " + noContextLinks);
+		            				
+		            				if (addSection) {
+		            					noContext.add(new Integer[] {sections.size(), output.length(), links.size()-1});
+		            				}
 	            				}
 	            				else if (permaLink) {
 	            					permaLinks.put(link.split("#")[1], sections.size());
@@ -705,24 +659,8 @@ public class NaiveAlgorithm {
             		}
         			
             		//System.out.println(currLine + "|");
-            		if (ulOpen && ((liOutput.equals("") && addLiLine) || !addLiLine)) {
-            			if (!newLine.equals("")) liOutput += newLine + " ";
-            		}
-            		else if (!ulOpen && !liOutput.equals("")) {
-            			output += liOutput + "\n";
-    					liOutput = "";
-    					addLiLine = false;
-    					noContextLinks = new ArrayList<Integer>();
-            		}
-            		else if (addLiLine && !liOutput.equals("")) {
-    					output += liOutput + "\n";
-    					liOutput = "";
-    					addLiLine = false;
-    					noContextLinks = new ArrayList<Integer>();
-    				}
-            		else if (!newLine.equals("") && !ulOpen) {
+            		if (!newLine.equals("")) {
             			output += newLine + "\n";
-            			noContextLinks = new ArrayList<Integer>();
             		}
             		
             		if (lineTitle) title = newLine;
@@ -747,6 +685,40 @@ public class NaiveAlgorithm {
             
             reader.close();
             
+            //context
+            for (int i = 0; i < noContext.size(); i++) {
+            	Integer[] loc = noContext.get(i);
+            	
+            	if (loc[0] != -1) {
+            		loc[1] = loc[1] + sections.get(loc[0]).substring(loc[1]).indexOf(links.get(loc[2])[0]);
+            		
+            		//find start
+            		int sentenceStart = sections.get(loc[0]).substring(0, loc[1]+1).lastIndexOf(".\n")+1;
+            		if (sentenceStart == 0) sentenceStart = sections.get(loc[0]).substring(0, loc[1]+1).lastIndexOf("\n")+1;
+            		
+            		int temp = sections.get(loc[0]).substring(0, loc[1]+1).lastIndexOf(". ")+1;
+            		if (temp > sentenceStart) sentenceStart = temp;
+            		
+            		//find end
+            		int sentenceEnd = loc[1] + sections.get(loc[0]).substring(loc[1]).indexOf(".\n");
+            		
+            		temp = loc[1] + sections.get(loc[0]).substring(loc[1]).indexOf(". ");
+            		if (temp < sentenceEnd && temp >= loc[1]) sentenceEnd = temp;
+            		
+            		
+            		String context = "";
+            		
+            		if (sentenceEnd >= loc[1]) context = sections.get(loc[0]).substring(sentenceStart, sentenceEnd);
+            		else context = sections.get(loc[0]).substring(sentenceStart);
+            		
+            		context = context.strip();
+            		context = String.join(" ", context.split("\n"));
+            		
+            		links.get(loc[2])[2] = context;
+            	}
+            }
+            
+            //lemmatization
             for (String section : sections) {
     	    	ArrayList<String> tokens = new ArrayList<String>();
 	    		
