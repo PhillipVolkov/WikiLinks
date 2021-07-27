@@ -11,10 +11,6 @@ import java.util.regex.Pattern;
 
 import org.tartarus.snowball.ext.PorterStemmer;
 
-//import edu.stanford.nlp.ling.CoreLabel;
-//import edu.stanford.nlp.pipeline.CoreDocument;
-//import edu.stanford.nlp.pipeline.StanfordCoreNLP;
-
 
 public class NaiveAlgorithm {
 	static final String[] ignoreTokens = new String[] {"li", "ul", "div", "button"};
@@ -210,7 +206,7 @@ public class NaiveAlgorithm {
 	    			}
 	    		}
 	    		
-	    		//title lemma
+	    		//title stems
 	    		ArrayList<String> title = new ArrayList<String>();
 	    		tokenizer = new StringTokenizer(stringTitle.toLowerCase(), stemmerDelims);
     		    stemmer = new PorterStemmer();
@@ -471,7 +467,7 @@ public class NaiveAlgorithm {
             
             String title = "";
             ArrayList<String> sections = new ArrayList<String>();
-            ArrayList<ArrayList<String>> lemma = new ArrayList<ArrayList<String>>();
+            ArrayList<ArrayList<String>> stems = new ArrayList<ArrayList<String>>();
             ArrayList<String[]> links = new ArrayList<String[]>();
             Hashtable<String, Integer> permaLinks = new Hashtable<String, Integer>();
             
@@ -788,10 +784,10 @@ public class NaiveAlgorithm {
     		    	}
     		    }
 
-    	    	lemma.add(tokens);
+    	    	stems.add(tokens);
             }
 
-        	return new Page(title, sections, lemma, links, permaLinks);
+        	return new Page(title, sections, stems, links, permaLinks);
         } 
         catch (Exception e) {
             System.out.println(e);
