@@ -6,7 +6,7 @@ import java.util.Hashtable;
 public class Page {
 	private String title;
 	private ArrayList<String> sections;
-	private ArrayList<ArrayList<String>> lemma;
+	private ArrayList<ArrayList<String>> stems;
 	private ArrayList<String[]> links;
 	private Hashtable<String, Integer> permaLinks;
 	
@@ -15,7 +15,7 @@ public class Page {
 	public Page(String title, ArrayList<String> sections, ArrayList<ArrayList<String>> lemma, ArrayList<String[]> links, Hashtable<String, Integer> permaLinks) {
 		this.title = title;
 		this.sections = sections;
-		this.lemma = lemma;
+		this.stems = lemma;
 		this.links = links;
 		this.permaLinks = permaLinks;
 	}
@@ -33,7 +33,7 @@ public class Page {
 	}
 	
 	public ArrayList<String> getPermaLinkSection(String permaLink) {
-		return this.lemma.get(permaLinks.get(permaLink));
+		return this.stems.get(permaLinks.get(permaLink));
 	}
 	
 	public String getPermaLinkString() {
@@ -45,14 +45,14 @@ public class Page {
 		return output;
 	}
 	
-	public ArrayList<ArrayList<String>> getLemma() {
-		return this.lemma;
+	public ArrayList<ArrayList<String>> getStems() {
+		return this.stems;
 	}
 	
-	public String getLemmaString() {
+	public String getStemsString() {
 		String output = "Lemma:\n";
 		
-		for (ArrayList<String> section : lemma) {
+		for (ArrayList<String> section : stems) {
 			output += section + "\n";
 		}
 		
@@ -83,7 +83,7 @@ public class Page {
 		}
 		
 		output += "Lemma:\n";
-		for (ArrayList<String> section : lemma) {
+		for (ArrayList<String> section : stems) {
 			output += section + "\n";
 		}
 		

@@ -5,13 +5,15 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Properties;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
-import edu.stanford.nlp.ling.CoreLabel;
-import edu.stanford.nlp.pipeline.CoreDocument;
-import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+import org.tartarus.snowball.ext.PorterStemmer;
+
+//import edu.stanford.nlp.ling.CoreLabel;
+//import edu.stanford.nlp.pipeline.CoreDocument;
+//import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 
 
 public class NaiveAlgorithm {
@@ -33,7 +35,7 @@ public class NaiveAlgorithm {
 			"we'll", "we're", "we've", "were", "weren't", "what", "what's", "when", "when's", "where", "where's", "which", 
 			"while", "who", "who's", "whom", "why", "why's", "with", "won't", "would", "wouldn't", "you", "you'd", "you'll", 
 			"you're", "you've", "your", "yours", "yourself", "yourselves", ",", ".", "!", "?", "(", ")", "+", "-", "_", "/", ":",
-			"#", "’s", "'s", "<", ">", "--", "=", "\""};
+			"#", "’s", "'s", "<", ">", "--", "=", "\"", "", "#"};
 	
 	static final boolean testLinks = true;
 	static final boolean debugPrint = false;
@@ -44,12 +46,14 @@ public class NaiveAlgorithm {
 	static final int occurenceDifferencePenalty = 75;
 	static final double titleFactorWeight = 0.4;
 	
+	static final String stemmerDelims = " |\n|:|, |. |-";
+	
 	static Hashtable<String, Page> savedPages = new Hashtable<String, Page>();
 	
-	//TODO add sentence context into search phrase, find if index.html
+	//TODO
     public static void main(String[] args) {
     	String stem = "https://docs.gitlab.com";
-    	String page = "/ee/user/project/clusters/index.html";
+    	String page = "/ee/integration/elasticsearch.html";
     	
 
 		if (!debugPrint) {
@@ -109,8 +113,8 @@ public class NaiveAlgorithm {
 	    	testLinks.add(new String[] {"Kubernetes podlogs", "https://docs.gitlab.com/ee/user/project/clusters/kubernetes_pod_logs.html", "View your Kubernetes podlogs directly in GitLab"});
 	    	testLinks.add(new String[] {"instance", "https://docs.gitlab.com/ee/user/instance/clusters/index.html", "On the group level, to use the same cluster across multiple projects within your group"});
 	    	testLinks.add(new String[] {"group", "https://docs.gitlab.com/ee/user/group/clusters/index.html", "On the instance level, to use the same cluster across multiple groups and projects."});
-	    	testLinks.add(new String[] {"developers", "https://docs.gitlab.com/ee/user/permissions.html", "cautionThe whole cluster security is based on a model where developers are trusted, so only trusted users should be allowed to control your clusters"});
 	    	
+	    	testLinks.add(new String[] {"developers", "https://docs.gitlab.com/ee/user/permissions.html", "cautionThe whole cluster security is based on a model where developers are trusted, so only trusted users should be allowed to control your clusters"});
 	    	testLinks.add(new String[] {"dynamic names", "https://docs.gitlab.com/ee/ci/environments/index.html", ""});
 	    	testLinks.add(new String[] {"dependency", "https://docs.gitlab.com/ee/user/packages/index.html", ""});
 	    	
@@ -136,25 +140,24 @@ public class NaiveAlgorithm {
     	if (linkPair[1].length() >= stem.length()) {
 	    	if (linkPair[1].substring(0, stem.length()).equals(stem)) {
 		    	double startTime = System.nanoTime();
-	    		boolean subSection = linkPair[1].indexOf("#") != -1;
+	    		final boolean subSection = linkPair[1].indexOf("#") != -1;
 	    		
-	    		String[] tokenSplit = linkPair[0].toLowerCase().split(" ");
-	    		for (int i = 0; i < tokenSplit.length; i++) {
-	    			if (contains(stopWords, tokenSplit[i])) {
-	    				tokenSplit[i] = "";
-			    	}
-	    		}
-	    		
-				Properties props = new Properties();
-			    props.setProperty("annotators", "tokenize,ssplit,pos,lemma");
-			    StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
-			    CoreDocument document = pipeline.processToCoreDocument(String.join(" ", tokenSplit));
-			    
-			    for (CoreLabel token : document.tokens()) {
-		    		String currToken = token.lemma().toLowerCase();
-		    		
-		    		if (!contains(stopWords, currToken) && !tokens.contains(currToken)) tokens.add(currToken);
-			    }
+	    		//link stemming
+			    StringTokenizer  tokenizer = new StringTokenizer(linkPair[0].toLowerCase(), stemmerDelims);
+    		    PorterStemmer stemmer = new PorterStemmer();
+    		    
+    		    while (tokenizer.hasMoreElements()) {
+    		    	String token = tokenizer.nextToken().toLowerCase().strip();
+    		    	token = String.join(" ", token.split("\n"));
+    		    	
+    		    	stemmer.setCurrent(token);
+    		    	stemmer.stem();
+    		    	token = stemmer.getCurrent();
+    		    	
+    		    	if (!contains(stopWords, token) && !tokens.contains(token)) {
+    		    		tokens.add(token);
+    		    	}
+    		    }
 
 				//get lemmatized page contents of search URL
 		    	double startTimeSearch = System.nanoTime();
@@ -172,7 +175,7 @@ public class NaiveAlgorithm {
 		    	double endTimeSearch = System.nanoTime();
 				
 				//set up title token list
-	    		String stringTitle = searchPage.getTitle();
+	    		String stringTitle = searchPage.getTitle().toLowerCase();
 	    		if (subSection) {
 	    			String[] headingTokens = linkPair[1].split("#")[1].split("-");
 	    			
@@ -183,17 +186,53 @@ public class NaiveAlgorithm {
 	    				}
 	    				catch (Exception e) {}
 	    			}
-	    			
-	    			stringTitle = String.join(" ", headingTokens);
+
+					ArrayList<String> section;
+	    			if (searchPage.getPermaLinks().containsKey(linkPair[1].split("#")[1])) {
+	    				section = searchPage.getPermaLinkSection(linkPair[1].split("#")[1]);
+	    				stringTitle = "";
+	    				
+	    				if (debugPrint) System.out.println(section);
+	    				
+	    				int offset = 0;
+	    				for (int i = 0; i < headingTokens.length; i++) {
+	    					if (!contains(stopWords, headingTokens[i]) && !headingTokens[i].equals("")) {
+	    						stringTitle += String.join(" ", section.get(i-offset).split(" |\\.|-")) + " ";
+	    					}
+	    					else {
+	    						stringTitle += headingTokens[i] + " ";
+	    						offset--;
+	    					}
+	    				}
+	    			}
+	    			else {
+	    				stringTitle = String.join(" ", headingTokens);	   
+	    			}
 	    		}
 	    		
+	    		//title lemma
 	    		ArrayList<String> title = new ArrayList<String>();
-	    		document = pipeline.processToCoreDocument(stringTitle.toLowerCase());
-			    for (CoreLabel token : document.tokens()) {
-		    		String currToken = token.lemma().toLowerCase();
-			    	if (!contains(stopWords, currToken)) {
-			    		title.add(currToken);
-			    	}
+	    		tokenizer = new StringTokenizer(stringTitle.toLowerCase(), stemmerDelims);
+    		    stemmer = new PorterStemmer();
+    		    
+    		    while (tokenizer.hasMoreElements()) {
+    		    	String token = tokenizer.nextToken().toLowerCase().strip();
+    		    	token = String.join(" ", token.split("\n"));
+    		    	
+    		    	stemmer.setCurrent(token);
+    		    	stemmer.stem();
+    		    	token = stemmer.getCurrent();
+    		    	
+    		    	if (!contains(stopWords, token)) {
+    		    		title.add(token);
+    		    	}
+    		    }
+			    
+			    if (debugPrint) {
+			    	System.out.println(linkPair[0]);
+			    	System.out.println(tokens);
+			    	System.out.println(stringTitle);
+			    	System.out.println(title);
 			    }
 	    				
 				//Initialize ArrayList
@@ -223,7 +262,7 @@ public class NaiveAlgorithm {
 					}
 				}
 				else {
-					for (ArrayList<String> section : searchPage.getLemma()) {
+					for (ArrayList<String> section : searchPage.getStems()) {
 						for (String word : section) {
 				    		for (int tokenId = 0; tokenId < tokens.size(); tokenId++) {
 				    			if (tokens.get(tokenId).equals(word)) {
@@ -409,12 +448,13 @@ public class NaiveAlgorithm {
 					return finalScore;
 		    	}
 		    	else {
-		    		double contextScore = getMatch(new String[] {linkPair[2], linkPair[1], ""}, stem);
-	    			return contextScore;
+		    		if (!linkPair[2].equals("")) {
+			    		double contextScore = getMatch(new String[] {linkPair[2], linkPair[1], ""}, stem);
+		    			return contextScore;
+		    		}
 		    		
-//					if (!debugPrint) System.out.printf("%-46s| %-128s| %-12s| %-12s", linkPair[0], (stem + linkPair[1].substring(stem.length(), linkPair[1].length())), "N/A", "N/A");
-//		    		
-//		    		return 0;
+					if (!debugPrint) System.out.printf("%-72s| %-128s| %-12s| %-12s| %-22s", linkPair[0], (stem + linkPair[1].substring(stem.length(), linkPair[1].length())), "N/A", "N/A", "0");
+		    		return 0;
 		    	}
 	    	}
     	}
@@ -728,22 +768,23 @@ public class NaiveAlgorithm {
             	}
             }
             
-            //lemmatization
+            //stemming
             for (String section : sections) {
     	    	ArrayList<String> tokens = new ArrayList<String>();
-	    		
-    			Properties props = new Properties();
-    		    props.setProperty("annotators", "tokenize,ssplit,pos,lemma");
-    		    StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
-    		    CoreDocument document = pipeline.processToCoreDocument(section.toLowerCase());
+    	    	
+    		    StringTokenizer  tokenizer = new StringTokenizer(section.toLowerCase(), stemmerDelims);
+    		    PorterStemmer stemmer = new PorterStemmer();
     		    
-    		    for (CoreLabel token : document.tokens()) {
-    		    	if (token.originalText().equals("aliases")) {
-    		    		token.setLemma("alias");
-    		    	}
+    		    while (tokenizer.hasMoreElements()) {
+    		    	String token = tokenizer.nextToken().toLowerCase().strip();
+    		    	token = String.join(" ", token.split("\n"));
     		    	
-    		    	if (!contains(stopWords, token.lemma())) {
-    		    		tokens.add(token.lemma().toLowerCase());
+    		    	stemmer.setCurrent(token);
+    		    	stemmer.stem();
+    		    	token = stemmer.getCurrent();
+    		    	
+    		    	if (!contains(stopWords, token)) {
+    		    		tokens.add(token);
     		    	}
     		    }
 
