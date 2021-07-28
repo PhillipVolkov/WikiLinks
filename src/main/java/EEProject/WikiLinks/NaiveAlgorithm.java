@@ -1,76 +1,38 @@
 package EEProject.WikiLinks;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Scanner;
-import java.util.regex.Pattern;
 
 import org.tartarus.snowball.ext.PorterStemmer;
 
 
 public class NaiveAlgorithm {
-	static final String[] ignoreTokens = new String[] {"li", "ul", "div", "button"};
-	static final int largestLength = "button".length();
-	
-	static final String[] stopWords = new String[] {"a", "about", "above", "after", "again", "against", 
-			"all", "am", "an", "and", "any", "are", "aren't", "as", "at", "be", "because", "been", "before", 
-			"being", "below", "between", "both", "but", "by", "can't", "cannot", "could", "couldn't", "did", 
-			"didn't", "do", "does", "doesn't", "doing", "don't", "down", "during", "each", "few", "for", "from", 
-			"further", "had", "hadn't", "has", "hasn't", "have", "haven't", "having", "he", "he'd", "he'll", "he's", 
-			"her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", 
-			"i'm", "i've", "if", "in", "into", "is", "isn't", "it", "it's", "its", "itself", "let's", "me", "more", 
-			"most", "mustn't", "my", "myself", "no", "nor", "not", "of", "off", "on", "once", "only", "or", "other", 
-			"ought", "our", "ours ourselves", "out", "over", "own", "same", "shan't", "she", "she'd", "she'll", 
-			"she's", "should", "shouldn't", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", 
-			"them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", 
-			"this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "wasn't", "we", "we'd", 
-			"we'll", "we're", "we've", "were", "weren't", "what", "what's", "when", "when's", "where", "where's", "which", 
-			"while", "who", "who's", "whom", "why", "why's", "with", "won't", "would", "wouldn't", "you", "you'd", "you'll", 
-			"you're", "you've", "your", "yours", "yourself", "yourselves", ",", ".", "!", "?", "(", ")", "+", "-", "_", "/", ":",
-			"#", "’s", "'s", "<", ">", "--", "=", "\"", "", "#"};
-	
-	static final boolean testLinks = true;
-	static final boolean debugPrint = false;
-	static final double threshold = 15;
-	static final int maxTokenSeperation = 20;
-	static final int maxTokenQuantity = 3;
-	static final int wordCountMultiplier = 115;
-	static final int occurenceDifferencePenalty = 75;
-	static final double titleFactorWeight = 0.4;
-	
-	static final String stemmerDelims = " |\n|:|, |\\. |\\.\n|-";
-	
 	static Hashtable<String, Page> savedPages = new Hashtable<String, Page>();
 	
-	//TODO optimize
+	//TODO output JSON, read saved pages
     public static void main(String[] args) {
-    	String stem = "https://docs.gitlab.com";
-    	String page = "/ee/user/project/clusters/index.html";
     	
 
-		if (!debugPrint) {
+		if (!Constants.debugPrint) {
 			System.out.printf("%-72s| %-128s| %-12s| %-12s| %-22s| %-1s", "Tokens", "URL", "Parse Time", "Algo Time", "Score", "Match?");
 			System.out.println();
 		}
 		
-    	if (!testLinks) {
+    	if (!Constants.testLinks) {
 	    	double startTime1 = System.nanoTime();
-	        Page newPage = readGitLabPage(stem, page);
-	        savedPages.put(stem+page, newPage);
+	        Page newPage = new Page(Constants.stem, Constants.page);
+	        savedPages.put(Constants.stem+Constants.page, newPage);
 	        
 	    	double endTime1 = System.nanoTime();
 	    	
-			System.out.printf("%-72s| %-128s| %-12s| %-12s| %-22s| %-1s", "Initial Page", stem+page, ((endTime1-startTime1)/Math.pow(10, 9)), "N/A", "N/A", "N/A");
+			System.out.printf("%-72s| %-128s| %-12s| %-12s| %-22s| %-1s", "Initial Page", Constants.stem+Constants.page, ((endTime1-startTime1)/Math.pow(10, 9)), "N/A", "N/A", "N/A");
 			System.out.println();
 
 	    	double startTime2 = System.nanoTime();
 	        for (String[] linkPair : newPage.getLinks()) {
-	        	double match = getMatch(linkPair, stem);
-	        	if (match != -1 && !debugPrint) {
-	            	if (match >= threshold) System.out.printf("| true\n");
+	        	double match = getMatch(linkPair, Constants.stem);
+	        	if (match != -1 && !Constants.debugPrint) {
+	            	if (match >= Constants.threshold) System.out.printf("| true\n");
 	            	else System.out.printf("| false\n");
 	        	}
 	        }
@@ -117,10 +79,10 @@ public class NaiveAlgorithm {
 	    	
 	    	double startTime = System.nanoTime();
 	    	for (String[] linkPair : testLinks) {
-	        	double match = getMatch(linkPair, stem);
+	        	double match = getMatch(linkPair, Constants.stem);
 	        	
-	        	if (match != -1 && !debugPrint) {
-	            	if (match >= threshold) System.out.printf("| true\n");
+	        	if (match != -1 && !Constants.debugPrint) {
+	            	if (match >= Constants.threshold) System.out.printf("| true\n");
 	            	else System.out.printf("| false\n");
 	        	}
 	        }
@@ -140,7 +102,7 @@ public class NaiveAlgorithm {
 	    		final boolean subSection = linkPair[1].indexOf("#") != -1;
 	    		
 	    		//link stemming
-			    String[] tokenized = linkPair[0].toLowerCase().split(stemmerDelims);
+			    String[] tokenized = linkPair[0].toLowerCase().split(Constants.stemmerDelims);
     		    PorterStemmer stemmer = new PorterStemmer();
     		    
     		    for (String token : tokenized) {
@@ -151,7 +113,7 @@ public class NaiveAlgorithm {
     		    	stemmer.stem();
     		    	token = stemmer.getCurrent();
     		    	
-    		    	if (!contains(stopWords, token) && !tokens.contains(token)) {
+    		    	if (!Constants.contains(Constants.stopWords, token) && !tokens.contains(token)) {
     		    		tokens.add(token);
     		    	}
     		    }
@@ -166,7 +128,7 @@ public class NaiveAlgorithm {
 		    		searchPage = savedPages.get(searchUrl);
 		    	}
 		    	else {
-		    		searchPage = readGitLabPage(stem, linkPair[1].substring(stem.length(), linkPair[1].length()));
+		    		searchPage = new Page(stem, linkPair[1].substring(stem.length(), linkPair[1].length()));
 		    		savedPages.put(searchUrl, searchPage);
 		    	}
 		    	double endTimeSearch = System.nanoTime();
@@ -189,7 +151,7 @@ public class NaiveAlgorithm {
 	    				section = searchPage.getPermaLinkSection(linkPair[1].split("#")[1]);
 	    				stringTitle = "";
 	    				
-	    				if (debugPrint) System.out.println(section);
+	    				if (Constants.debugPrint) System.out.println(section);
 	    				
 	    				for (int i = 0; i < headingTokens.length; i++) {
 	    					if (section.get(i).contains(".")) {
@@ -203,7 +165,7 @@ public class NaiveAlgorithm {
 	    		
 	    		//title stems
 	    		ArrayList<String> title = new ArrayList<String>();
-	    		tokenized = stringTitle.toLowerCase().split(stemmerDelims);
+	    		tokenized = stringTitle.toLowerCase().split(Constants.stemmerDelims);
     		    stemmer = new PorterStemmer();
     		    
     		    for (String token : tokenized) {
@@ -214,13 +176,13 @@ public class NaiveAlgorithm {
     		    	stemmer.stem();
     		    	token = stemmer.getCurrent();
     		    	
-    		    	if (!contains(stopWords, token)) {
+    		    	if (!Constants.contains(Constants.stopWords, token)) {
     		    		title.add(token);
     		    	}
     		    }
     		    
     		    
-			    if (debugPrint) {
+			    if (Constants.debugPrint) {
 			    	System.out.println(linkPair[0]);
 			    	System.out.println(tokens);
 			    	System.out.println(stringTitle);
@@ -239,7 +201,7 @@ public class NaiveAlgorithm {
 					ArrayList<String> section;
 					if (searchPage.getPermaLinks().containsKey(linkPair[1].split("#")[1])) section = searchPage.getPermaLinkSection(linkPair[1].split("#")[1]);
 					else {
-						if (!debugPrint) System.out.printf("%-64s| %-128s| %-12s| %-12s", linkPair[0], (stem + linkPair[1].substring(stem.length(), linkPair[1].length())), 
+						if (!Constants.debugPrint) System.out.printf("%-64s| %-128s| %-12s| %-12s", linkPair[0], (stem + linkPair[1].substring(stem.length(), linkPair[1].length())), 
 								((endTimeSearch-startTimeSearch)/Math.pow(10, 9)), ((System.nanoTime()-startTime - (endTimeSearch-startTimeSearch))/Math.pow(10, 9)));
 						return 0;
 					}
@@ -326,7 +288,7 @@ public class NaiveAlgorithm {
 									int ind1Index = occurences.get(ind1).get(indexes[ind1]);
 									int ind2Index = occurences.get(ind2).get(indexes[ind2]);
 									
-									score += (maxTokenSeperation/Math.abs((double)ind1Index - ind2Index))/maxTokenSeperation;
+									score += (Constants.maxTokenSeperation/Math.abs((double)ind1Index - ind2Index))/Constants.maxTokenSeperation;
 									scoreCount++;
 					    		}
 							}
@@ -342,7 +304,7 @@ public class NaiveAlgorithm {
 						        			int ind1IndexAdd = occurences.get(ind1).get(indexes[ind1]+1);
 						    				int ind2Index = occurences.get(ind2).get(indexes[ind2]);
 						        			
-						    				averageAdd[ind1] += (maxTokenSeperation/Math.abs((double)ind1IndexAdd - ind2Index))/maxTokenSeperation;
+						    				averageAdd[ind1] += (Constants.maxTokenSeperation/Math.abs((double)ind1IndexAdd - ind2Index))/Constants.maxTokenSeperation;
 						    				count++;
 					    				}
 					    			}
@@ -402,20 +364,20 @@ public class NaiveAlgorithm {
 					}
 	
 					//factors impacting score
-					double tokenQuantityFactor = (((double)maxTokenQuantity-1)/-indexes.length + maxTokenQuantity)/maxTokenQuantity;
+					double tokenQuantityFactor = (((double)Constants.maxTokenQuantity-1)/-indexes.length + Constants.maxTokenQuantity)/Constants.maxTokenQuantity;
 					double tokenProximityFactor = (double)score/scoreCount;
-					double wordCountFactor = (-wordCountMultiplier/((double)wordCount+wordCountMultiplier)+1);
+					double wordCountFactor = (-Constants.wordCountMultiplier/((double)wordCount+Constants.wordCountMultiplier)+1);
 					double tokenWordCountFactor = (double)totalOccurences/wordCount*wordCountFactor;
 					double titleMatchFactor = (double)titleMatch/title.size();
-					double singleWordReliancePenalty = occurenceDifferencePenalty*(totalOccurences/(((double)maxOccurence-secondMaxOccurence)+occurenceDifferencePenalty))/totalOccurences;
+					double singleWordReliancePenalty = Constants.occurenceDifferencePenalty*(totalOccurences/(((double)maxOccurence-secondMaxOccurence)+Constants.occurenceDifferencePenalty))/totalOccurences;
 					
 					//balancing of token proximity weight
 					tokenProximityFactor *= 1-(1/(double)indexes.length);
 					tokenWordCountFactor *= 1/(double)indexes.length;
 					
-					double finalScore = ((tokenProximityFactor + tokenWordCountFactor)*(1-titleFactorWeight) + titleMatchFactor*titleFactorWeight) * singleWordReliancePenalty * 100;
+					double finalScore = ((tokenProximityFactor + tokenWordCountFactor)*(1-Constants.titleFactorWeight) + titleMatchFactor*Constants.titleFactorWeight) * singleWordReliancePenalty * 100;
 					
-					if ((finalScore < threshold || indexes.length == 1) && !linkPair[2].equals("")) {
+					if ((finalScore < Constants.threshold || indexes.length == 1) && !linkPair[2].equals("")) {
 						double contextScore = getMatch(new String[] {linkPair[2], linkPair[1], ""}, stem);
 						
 						if (contextScore > finalScore) {
@@ -426,13 +388,13 @@ public class NaiveAlgorithm {
 						}
 					}
 					
-					if (debugPrint) {
+					if (Constants.debugPrint) {
 						System.out.printf("| %-24s| %-24s| %-24s| %-24s| %-24s| %-24s|", tokenProximityFactor, tokenWordCountFactor, wordCount, titleMatchFactor, singleWordReliancePenalty, finalScore);
 						System.out.println();
 					}
 					
 					double endTime = System.nanoTime();
-					if (!debugPrint) {
+					if (!Constants.debugPrint) {
 						System.out.printf("%-72s| %-128s| %-12s| %-12s| %-22s", tokens, (stem + linkPair[1].substring(stem.length(), linkPair[1].length())), 
 								((endTimeSearch-startTimeSearch)/Math.pow(10, 9)), ((endTime-startTime - (endTimeSearch-startTimeSearch))/Math.pow(10, 9)), finalScore);
 					}
@@ -445,371 +407,12 @@ public class NaiveAlgorithm {
 		    			return contextScore;
 		    		}
 		    		
-					if (!debugPrint) System.out.printf("%-72s| %-128s| %-12s| %-12s| %-22s", linkPair[0], (stem + linkPair[1].substring(stem.length(), linkPair[1].length())), "N/A", "N/A", "0");
+					if (!Constants.debugPrint) System.out.printf("%-72s| %-128s| %-12s| %-12s| %-22s", linkPair[0], (stem + linkPair[1].substring(stem.length(), linkPair[1].length())), "N/A", "N/A", "0");
 		    		return 0;
 		    	}
 	    	}
     	}
     	
     	return -1;
-    }
-    
-    //parse the page into the object
-    public static Page readGitLabPage(String stem, String pages) {
-    	try {
-            URL url = new URL(stem + pages);
-            
-            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            
-            String title = "";
-            ArrayList<String> sections = new ArrayList<String>();
-            ArrayList<ArrayList<String>> stems = new ArrayList<ArrayList<String>>();
-            ArrayList<String[]> links = new ArrayList<String[]>();
-            Hashtable<String, Integer> permaLinks = new Hashtable<String, Integer>();
-            
-            String currLine = "";
-            String output = "";
-    		String linkContext = "";
-            boolean mainOpen = false;
-            boolean articleContent = false;
-            int divsOpen = 0;
-
-    		boolean addSection = false;
-    		ArrayList<Integer[]> noContext = new ArrayList<Integer[]>();
-    		
-            while ((currLine = reader.readLine()) != null) {
-            	currLine = currLine.toString();
-            	
-            	//closers
-            	if (currLine.equals("</main>")) {
-            		mainOpen = false;
-            	}
-            	else if (articleContent) {
-            		divsOpen -= countMatches(currLine, "</div");
-            		
-            		if (divsOpen == 0) {
-            			articleContent = false;
-            		}
-            	}
-            	
-            	//parsing
-            	if (mainOpen && articleContent) {
-            		boolean singleBracketOpen = false;
-            		int bracketPrevOpen = -2;
-            		int bracketPrevClosed = -2;
-            		int prevHeading = -2;
-            		int prevPeriod = -2;
-            		int prevL = -2;
-            		int prevU = -2;
-            		boolean linkBracketOpen = false;
-            		boolean linkUrlParse = false;
-            		boolean linkSentence = false;
-            		boolean endBracketOpen = false;
-            		boolean ignoreCurrChar = false;
-            		boolean ignoreBracketContents = false;
-            		boolean lineTitle = false;
-            		boolean escapeSequence = false;
-            		String newLine = "";
-            		String internalText = "";
-            		String linkURL = "";
-            		String linkText = "";
-            		String escapeCharacters = "";
-            		
-            		for (int i = 0; i < currLine.length(); i++) {
-            			//detect parses
-            			if (currLine.charAt(i) == '<') {
-            				singleBracketOpen = true;
-            				bracketPrevOpen = i;
-            				ignoreCurrChar = true;
-            			}
-            			else if (currLine.charAt(i) == '/' && bracketPrevOpen == i-1) {
-            				singleBracketOpen = false;
-            				bracketPrevClosed = i;
-            				endBracketOpen = true;
-            				ignoreCurrChar = true;
-            			}
-            			else if (currLine.charAt(i) == 'u' && (bracketPrevOpen == i-1 || bracketPrevClosed == i-1)) {
-            				prevU = i;
-            			}
-            			else if (currLine.charAt(i) == 'h' && (bracketPrevOpen == i-1 || bracketPrevClosed == i-1)) {
-            				prevHeading = i;
-            			}
-            			else if (prevHeading == i-1 && bracketPrevOpen == i-2) {
-            				if (currLine.charAt(i) == '1') {
-            					lineTitle = true;
-            				}
-            				
-            				if (addSection) {
-            					sections.add(output);
-            					addSection = false;
-            				}
-            				
-            				output = "";
-        					addSection = true;
-            			}
-            			else if (currLine.charAt(i) == 'a' && bracketPrevOpen == i-1) {
-            				singleBracketOpen = false;
-            				linkBracketOpen = true;
-            				linkUrlParse = true;
-            				ignoreCurrChar = true;
-            				linkSentence = true;
-            			}
-            			else if (currLine.charAt(i) == 'a' && bracketPrevClosed == i-1) {
-            				linkBracketOpen = false;
-            			}
-            			else if (currLine.charAt(i) == '>') {
-            				if (singleBracketOpen) singleBracketOpen = false;
-            				else if (linkUrlParse) linkUrlParse = false;
-            				else if (endBracketOpen) endBracketOpen = false;
-            				
-        					ignoreCurrChar = true;
-            			}
-            			else if (currLine.charAt(i) == '&') {
-            				escapeSequence = true;
-            				escapeCharacters = "";
-            			}
-            			else if (currLine.charAt(i) == ';' && escapeSequence) {
-            				escapeSequence = false;
-            				ignoreCurrChar = true;
-            			}
-            			
-            			//System.out.print(currLine.charAt(i) + " " + singleBracketOpen);
-            			
-            			//write currentChar
-            			if (!endBracketOpen && !ignoreCurrChar) {
-            				if (escapeSequence) escapeCharacters += currLine.charAt(i);
-            				
-            				else if (singleBracketOpen) internalText += currLine.charAt(i);
-            				
-            				else if (linkUrlParse) linkURL += currLine.charAt(i);
-            				
-            				else if (linkBracketOpen) linkText += currLine.charAt(i);
-            				
-            				else newLine += currLine.charAt(i);
-            			}
-            			
-            			//handle escape sequences
-            			if (!escapeCharacters.equals("") && !escapeSequence) {
-        					if (escapeCharacters.equals("&lt")) newLine += "<";
-        					else if (escapeCharacters.equals("&gt")) newLine += ">";
-        					else newLine += escapeCharacters + ";";
-        					
-        					escapeCharacters = "";
-            			}
-            			
-            			//handle internal text
-            			if (!internalText.equals("")) {
-            				if (internalText.length() <= largestLength) {
-            					if (contains(ignoreTokens, internalText)) {
-            						ignoreBracketContents = true;
-            					}
-            				}
-            				
-            				if (!singleBracketOpen) {
-	    						internalText = "";
-	    						ignoreBracketContents = false;
-            				}
-    					}
-            			
-            			//handle link text
-            			if (!linkURL.equals("")) {
-            				if (!linkBracketOpen) {
-            					Scanner scan = new Scanner(linkURL);
-            					boolean permaLink = false;
-            					String link = "";
-            					
-            					if (pages.contains("#")) pages = pages.split("#")[0];
-            					
-            					//find link
-            					while (scan.hasNext()) {
-            						String currStr = scan.next();
-            						
-            						String[] currTitle = currStr.split("title=");
-            						String[] href = currStr.split("href=");
-            						
-            						if (currTitle.length != 1) {
-            							if (currTitle[1].equals("Permalink")) {
-            								permaLink = true;
-            							}
-            						}
-            						if (href.length != 1) {
-            							link = href[1];
-            						}
-            					}
-            					
-            					//convert "../" into full link
-            					String[] splitLink = link.split(Pattern.quote("../"));
-            					int count = splitLink.length;
-            					
-            					if (count != 1) {
-	            					String[] pageSlashes = pages.split("/");
-	            					String fullLink = stem;
-	            					
-	            					for (int j = 0; j < pageSlashes.length-count; j++) {
-	            						if (j != 0) fullLink += "/" + pageSlashes[j];
-	            						else fullLink += pageSlashes[j];
-	            					}
-	            					
-	            					fullLink += "/" + splitLink[splitLink.length-1];
-	            					
-	            					link = fullLink;
-            					}
-            					else {
-            						if (link.length() > "https://".length()) {
-	                					if (!link.substring(0, "https://".length()).equals("https://") && !link.substring(0, "http://".length()).equals("http://")) {
-	                						if (link.charAt(0) == '#') {
-	                							link = stem + pages + link;
-	                						}
-	                						else {
-		                						String[] pageSlashes = pages.split("/");
-		    	            					String fullLink = stem;
-		    	            					
-		    	            					for (int j = 0; j < pageSlashes.length-1; j++) {
-		    	            						if (j != 0) fullLink += "/" + pageSlashes[j];
-		    	            						else fullLink += pageSlashes[j];
-		    	            					}
-		    	            					
-		    	            					fullLink += "/" + link;
-		    	            					
-		    	            					//System.out.println(link + "\t-->\t" + fullLink);
-		    	            					
-		    	            					link = fullLink;
-	                						}
-	                					}
-            						}
-            					}
-            					
-            					//append final text
-	            				if (!permaLink && !linkText.equals("")) {
-	            					newLine += linkText;
-		            				links.add(new String[] {linkText, link, ""});
-		            				
-		            				if (addSection) {
-		            					noContext.add(new Integer[] {sections.size(), output.length(), links.size()-1});
-		            				}
-	            				}
-	            				else if (permaLink) {
-	            					permaLinks.put(link.split("#")[1], sections.size());
-	            				}
-	            				
-	            				linkURL = "";
-	            				linkText = "";
-            				}
-            			}
-            			
-        				ignoreCurrChar = false;
-            		}
-        			
-            		//System.out.println(currLine + "|");
-            		if (!newLine.equals("")) {
-            			output += newLine + "\n";
-            		}
-            		
-            		if (lineTitle) title = newLine;
-            	}
-            	
-            	//openers
-            	if (currLine.equals("<main>")) {
-            		mainOpen = true;
-            	}
-            	else if (currLine.equals("<div class=\"article-content js-article-content\" role=main itemscope itemprop=mainContentOfPage>")) {
-            		articleContent = true;
-            		divsOpen = 1;
-            	}
-            	else if (articleContent) {
-            		divsOpen += countMatches(currLine, "<div");
-            	}
-            }
-            //add trailing section
-            if (addSection) {
-            	sections.add(output);
-            }
-            
-            reader.close();
-            
-            //context
-            for (int i = 0; i < noContext.size(); i++) {
-            	Integer[] loc = noContext.get(i);
-            	
-            	if (loc[0] != -1) {
-            		loc[1] = loc[1] + sections.get(loc[0]).substring(loc[1]).indexOf(links.get(loc[2])[0]);
-            		
-            		//find start
-            		int sentenceStart = sections.get(loc[0]).substring(0, loc[1]+1).lastIndexOf(".\n")+1;
-            		if (sentenceStart == 0) sentenceStart = sections.get(loc[0]).substring(0, loc[1]+1).lastIndexOf("\n")+1;
-            		
-            		int temp = sections.get(loc[0]).substring(0, loc[1]+1).lastIndexOf(". ")+1;
-            		if (temp > sentenceStart) sentenceStart = temp;
-            		
-            		//find end
-            		int sentenceEnd = loc[1] + sections.get(loc[0]).substring(loc[1]).indexOf(".\n");
-            		
-            		temp = loc[1] + sections.get(loc[0]).substring(loc[1]).indexOf(". ");
-            		if (temp < sentenceEnd && temp >= loc[1]) sentenceEnd = temp;
-            		
-            		
-            		String context = "";
-            		
-            		if (sentenceEnd >= loc[1]) context = sections.get(loc[0]).substring(sentenceStart, sentenceEnd);
-            		else context = sections.get(loc[0]).substring(sentenceStart);
-            		
-            		context = context.strip();
-            		context = String.join(" ", context.split("\n"));
-            		
-            		links.get(loc[2])[2] = context;
-            	}
-            }
-            
-            //stemming
-            for (String section : sections) {
-    	    	ArrayList<String> tokens = new ArrayList<String>();
-    	    	
-    		    PorterStemmer stemmer = new PorterStemmer();
-    		    
-    		    String[] tokenized = section.toLowerCase().split(stemmerDelims);
-    		    stemmer = new PorterStemmer();
-    		    
-    		    for (String token : tokenized) {
-    		    	token = token.toLowerCase().strip();
-    		    	token = String.join("", token.split("\n"));
-    		    	
-    		    	stemmer.setCurrent(token);
-    		    	stemmer.stem();
-    		    	token = stemmer.getCurrent();
-    		    	
-    		    	if (!contains(stopWords, token)) {
-    		    		tokens.add(token);
-    		    	}
-    		    }
-
-    		    
-    	    	stems.add(tokens);
-            }
-
-        	return new Page(title, sections, stems, links, permaLinks);
-        } 
-        catch (Exception e) {
-            System.out.println(e);
-        }
-    	
-    	return new Page("", new ArrayList<String>(), new ArrayList<ArrayList<String>>(), new ArrayList<String[]>(), new Hashtable<String, Integer>());
-    }
-    
-    public static int countMatches(String str, String pattern) {
-    	if (pattern.length() <= str.length()) {
-    		return str.split(pattern).length - 1;
-    	}
-    	
-    	return 0;
-    }
-    
-    public static boolean contains(String[] arr, String str) {
-    	for (int i = 0; i < arr.length; i++) {
-    		if (arr[i].equals(str)) {
-    			return true;
-    		}
-    	}
-    	
-    	return false;
     }
 }
