@@ -3,9 +3,53 @@ package EEProject.WikiLinks;
 import java.util.ArrayList;
 
 public class Main {
+	private static final String operation = "crawl";
+	private static final String crawlStartPage = "https://docs.gitlab.com/ee/";
+	
 	//TODO output JSON, read saved pages
     public static void main(String[] args) {
-		if (!Constants.debugPrint) {
+    	if (operation.toLowerCase().equals("crawl")) {
+//    		System.out.println(new Page(Constants.stem, "https://docs.gitlab.com/ee/user/infrastructure".substring(Constants.stem.length(), "https://docs.gitlab.com/ee/user/infrastructure".length())));
+    		
+    		System.out.printf("%-72s| %-128s| %-128s|", "Title", "URL", "SearchUrl");
+    		System.out.println();
+    		crawlPage(crawlStartPage);
+    	}
+    	else if (operation.toLowerCase().equals("test")) performTests();
+    }
+    
+    //recursion to crawl through all links starting with initial page
+    private static void crawlPage(String url) {
+    	String searchUrl = url.split("#")[0];
+    	
+    	Page searchPage;
+    	if (!Constants.getSavedPages().contains(searchUrl)) {
+    		searchPage = new Page(Constants.stem, url.substring(Constants.stem.length(), url.length()));
+	    	Constants.getSavedPages().put(searchUrl, searchPage);
+    	}
+    	else {
+    		searchPage = Constants.getSavedPages().get(searchUrl);
+    	}
+    	
+    	System.out.printf("%-72s| %-128s| %-128s|", searchPage.getTitle(), url, searchUrl);
+		System.out.println();
+	    
+    	if (!searchPage.getFailed()) {
+	    	for (String[] linkPair : searchPage.getLinks()) {
+				String linkSearchUrl = linkPair[1].split("#")[0];
+				
+				//check saved dictionary by url
+				if (linkPair[1].length() >= Constants.stem.length()) {
+			    	if (linkPair[1].substring(0, Constants.stem.length()).equals(Constants.stem) && !Constants.getSavedPages().containsKey(linkSearchUrl)) {
+			    		crawlPage(linkPair[1]);
+			    	}
+		    	}
+	    	}
+    	}
+    }
+    
+    private static void performTests() {
+    	if (!Constants.debugPrint) {
 			System.out.printf("%-72s| %-128s| %-12s| %-12s| %-22s| %-1s", "Tokens", "URL", "Parse Time", "Algo Time", "Score", "Match?");
 			System.out.println();
 		}

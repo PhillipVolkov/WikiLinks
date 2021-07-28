@@ -16,9 +16,14 @@ public class Page {
 	private ArrayList<ArrayList<String>> stems;
 	private ArrayList<String[]> links;
 	private Hashtable<String, Integer> permaLinks;
+	private boolean failed;
 	
 	public Page(String stem, String pages) {
 		readGitLabPage(stem, pages);
+	}
+	
+	public boolean getFailed() {
+		return this.failed;
 	}
 	
 	public String getTitle() {
@@ -103,6 +108,8 @@ public class Page {
 	
 	//parse the page into the object
     public void readGitLabPage(String stem, String pages) {
+    	this.failed = true;
+    	
     	try {
             URL url = new URL(stem + pages);
             
@@ -265,6 +272,8 @@ public class Page {
             					boolean permaLink = false;
             					String link = "";
             					
+            					boolean linkCreated = false;
+            					
             					if (pages.contains("#")) pages = pages.split("#")[0];
             					
             					//find link
@@ -284,15 +293,23 @@ public class Page {
             						}
             					}
             					
+            					if (link.charAt(0) == '"' && link.charAt(link.length()-1) == '"') {
+            						link = link.split("\"")[1];
+            					}
+            					
             					//convert "../" into full link
             					String[] splitLink = link.split(Pattern.quote("../"));
             					int count = splitLink.length;
+            					int offset = 0;
+            					
+            					String[] splitLinkSlash = pages.split(Pattern.quote("/"), -1);
+            					if (!splitLinkSlash[splitLinkSlash.length-1].contains(".")) offset = 1;
             					
             					if (count != 1) {
 	            					String[] pageSlashes = pages.split("/");
 	            					String fullLink = stem;
 	            					
-	            					for (int j = 0; j < pageSlashes.length-count; j++) {
+	            					for (int j = 0; j < pageSlashes.length-count+offset; j++) {
 	            						if (j != 0) fullLink += "/" + pageSlashes[j];
 	            						else fullLink += pageSlashes[j];
 	            					}
@@ -302,29 +319,34 @@ public class Page {
 	            					link = fullLink;
             					}
             					else {
+            						boolean canSearch = false;
+            						
             						if (link.length() > "https://".length()) {
-	                					if (!link.substring(0, "https://".length()).equals("https://") && !link.substring(0, "http://".length()).equals("http://")) {
-	                						if (link.charAt(0) == '#') {
-	                							link = stem + pages + link;
-	                						}
-	                						else {
-		                						String[] pageSlashes = pages.split("/");
-		    	            					String fullLink = stem;
-		    	            					
-		    	            					for (int j = 0; j < pageSlashes.length-1; j++) {
-		    	            						if (j != 0) fullLink += "/" + pageSlashes[j];
-		    	            						else fullLink += pageSlashes[j];
-		    	            					}
-		    	            					
-		    	            					fullLink += "/" + link;
-		    	            					
-		    	            					//System.out.println(link + "\t-->\t" + fullLink);
-		    	            					
-		    	            					link = fullLink;
-	                						}
-	                					}
+	                					if (!link.substring(0, "https://".length()).equals("https://") && !link.substring(0, "http://".length()).equals("http://") && !link.substring(0, "www.".length()).equals("www.")) canSearch = true;
+                					}
+            						else canSearch = true;
+            						 
+            						if (canSearch) {
+	            						if (link.charAt(0) == '#') {
+	            							link = stem + pages + link;
+	            						}
+	            						else {
+	                						String[] pageSlashes = pages.split("/");
+	    	            					String fullLink = stem;
+	    	            					
+	    	            					for (int j = 0; j < pageSlashes.length-1+offset; j++) {
+	    	            						if (j != 0) fullLink += "/" + pageSlashes[j];
+	    	            						else fullLink += pageSlashes[j];
+	    	            					}
+	    	            					
+	    	            					fullLink += "/" + link;
+	    	            					
+//		    	            				System.out.println(link + "\t-->\t" + fullLink);
+	    	            					
+	    	            					link = fullLink;
+	            						}
             						}
-            					}
+        						}
             					
             					//append final text
 	            				if (!permaLink && !linkText.equals("")) {
@@ -341,6 +363,18 @@ public class Page {
 	            				
 	            				linkURL = "";
 	            				linkText = "";
+	            				
+	            				linkCreated = true;
+            					
+//            					if (!linkCreated) {
+//            						if (!permaLink && !linkText.equals("")) {
+//		            					newLine += linkText;
+//            							links.add(new String[] {linkText, linkURL, ""});
+//            						}
+//            						else if (permaLink) {
+//		            					permaLinks.put(link.split("#")[1], sections.size());
+//		            				}
+//            					}
             				}
             			}
             			
@@ -356,7 +390,7 @@ public class Page {
             	}
             	
             	//openers
-            	if (currLine.equals("<main>")) {
+            	if (currLine.equals("<main>") || currLine.equals("<div class=\"main class pl-lg-4\">")) {
             		mainOpen = true;
             	}
             	else if (currLine.equals("<div class=\"article-content js-article-content\" role=main itemscope itemprop=mainContentOfPage>")) {
@@ -438,6 +472,8 @@ public class Page {
             this.stems = stems;
             this.links = links;
             this.permaLinks = permaLinks;
+            
+            this.failed = false;
         } 
         catch (Exception e) {
             System.out.println(e);
