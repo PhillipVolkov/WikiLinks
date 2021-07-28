@@ -1,5 +1,7 @@
 package EEProject.WikiLinks;
 
+import java.util.Hashtable;
+
 public class Constants {
 	static final String[] ignoreTokens = new String[] {"li", "ul", "div", "button"};
 	static final int largestLength = "button".length();
@@ -21,7 +23,7 @@ public class Constants {
 			"you're", "you've", "your", "yours", "yourself", "yourselves", ",", ".", "!", "?", "(", ")", "+", "-", "_", "/", ":",
 			"#", "’s", "'s", "<", ">", "--", "=", "\"", "", "#"};
 	
-	static final boolean testLinks = false;
+	static final boolean testLinks = true;
 	static final boolean debugPrint = false;
 	static final double threshold = 15;
 	static final int maxTokenSeperation = 20;
@@ -31,10 +33,19 @@ public class Constants {
 	static final double titleFactorWeight = 0.4;
 	
 	static final String stemmerDelims = " |\n|:|, |\\. |\\.\n|-";
-	
 
 	static final String stem = "https://docs.gitlab.com";
 	static final String page = "/ee/user/project/clusters/index.html";
+	
+	private static Hashtable<String, Page> savedPages = new Hashtable<String, Page>();
+	
+	public static Hashtable<String, Page> getSavedPages() {
+		return savedPages;
+	}
+	
+	public static void putSavedPage(String link, Page page) {
+		savedPages.put(link, page);
+	}
 	
 	public static int countMatches(String str, String pattern) {
     	if (pattern.length() <= str.length()) {
