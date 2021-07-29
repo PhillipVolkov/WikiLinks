@@ -1,10 +1,16 @@
 package EEProject.WikiLinks;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 public class Main {
 	private static final String operation = "crawl";
-	private static final String crawlStartPage = "https://docs.gitlab.com/ee/";
+	private static final String[] crawlStartPage = new String[] {"Gitlab Docs", "https://docs.gitlab.com/ee/", ""};
 	
 	//TODO output JSON, read saved pages
     public static void main(String[] args) {
@@ -15,34 +21,87 @@ public class Main {
     		System.out.printf("%-72s| %-128s| %-128s|", "Title", "URL", "SearchUrl");
     		System.out.println();
     		crawlPage(crawlStartPage);
+//    		Page searchPage = new Page(Constants.stem, crawlStartPage.substring(Constants.stem.length(), crawlStartPage.length()));
+//	    	Constants.getSavedPages().put(crawlStartPage, searchPage);
+//	    	
+//	    	String[] linkPair = new String[] {"Gitlab Docs", crawlStartPage, ""};
+//	    	if (!Constants.getSavedLinks().contains(linkPair)) {
+//    			Constants.addSavedLink(linkPair);
+    		}
+	    	
+    		JSONObject savedPagesJSON = new JSONObject();
+    	    JSONArray pages = new JSONArray();
+    	    
+    	    for (String[] searchLinkPair : Constants.getSavedLinks()) {
+        	    JSONArray links = new JSONArray();
+        	    links.add(searchLinkPair[1]);
+        	    links.add(searchLinkPair[2]);
+        	    
+    	    	savedPagesJSON.put(searchLinkPair[0] + ": ", links);
+    	    }
+    	    
+//    		for (String key : Constants.getSavedPages().keySet()) {
+//        	    JSONArray page = new JSONArray();
+//        	    Page currPage = Constants.getSavedPages().get(key);
+//        	    
+//        	    page.add(currPage.getTitle());
+//        	    page.add(currPage.getSections());
+//        	    page.add(currPage.getStems());
+//        	    
+//        	    for (String[] searchLinkPair : currPage.getLinks()) {
+//            	    JSONArray links = new JSONArray();
+//            	    links.add(searchLinkPair[0]);
+//            	    links.add(searchLinkPair[1]);
+//            	    links.add(searchLinkPair[2]);
+//            	    page.add(links);
+//        	    }
+//        	    
+//        	    
+//        	    page.add(currPage.getPermaLinks());
+//        	    page.add(currPage.getFailed());
+//        	    
+//        	    pages.add(page);
+//    		}
+//
+//    	    savedPagesJSON.put("Saved Pages:", pages);
+    	    
+    	    try {
+				Files.write(Paths.get("savedPages.json"), savedPagesJSON.toJSONString().getBytes());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
     	}
     	else if (operation.toLowerCase().equals("test")) performTests();
     }
     
     //recursion to crawl through all links starting with initial page
-    private static void crawlPage(String url) {
-    	String searchUrl = url.split("#")[0];
+    private static void crawlPage(String[] linkPair) {
+    	String searchUrl = linkPair[1].split("#")[0];
     	
     	Page searchPage;
     	if (!Constants.getSavedPages().contains(searchUrl)) {
-    		searchPage = new Page(Constants.stem, url.substring(Constants.stem.length(), url.length()));
+    		searchPage = new Page(Constants.stem, linkPair[1].substring(Constants.stem.length(), linkPair[1].length()));
 	    	Constants.getSavedPages().put(searchUrl, searchPage);
     	}
     	else {
     		searchPage = Constants.getSavedPages().get(searchUrl);
     	}
     	
-    	System.out.printf("%-72s| %-128s| %-128s|", searchPage.getTitle(), url, searchUrl);
+    	System.out.printf("%-72s| %-128s| %-128s|", searchPage.getTitle(), linkPair[1], searchUrl);
 		System.out.println();
 	    
     	if (!searchPage.getFailed()) {
-	    	for (String[] linkPair : searchPage.getLinks()) {
+    		if (!Constants.getSavedLinks().contains(linkPair)) {
+    			Constants.addSavedLink(linkPair);
+    		}
+    		
+	    	for (String[] searchLinkPair : searchPage.getLinks()) {
 				String linkSearchUrl = linkPair[1].split("#")[0];
 				
 				//check saved dictionary by url
-				if (linkPair[1].length() >= Constants.stem.length()) {
-			    	if (linkPair[1].substring(0, Constants.stem.length()).equals(Constants.stem) && !Constants.getSavedPages().containsKey(linkSearchUrl)) {
-			    		crawlPage(linkPair[1]);
+				if (searchLinkPair[1].length() >= Constants.stem.length()) {
+			    	if (searchLinkPair[1].substring(0, Constants.stem.length()).equals(Constants.stem) && !Constants.getSavedPages().containsKey(linkSearchUrl)) {
+			    		crawlPage(searchLinkPair);
 			    	}
 		    	}
 	    	}

@@ -1,5 +1,6 @@
 package EEProject.WikiLinks;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class Constants {
@@ -38,6 +39,7 @@ public class Constants {
 	static final String page = "/ee/user/project/clusters/index.html";
 	
 	private static Hashtable<String, Page> savedPages = new Hashtable<String, Page>();
+	private static ArrayList<String[]> savedLinks = new ArrayList<String[]>();
 	
 	public static Hashtable<String, Page> getSavedPages() {
 		return savedPages;
@@ -45,6 +47,14 @@ public class Constants {
 	
 	public static void putSavedPage(String link, Page page) {
 		savedPages.put(link, page);
+	}
+	
+	public static ArrayList<String[]> getSavedLinks() {
+		return savedLinks;
+	}
+	
+	public static void addSavedLink(String[] link) {
+		savedLinks.add(link);
 	}
 	
 	public static int countMatches(String str, String pattern) {
