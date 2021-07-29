@@ -9,8 +9,9 @@ public class Main {
 	//TODO output JSON, read saved pages
     public static void main(String[] args) {
     	if (operation.toLowerCase().equals("crawl")) {
-//    		System.out.println(new Page(Constants.stem, "https://docs.gitlab.com/ee/user/infrastructure".substring(Constants.stem.length(), "https://docs.gitlab.com/ee/user/infrastructure".length())));
-    		
+//    		System.out.println(new Page(Constants.stem, "https://docs.gitlab.com/13.12/ee/user/project/deploy_boards.html"
+//    				.substring(Constants.stem.length(), "https://docs.gitlab.com/13.12/ee/user/project/deploy_boards.html".length())));
+//    		
     		System.out.printf("%-72s| %-128s| %-128s|", "Title", "URL", "SearchUrl");
     		System.out.println();
     		crawlPage(crawlStartPage);

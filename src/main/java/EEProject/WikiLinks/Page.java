@@ -1,7 +1,9 @@
 package EEProject.WikiLinks;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -148,6 +150,7 @@ public class Page {
             	
             	//parsing
             	if (mainOpen && articleContent) {
+            		
             		boolean singleBracketOpen = false;
             		int bracketPrevOpen = -2;
             		int bracketPrevClosed = -2;
@@ -293,88 +296,93 @@ public class Page {
             						}
             					}
             					
-            					if (link.charAt(0) == '"' && link.charAt(link.length()-1) == '"') {
-            						link = link.split("\"")[1];
-            					}
-            					
-            					//convert "../" into full link
-            					String[] splitLink = link.split(Pattern.quote("../"));
-            					int count = splitLink.length;
-            					int offset = 0;
-            					
-            					String[] splitLinkSlash = pages.split(Pattern.quote("/"), -1);
-            					if (!splitLinkSlash[splitLinkSlash.length-1].contains(".")) offset = 1;
-            					
-            					if (count != 1) {
-	            					String[] pageSlashes = pages.split("/");
-	            					String fullLink = stem;
-	            					
-	            					for (int j = 0; j < pageSlashes.length-count+offset; j++) {
-	            						if (j != 0) fullLink += "/" + pageSlashes[j];
-	            						else fullLink += pageSlashes[j];
+            					if (link.length() != 0 && !link.contains("#fnref:")) {
+	            					if (link.charAt(0) == '"' && link.charAt(link.length()-1) == '"') {
+	            						link = link.split("\"")[1];
 	            					}
-	            					
-	            					fullLink += "/" + splitLink[splitLink.length-1];
-	            					
-	            					link = fullLink;
-            					}
-            					else {
-            						boolean canSearch = false;
-            						
-            						if (link.length() > "https://".length()) {
-	                					if (!link.substring(0, "https://".length()).equals("https://") && !link.substring(0, "http://".length()).equals("http://") && !link.substring(0, "www.".length()).equals("www.")) canSearch = true;
-                					}
-            						else canSearch = true;
-            						 
-            						if (canSearch) {
-	            						if (link.charAt(0) == '#') {
-	            							link = stem + pages + link;
-	            						}
-	            						else {
-	                						String[] pageSlashes = pages.split("/");
-	    	            					String fullLink = stem;
-	    	            					
-	    	            					for (int j = 0; j < pageSlashes.length-1+offset; j++) {
-	    	            						if (j != 0) fullLink += "/" + pageSlashes[j];
-	    	            						else fullLink += pageSlashes[j];
-	    	            					}
-	    	            					
-	    	            					fullLink += "/" + link;
-	    	            					
-//		    	            				System.out.println(link + "\t-->\t" + fullLink);
-	    	            					
-	    	            					link = fullLink;
-	            						}
-            						}
-        						}
             					
-            					//append final text
-	            				if (!permaLink && !linkText.equals("")) {
-	            					newLine += linkText;
-		            				links.add(new String[] {linkText, link, ""});
-		            				
-		            				if (addSection) {
-		            					noContext.add(new Integer[] {sections.size(), output.length(), links.size()-1});
+	            					//convert "../" into full link
+	            					String[] splitLink = link.split(Pattern.quote("../"));
+	            					int count = splitLink.length;
+	            					int offset = 0;
+	            					
+	            					String[] splitLinkSlash = pages.split(Pattern.quote("/"), -1);
+	            					if (!splitLinkSlash[splitLinkSlash.length-1].contains(".")) offset = 1;
+	            					
+	            					if (count != 1) {
+		            					String[] pageSlashes = pages.split("/");
+		            					String fullLink = stem;
+		            					
+		            					for (int j = 0; j < pageSlashes.length-count+offset; j++) {
+		            						if (j != 0) fullLink += "/" + pageSlashes[j];
+		            						else fullLink += pageSlashes[j];
+		            					}
+		            					
+		            					fullLink += "/" + splitLink[splitLink.length-1];
+		            					
+		            					link = fullLink;
+	            					}
+	            					else {
+	            						boolean canSearch = false;
+	            						
+	            						if (link.length() > "https://".length()) {
+		                					if (!link.substring(0, "https://".length()).equals("https://") && !link.substring(0, "http://".length()).equals("http://") && !link.substring(0, "www.".length()).equals("www.")) canSearch = true;
+	                					}
+	            						else canSearch = true;
+	            						 
+	            						if (canSearch) {
+		            						if (link.charAt(0) == '#') {
+		            							link = stem + pages + link;
+		            						}
+		            						else if (link.charAt(0) == '/') {
+		    	            					link = stem + link;
+		            						}
+		            						else {
+		                						String[] pageSlashes = pages.split("/");
+		    	            					String fullLink = stem;
+		    	            					
+		    	            					for (int j = 0; j < pageSlashes.length-1+offset; j++) {
+		    	            						if (j != 0) fullLink += "/" + pageSlashes[j];
+		    	            						else fullLink += pageSlashes[j];
+		    	            					}
+		    	            					
+		    	            					fullLink += "/" + link;
+		    	            					
+//			    	            				System.out.println(link + "\t-->\t" + fullLink);
+		    	            					
+		    	            					link = fullLink;
+		            						}
+	            						}
+	        						}
+	            					
+	            					//append final text
+		            				if (!permaLink && !linkText.equals("")) {
+		            					newLine += linkText;
+			            				links.add(new String[] {linkText, link, ""});
+			            				
+			            				if (addSection) {
+			            					noContext.add(new Integer[] {sections.size(), output.length(), links.size()-1});
+			            				}
 		            				}
-	            				}
-	            				else if (permaLink) {
-	            					permaLinks.put(link.split("#")[1], sections.size());
-	            				}
-	            				
-	            				linkURL = "";
-	            				linkText = "";
-	            				
-	            				linkCreated = true;
-            					
-//            					if (!linkCreated) {
-//            						if (!permaLink && !linkText.equals("")) {
-//		            					newLine += linkText;
-//            							links.add(new String[] {linkText, linkURL, ""});
-//            						}
-//            						else if (permaLink) {
-//		            					permaLinks.put(link.split("#")[1], sections.size());
-//		            				}
-//            					}
+		            				else if (permaLink) {
+		            					permaLinks.put(link.split("#")[1], sections.size());
+		            				}
+		            				
+		            				linkURL = "";
+		            				linkText = "";
+		            				
+		            				linkCreated = true;
+	            					
+	//            					if (!linkCreated) {
+	//            						if (!permaLink && !linkText.equals("")) {
+	//		            					newLine += linkText;
+	//            							links.add(new String[] {linkText, linkURL, ""});
+	//            						}
+	//            						else if (permaLink) {
+	//		            					permaLinks.put(link.split("#")[1], sections.size());
+	//		            				}
+	//            					}
+            					}
             				}
             			}
             			
@@ -475,8 +483,8 @@ public class Page {
             
             this.failed = false;
         } 
-        catch (Exception e) {
-            System.out.println(e);
+        catch (IOException e) {
+            System.out.println(e.getStackTrace());
         }
     }
 }
