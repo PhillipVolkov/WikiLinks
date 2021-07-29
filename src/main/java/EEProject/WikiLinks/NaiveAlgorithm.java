@@ -67,6 +67,10 @@ public class NaiveAlgorithm {
 	    				if (Constants.debugPrint) System.out.println(section);
 	    				
 	    				for (int i = 0; i < headingTokens.length; i++) {
+	    					if (i == section.size()-1) {
+	    						break;
+	    					}
+	    					
 	    					if (section.get(i).contains(".")) {
 	    						headingTokens[i] = section.get(i);
 	    					}
