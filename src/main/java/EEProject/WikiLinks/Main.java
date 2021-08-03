@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -13,9 +14,10 @@ import org.json.simple.parser.ParseException;
 
 public class Main {
 	private static final boolean testLinks = true;
-	private static final String operation = "match";
+	private static final String operation = "create";
 	private static final String[] crawlStartPage = new String[] {"Gitlab Docs", "https://docs.gitlab.com/ee/", ""};
-	private static final String jsonName = "trainingSet.json";
+	private static final String jsonName = "trainingSetLinks.json";
+	private static final String trainingDataName = "trainingSet.json";
 	
 	private static int counter = 0;
 	private static final int maxCount = 100;
@@ -28,7 +30,6 @@ public class Main {
     		crawlPage(crawlStartPage);
 	    	
     		JSONObject savedPagesJSON = new JSONObject();
-    	    JSONArray pages = new JSONArray();
     	    
     	    int count = 0;
     	    for (String[] searchLinkPair : Constants.getSavedLinks()) {
@@ -51,6 +52,7 @@ public class Main {
     	}
     	else if (operation.toLowerCase().equals("test")) performTests();
     	else if (operation.toLowerCase().equals("match")) matchTests();
+    	else if (operation.toLowerCase().equals("create")) createDataSet();
     }
     
     //recursion to crawl through all links starting with initial page
@@ -90,6 +92,60 @@ public class Main {
 		    	}
 	    	}
     	}
+    }
+    
+    
+    private static void createDataSet() {
+    	ArrayList<String[]> testLinks = new ArrayList<String[]>();
+    	ArrayList<Boolean> testLinksCheck = new ArrayList<Boolean>();
+    	
+		try {
+			FileReader reader = new FileReader(jsonName);
+	        JSONParser jsonParser = new JSONParser();
+			
+	        JSONObject obj = ((JSONObject)jsonParser.parse(reader));
+	        
+			for (int i = 0; i < obj.size(); i++) {
+				JSONArray arr = (JSONArray)obj.get(i+"");
+				
+				testLinks.add(new String[] {(String)arr.get(0), (String)arr.get(1), (String)arr.get(2)});
+				testLinksCheck.add((Boolean)arr.get(3));
+			}
+		} catch (IOException | ParseException e1) {
+			e1.printStackTrace();
+		}
+		
+    	ArrayList<Double[]> scores = new ArrayList<Double[]>();
+    	
+    	JSONObject trainingDataJSON = new JSONObject();
+    	
+    	int i = 0;
+        for (String[] linkPair : testLinks) {
+        	NaiveAlgorithm naive = new NaiveAlgorithm(linkPair, Constants.stem);
+        	naive.calculateMatch();
+        	
+        	Double[] score = new Double[] {naive.getProximityFactor(), naive.getWordCountNoCurve(), naive.getTitleMatch(), 0.0};
+        	
+        	if (testLinksCheck.get(i) == true) score[3] = 1.0;
+        	
+        	scores.add(score);
+        	
+        	JSONArray scoresJSON = new JSONArray();
+        	scoresJSON.add(score[0]);
+    	    scoresJSON.add(score[1]);
+    	    scoresJSON.add(score[2]);
+    	    scoresJSON.add(score[3]);
+    	    
+    	    trainingDataJSON.put(i, scoresJSON);
+        	
+        	i++;
+        }
+	    
+	    try {
+			Files.write(Paths.get(trainingDataName), trainingDataJSON.toJSONString().getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
     
     private static void matchTests() {

@@ -48,6 +48,18 @@ public class NaiveAlgorithm {
 		return finalScore;
 	}
 	
+	public double getProximityFactor() {
+		return tokenProximityFactor;
+	}
+	
+	public double getWordCountNoCurve() {
+		return (double)occurences.size()/wordCount;
+	}
+	
+	public double getTitleMatch() {
+		return titleMatchFactor;
+	}
+	
     public void calculateMatch() {
     	//tokenize the search phrase
     	if (this.valid) {
@@ -76,8 +88,8 @@ public class NaiveAlgorithm {
 //					}
 					
 					if (Constants.debugPrint) {
-						System.out.printf("| %-24s| %-24s| %-24s| %-24s| %-24s| %-24s|", tokenProximityFactor, tokenWordCountFactor, wordCount, titleMatchFactor, singleWordReliancePenalty, finalScore);
-						System.out.println();
+//						System.out.printf("| %-24s| %-24s| %-24s| %-24s| %-24s| %-24s|", tokenProximityFactor, tokenWordCountFactor, wordCount, titleMatchFactor, singleWordReliancePenalty, finalScore);
+//						System.out.println();
 					}
 					
 					double endTime = System.nanoTime();
@@ -148,7 +160,7 @@ public class NaiveAlgorithm {
 				section = this.searchPage.getPermaLinkSection(linkPair[1].split("#")[1]);
 				stringTitle = "";
 				
-				if (Constants.debugPrint) System.out.println(section);
+//				if (Constants.debugPrint) System.out.println(section);
 				
 				for (int i = 0; i < headingTokens.length; i++) {
 					if (i == section.size()-1) {
@@ -182,12 +194,12 @@ public class NaiveAlgorithm {
 	    }
 	    
 	    
-	    if (Constants.debugPrint) {
-	    	System.out.println(linkPair[0]);
-	    	System.out.println(tokens);
-	    	System.out.println(stringTitle);
-	    	System.out.println(title);
-	    }
+//	    if (Constants.debugPrint) {
+//	    	System.out.println(linkPair[0]);
+//	    	System.out.println(tokens);
+//	    	System.out.println(stringTitle);
+//	    	System.out.println(title);
+//	    }
 	}
     
     private void findOccurences() {
