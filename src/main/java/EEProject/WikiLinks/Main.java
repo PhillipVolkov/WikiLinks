@@ -15,12 +15,12 @@ public class Main {
 	private static final boolean testLinks = true;
 	private static final String operation = "match";
 	private static final String[] crawlStartPage = new String[] {"Gitlab Docs", "https://docs.gitlab.com/ee/", ""};
-	private static final String jsonName = "savedPages.json";
+	private static final String jsonName = "trainingSet.json";
 	
 	private static int counter = 0;
-	private static final int maxCount = 1000;
+	private static final int maxCount = 100;
 	
-	//TODO create false links
+	//TODO create false links, improve context?
     public static void main(String[] args) {
     	if (operation.toLowerCase().equals("crawl")) {
     		System.out.printf("%-6d| %-72s| %-128s| %-128s|", 0, "Title", "URL", "SearchUrl");
@@ -216,7 +216,10 @@ public class Main {
     	double startTime = System.nanoTime();
     	int i = 0;
         for (String[] linkPair : links) {
-        	double match = NaiveAlgorithm.getMatch(linkPair, Constants.stem);
+        	NaiveAlgorithm naive = new NaiveAlgorithm(linkPair, Constants.stem);
+        	naive.calculateMatch();
+        	
+        	double match = naive.getFinalScore();
         	if (match != -1 && !Constants.debugPrint) {
             	if (match >= Constants.threshold) System.out.printf("| true\n");
             	else System.out.printf("| false\n");
