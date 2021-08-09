@@ -24,7 +24,7 @@ public class Constants {
 			"you're", "you've", "your", "yours", "yourself", "yourselves", ",", ".", "!", "?", "(", ")", "+", "-", "_", "/", ":",
 			"#", "’s", "'s", "<", ">", "--", "=", "\"", "", "#"};
 	
-	static final boolean debugPrint = true;
+	static final boolean debugPrint = false;
 	static final double threshold = 15;
 	static final int maxTokenSeperation = 20;
 	static final int maxTokenQuantity = 3;

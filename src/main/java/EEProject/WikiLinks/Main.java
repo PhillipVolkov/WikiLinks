@@ -1,7 +1,9 @@
 package EEProject.WikiLinks;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -12,15 +14,16 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+//fix proximity indicator
 public class Main {
 	private static final boolean testLinks = true;
 	private static final String operation = "create";
 	private static final String[] crawlStartPage = new String[] {"Gitlab Docs", "https://docs.gitlab.com/ee/", ""};
 	private static final String jsonName = "trainingSetLinks.json";
-	private static final String trainingDataName = "trainingSet.json";
+	private static final String trainingDataName = "trainingSet.csv";
 	
 	private static int counter = 0;
-	private static final int maxCount = 100;
+	private static final int maxCount = 200;
 	
 	//TODO create false links, improve context?
     public static void main(String[] args) {
@@ -94,7 +97,6 @@ public class Main {
     	}
     }
     
-    
     private static void createDataSet() {
     	ArrayList<String[]> testLinks = new ArrayList<String[]>();
     	ArrayList<Boolean> testLinksCheck = new ArrayList<Boolean>();
@@ -114,37 +116,38 @@ public class Main {
 		} catch (IOException | ParseException e1) {
 			e1.printStackTrace();
 		}
-		
-    	ArrayList<Double[]> scores = new ArrayList<Double[]>();
     	
-    	JSONObject trainingDataJSON = new JSONObject();
-    	
-    	int i = 0;
-        for (String[] linkPair : testLinks) {
-        	NaiveAlgorithm naive = new NaiveAlgorithm(linkPair, Constants.stem);
-        	naive.calculateMatch();
-        	
-        	Double[] score = new Double[] {naive.getProximityFactor(), naive.getWordCountNoCurve(), naive.getTitleMatch(), 0.0};
-        	
-        	if (testLinksCheck.get(i) == true) score[3] = 1.0;
-        	
-        	scores.add(score);
-        	
-        	JSONArray scoresJSON = new JSONArray();
-        	scoresJSON.add(score[0]);
-    	    scoresJSON.add(score[1]);
-    	    scoresJSON.add(score[2]);
-    	    scoresJSON.add(score[3]);
-    	    
-    	    trainingDataJSON.put(i, scoresJSON);
-        	
-        	i++;
-        }
-	    
-	    try {
-			Files.write(Paths.get(trainingDataName), trainingDataJSON.toJSONString().getBytes());
-		} catch (IOException e) {
-			e.printStackTrace();
+    	try {
+    		FileWriter writer = new FileWriter(trainingDataName);
+    		writer.append("Proximity,");
+    		writer.append("WordCount,");
+    		writer.append("TitleMatch,");
+    		writer.append("Reliance,");
+    		writer.append("Score,");
+    		writer.append("Match\n");
+			
+			int i = 0;
+	        for (String[] linkPair : testLinks) {
+	        	NaiveAlgorithm naive = new NaiveAlgorithm(linkPair, Constants.stem);
+	        	naive.calculateMatch();
+	        	
+	        	if (naive.getValid()) {
+	        		writer.append(naive.getProximityFactorNoCurve() + ",");
+	        		writer.append(naive.getWordCountNoCurve() + ",");
+	        		writer.append(naive.getTitleMatch() + ",");
+	        		writer.append(naive.getSingleWordReliance() + ",");
+	        		writer.append(naive.getFinalScore() + ",");
+	        		writer.append(testLinksCheck.get(i) + "\n");
+	        	}
+		        	
+	        	System.out.println();
+		        i++;
+	        }
+	        writer.flush();
+	        writer.close();
+	        
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
     }
     

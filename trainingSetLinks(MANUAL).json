@@ -1,0 +1,608 @@
+{
+  "0": [
+    "Gitlab Docs",
+    "https://docs.gitlab.com/ee/",
+    "",
+    true
+  ],
+  "1": [
+    "User documentation",
+    "https://docs.gitlab.com/ee/user/index.html",
+    "Essential documentation Essential documentation User documentationDiscover features and concepts for GitLab users",
+    true
+  ],
+  "2": [
+    "GitLab administrator",
+    "https://docs.gitlab.com/ee/administration/index.html",
+    "includes, except GitLab administrator settings, unless you have admin privileges to install, configure, and upgrade your GitLab instance",
+    true
+  ],
+  "3": [
+    "Install",
+    "https://docs.gitlab.com/ee/install/index.html",
+    "Install: Requirements, directory structures, and installation methods",
+    true
+  ],
+  "4": [
+    "system requirements",
+    "https://docs.gitlab.com/ee/install/requirements.html",
+    "Before you install GitLab, be sure to review the system requirements",
+    true
+  ],
+  "5": [
+    "installation from source guide",
+    "https://docs.gitlab.com/ee/install/installation.html",
+    "Please see the installation from source guide and the installation guides for more information",
+    true
+  ],
+  "6": [
+    "letting the Sidekiq terminate gracefully",
+    "https://docs.gitlab.com/ee/administration/operations/sidekiq_memory_killer.html",
+    "Omnibus packages solve this by letting the Sidekiq terminate gracefully if it uses too much memory",
+    true
+  ],
+  "7": [
+    "Keep a backup",
+    "https://docs.gitlab.com/ee/raketasks/backup_restore.html",
+    "Keep a backup",
+    true
+  ],
+  "8": [
+    "object storage",
+    "https://docs.gitlab.com/ee/administration/object_storage.html",
+    "If you’re using object storage, be sure to enable backups with your object storage provider, if desired",
+    true
+  ],
+  "9": [
+    "MinIO",
+    "https://docs.gitlab.com/charts/advanced/external-object-storage/minio.html",
+    "We have a guide to deploying this within our Helm Chart documentation",
+    true
+  ],
+  "10": [
+    "direct upload mode",
+    "https://docs.gitlab.com/ee/development/uploads.html#direct-upload",
+    "Because direct upload mode must be enabled, only the following providers can be used: Amazon S3-compatible providers Google Cloud Storage Azure Blob storage When consolidated object storage is used, direct upload is enabled automatically",
+    true
+  ],
+  "11": [
+    "File Storage in GitLab",
+    "https://docs.gitlab.com/ee/development/file_storage.html",
+    "Additional information can be found on File Storage in GitLab",
+    true
+  ],
+  "12": [
+    "Hashed Storage",
+    "https://docs.gitlab.com/ee/administration/repository_storage_types.html",
+    "In the case of Issues/MR/Notes Markdown attachments, there is a different approach using the Hashed Storage layout, instead of basing the path into a mutable variable :project_path_with_namespace, it’s possible to use the hash of the project ID instead, if project migrates to the new approach (introduced in 10.2)",
+    true
+  ],
+  "13": [
+    "Gitaly",
+    "https://docs.gitlab.com/ee/administration/gitaly/index.html",
+    "Accessed via Gitaly, optionally on its own server",
+    true
+  ],
+  "14": [
+    "repositories",
+    "https://docs.gitlab.com/ee/user/project/repository/index.html",
+    "GitLab accesses repositories through the configured repository storages",
+    true
+  ],
+  "15": [
+    "project",
+    "https://docs.gitlab.com/ee/user/project/index.html",
+    "Each project contains a repository",
+    true
+  ],
+  "16": [
+    "publicly, internally, or privately",
+    "https://docs.gitlab.com/ee/public_access/public_access.html",
+    "Projects can be available publicly, internally, or privately",
+    true
+  ],
+  "17": [
+    "Owners",
+    "https://docs.gitlab.com/ee/user/permissions.html",
+    "GitLab allows Owners to set a project’s visibility as: Public Internal Private These visibility levels affect who can see the project in the public access directory (/public for your GitLab instance)",
+    true
+  ],
+  "18": [
+    "public and internal projects",
+    "https://docs.gitlab.com/ee/api/projects.html#project-visibility-level",
+    "On public and internal projects, the Guest role (not to be confused with Guest user) is not enforced",
+    true
+  ],
+  "19": [
+    "access level",
+    "https://docs.gitlab.com/ee/api/members.html#valid-access-levels",
+    "min_access_level integer  No Limit by current user minimal access level",
+    true
+  ],
+  "20": [
+    "SSO enabled groups",
+    "https://docs.gitlab.com/ee/user/group/saml_sso/index.html",
+    "The group_saml_identity attribute is only visible to a group owner for SSO enabled groups",
+    true
+  ],
+  "21": [
+    "SAML OmniAuth Provider",
+    "https://docs.gitlab.com/ee/integration/saml.html",
+    "For instance-wide SAML on self-managed GitLab instances, see SAML OmniAuth Provider",
+    true
+  ],
+  "22": [
+    "OmniAuth documentation",
+    "https://docs.gitlab.com/ee/integration/omniauth.html",
+    "You should also reference the OmniAuth documentation for general settings that apply to all OmniAuth providers",
+    true
+  ],
+  "23": [
+    "Atlassian Crowd",
+    "https://docs.gitlab.com/ee/administration/auth/crowd.html",
+    "Provider documentation OmniAuth provider name Atlassian Crowd crowd Atlassian atlassian_oauth2 Auth0 auth0 Authentiq authentiq AWS Cognito cognito Azure v2 azure_activedirectory_v2 Azure v1 azure_oauth2 Bitbucket Cloud bitbucket CAS cas3 Facebook facebook Generic OAuth2 oauth2_generic GitHub github GitLab.com gitlab Google google_oauth2 JWT jwt Kerberos kerberos OpenID Connect openid_connect Salesforce salesforce SAML saml Shibboleth shibboleth Twitter twitter",
+    true
+  ],
+  "24": [
+    "Reconfigure",
+    "https://docs.gitlab.com/ee/administration/restart_gitlab.html#omnibus-gitlab-reconfigure",
+    "Reconfigure or restart for the changes to take effect if you installed GitLab via Omnibus or from source respectively",
+    true
+  ],
+  "25": [
+    "Mailroom",
+    "https://docs.gitlab.com/ee/administration/reply_by_email.html",
+    "gitlab-ctl interacts with the Omnibus packages and can be used to restart the GitLab Rails application (Puma) as well as the other components, like: GitLab Workhorse Sidekiq PostgreSQL (if you are using the bundled one) NGINX (if you are using the bundled one) Redis (if you are using the bundled one) Mailroom Logrotate",
+    true
+  ],
+  "26": [
+    "incoming email",
+    "https://docs.gitlab.com/ee/administration/incoming_email.html",
+    "Make sure incoming email is set up",
+    true
+  ],
+  "27": [
+    "New issue by email",
+    "https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#new-issue-via-email",
+    "New issue by email: allow GitLab users to create a new issue by sending an email to a user-specific email address",
+    true
+  ],
+  "28": [
+    "GitLab Issues",
+    "https://docs.gitlab.com/ee/user/project/issues/index.html",
+    "GitLab Issues are the fundamental medium for collaborating on ideas and planning work in GitLab",
+    true
+  ],
+  "29": [
+    "labels",
+    "https://docs.gitlab.com/ee/user/project/labels.html",
+    "To learn how the GitLab Strategic Marketing department uses GitLab issues with labels and issue boards, see the video on &amp;Managing Commitments with Issues",
+    true
+  ],
+  "30": [
+    "issue boards",
+    "https://docs.gitlab.com/ee/user/project/issue_board.html",
+    "Labels are a key part of issue boards",
+    true
+  ],
+  "31": [
+    "epics",
+    "https://docs.gitlab.com/ee/user/group/epics/index.html",
+    "For examples of using issue boards along with epics, issue health status, and scoped labels for various Agile frameworks, check: The How to use GitLab for Agile portfolio planning and project management blog post (November 2020) Cross-project Agile work management with GitLab (15 min, July 2020)",
+    true
+  ],
+  "32": [
+    "group",
+    "https://docs.gitlab.com/ee/user/group/index.html",
+    "Use epics: When your team is working on a large feature that involves multiple discussions in different issues in different projects in a group",
+    true
+  ],
+  "33": [
+    "subgroups",
+    "https://docs.gitlab.com/ee/user/group/subgroups/index.html",
+    "For larger organizations, you can also create subgroups",
+    true
+  ],
+  "34": [
+    "public, internal, or private",
+    "https://docs.gitlab.com/ee/development/permissions.html#general-permissions",
+    "Since every group can have its own visibility level (public, internal, or private), you’re able to host groups for different purposes under the same umbrella",
+    true
+  ],
+  "35": [
+    "Confidential issues",
+    "https://docs.gitlab.com/ee/user/project/issues/confidential_issues.html",
+    "Confidential issues can be accessed only by project members who are at least reporters (they can’t be accessed by guests)",
+    true
+  ],
+  "36": [
+    "merge requests for confidential issues",
+    "https://docs.gitlab.com/ee/user/project/merge_requests/confidential.html",
+    "Learn how to create merge requests for confidential issues that prevent leaks of private data",
+    true
+  ],
+  "37": [
+    "forked",
+    "https://docs.gitlab.com/ee/user/project/repository/forking_workflow.html",
+    "You have forked the public repository",
+    true
+  ],
+  "38": [
+    "branching strategies",
+    "https://docs.gitlab.com/ee/topics/gitlab_flow.html",
+    "branching strategies to manage your work",
+    true
+  ],
+  "39": [
+    "draft merge request",
+    "https://docs.gitlab.com/ee/user/project/merge_requests/drafts.html",
+    "If you open the merge request but do not assign it to anyone, it is a draft merge request",
+    true
+  ],
+  "40": [
+    "quick action",
+    "https://docs.gitlab.com/ee/user/project/quick_actions.html#issues-merge-requests-and-epics",
+    "Commenting in an existing merge request: Add the /draft quick action in a comment",
+    true
+  ],
+  "41": [
+    "autocomplete characters",
+    "https://docs.gitlab.com/ee/user/project/autocomplete_characters.html",
+    "GitLab uses autocomplete characters with quick actions to help users enter parameters, by providing a list of available values",
+    true
+  ],
+  "42": [
+    "time tracking",
+    "https://docs.gitlab.com/ee/user/project/time_tracking.html",
+    "Learn more about time tracking",
+    true
+  ],
+  "43": [
+    "Connection",
+    "https://docs.gitlab.com/ee/api/graphql/reference/index.html#timelogconnection",
+    "Connection Edge Fields Group timelogs",
+    true
+  ],
+  "44": [
+    "GraphiQL IDE",
+    "https://docs.gitlab.com/ee/api/graphql/index.html#graphiql",
+    "The API can be explored interactively using the GraphiQL IDE",
+    true
+  ],
+  "45": [
+    "Getting started with GitLab GraphQL API",
+    "https://docs.gitlab.com/ee/api/graphql/getting_started.html",
+    "Getting started with GitLab GraphQL API",
+    true
+  ],
+  "46": [
+    "GraphQL API style guide",
+    "https://docs.gitlab.com/ee/development/api_graphql_styleguide.html",
+    "Read the GraphQL API style guide for implementation details aimed at developers who wish to work on developing the API itself",
+    true
+  ],
+  "47": [
+    "GraphQL Pro subscription",
+    "https://docs.gitlab.com/ee/development/graphql_guide/graphql_pro.html",
+    "For details see GraphQL Pro subscription",
+    true
+  ],
+  "48": [
+    "feature flags",
+    "https://docs.gitlab.com/ee/development/feature_flags/index.html",
+    "Developers can add feature flags to GraphQL fields in the following ways: Add the feature_flag property to a field",
+    true
+  ],
+  "49": [
+    "feature flags offered as part of the product",
+    "https://docs.gitlab.com/ee/operations/feature_flags.html",
+    "as the feature flags offered as part of the product",
+    true
+  ],
+  "50": [
+    "Feature Flag User List API",
+    "https://docs.gitlab.com/ee/api/feature_flag_user_lists.html",
+    "Enables the feature for lists of users created in the Feature Flags UI, or with the Feature Flag User List API",
+    true
+  ],
+  "51": [
+    "merge issues",
+    "https://docs.gitlab.com/ee/user/index.html",
+    "",
+    false
+  ],
+  "52": [
+    "configure troubleshooting",
+    "https://docs.gitlab.com/ee/administration/index.html",
+    "",
+    false
+  ],
+  "53": [
+    "aware",
+    "https://docs.gitlab.com/ee/install/index.html",
+    "",
+    false
+  ],
+  "54": [
+    "puma runner",
+    "https://docs.gitlab.com/ee/install/requirements.html",
+    "",
+    false
+  ],
+  "55": [
+    "sudo config",
+    "https://docs.gitlab.com/ee/install/installation.html",
+    "",
+    false
+  ],
+  "56": [
+    "daemon process",
+    "https://docs.gitlab.com/ee/administration/operations/sidekiq_memory_killer.html",
+    "",
+    false
+  ],
+  "57": [
+    "gitlab commands",
+    "https://docs.gitlab.com/ee/raketasks/backup_restore.html",
+    "",
+    false
+  ],
+  "58": [
+    "consolidated buckets",
+    "https://docs.gitlab.com/ee/administration/object_storage.html",
+    "",
+    false
+  ],
+  "59": [
+    "yaml",
+    "https://docs.gitlab.com/charts/advanced/external-object-storage/minio.html",
+    "",
+    false
+  ],
+  "60": [
+    "workhorse requests",
+    "https://docs.gitlab.com/ee/development/uploads.html#direct-upload",
+    "",
+    false
+  ],
+  "61": [
+    "gitlab id",
+    "https://docs.gitlab.com/ee/development/file_storage.html",
+    "",
+    false
+  ],
+  "62": [
+    "legacy object",
+    "https://docs.gitlab.com/ee/administration/repository_storage_types.html",
+    "",
+    false
+  ],
+  "63": [
+    "performance",
+    "https://docs.gitlab.com/ee/administration/gitaly/index.html",
+    "",
+    false
+  ],
+  "64": [
+    "extensions",
+    "https://docs.gitlab.com/ee/user/project/repository/index.html",
+    "",
+    false
+  ],
+  "65": [
+    "collaborate",
+    "https://docs.gitlab.com/ee/user/project/index.html",
+    "",
+    false
+  ],
+  "66": [
+    "public gitlab levels",
+    "https://docs.gitlab.com/ee/public_access/public_access.html",
+    "",
+    false
+  ],
+  "67": [
+    "set",
+    "https://docs.gitlab.com/ee/user/permissions.html",
+    "",
+    false
+  ],
+  "68": [
+    "internal visibility",
+    "https://docs.gitlab.com/ee/api/projects.html#project-visibility-level",
+    "",
+    false
+  ],
+  "69": [
+    "group levels",
+    "https://docs.gitlab.com/ee/api/members.html#valid-access-levels",
+    "",
+    false
+  ],
+  "70": [
+    "gitlab provider",
+    "https://docs.gitlab.com/ee/user/group/saml_sso/index.html",
+    "",
+    false
+  ],
+  "71": [
+    "https certificate",
+    "https://docs.gitlab.com/ee/integration/saml.html",
+    "",
+    false
+  ],
+  "72": [
+    "user providers",
+    "https://docs.gitlab.com/ee/integration/omniauth.html",
+    "",
+    false
+  ],
+  "73": [
+    "crowd source",
+    "https://docs.gitlab.com/ee/administration/auth/crowd.html",
+    "",
+    false
+  ],
+  "74": [
+    "service",
+    "https://docs.gitlab.com/ee/administration/restart_gitlab.html#omnibus-gitlab-reconfigure",
+    "",
+    false
+  ],
+  "75": [
+    "value",
+    "https://docs.gitlab.com/ee/administration/reply_by_email.html",
+    "",
+    false
+  ],
+  "76": [
+    "imap email",
+    "https://docs.gitlab.com/ee/administration/incoming_email.html",
+    "",
+    false
+  ],
+  "77": [
+    "supported projects",
+    "https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#new-issue-via-email",
+    "",
+    false
+  ],
+  "78": [
+    "create gitlab",
+    "https://docs.gitlab.com/ee/user/project/issues/index.html",
+    "",
+    false
+  ],
+  "79": [
+    "platform",
+    "https://docs.gitlab.com/ee/user/project/labels.html",
+    "",
+    false
+  ],
+  "80": [
+    "feature label",
+    "https://docs.gitlab.com/ee/user/project/issue_board.html",
+    "",
+    false
+  ],
+  "81": [
+    "child",
+    "https://docs.gitlab.com/ee/user/group/epics/index.html",
+    "",
+    false
+  ],
+  "82": [
+    "owner",
+    "https://docs.gitlab.com/ee/user/group/index.html",
+    "",
+    false
+  ],
+  "83": [
+    "parent",
+    "https://docs.gitlab.com/ee/user/group/subgroups/index.html",
+    "",
+    false
+  ],
+  "84": [
+    "private entity",
+    "https://docs.gitlab.com/ee/development/permissions.html#general-permissions",
+    "",
+    false
+  ],
+  "85": [
+    "confidential projects",
+    "https://docs.gitlab.com/ee/user/project/issues/confidential_issues.html",
+    "",
+    false
+  ],
+  "86": [
+    "upstream branch",
+    "https://docs.gitlab.com/ee/user/project/merge_requests/confidential.html",
+    "",
+    false
+  ],
+  "87": [
+    "experimental",
+    "https://docs.gitlab.com/ee/user/project/repository/forking_workflow.html",
+    "",
+    false
+  ],
+  "88": [
+    "issues commits",
+    "https://docs.gitlab.com/ee/topics/gitlab_flow.html",
+    "",
+    false
+  ],
+  "89": [
+    "click and mark actions",
+    "https://docs.gitlab.com/ee/user/project/merge_requests/drafts.html",
+    "",
+    false
+  ],
+  "90": [
+    "introduced epic",
+    "https://docs.gitlab.com/ee/user/project/quick_actions.html#issues-merge-requests-and-epics",
+    "",
+    false
+  ],
+  "91": [
+    "user typing",
+    "https://docs.gitlab.com/ee/user/project/autocomplete_characters.html",
+    "",
+    false
+  ],
+  "92": [
+    "request estimates",
+    "https://docs.gitlab.com/ee/user/project/time_tracking.html",
+    "",
+    false
+  ],
+  "93": [
+    "list",
+    "https://docs.gitlab.com/ee/api/graphql/reference/index.html#timelogconnection",
+    "",
+    false
+  ],
+  "94": [
+    "explore instances",
+    "https://docs.gitlab.com/ee/api/graphql/index.html#graphiql",
+    "",
+    false
+  ],
+  "95": [
+    "query issues and errors",
+    "https://docs.gitlab.com/ee/api/graphql/getting_started.html",
+    "",
+    false
+  ],
+  "96": [
+    "descriptions of mutated fields",
+    "https://docs.gitlab.com/ee/development/api_graphql_styleguide.html",
+    "",
+    false
+  ],
+  "97": [
+    "support gems",
+    "https://docs.gitlab.com/ee/development/graphql_guide/graphql_pro.html",
+    "",
+    false
+  ],
+  "98": [
+    "enabled projects",
+    "https://docs.gitlab.com/ee/development/feature_flags/index.html",
+    "",
+    false
+  ],
+  "99": [
+    "list of unleash applications",
+    "https://docs.gitlab.com/ee/operations/feature_flags.html",
+    "",
+    false
+  ],
+  "100": [
+    "user flag strings",
+    "https://docs.gitlab.com/ee/api/feature_flag_user_lists.html",
+    "",
+    false
+  ]
+}

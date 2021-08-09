@@ -1,311 +1,311 @@
 {
-  "0": [
-    "Gitlab Docs",
-    "https://docs.gitlab.com/ee/",
-    "",
-    true
-  ],
-  "1": [
-    "User documentation",
-    "https://docs.gitlab.com/ee/user/index.html",
-    "Essential documentation Essential documentation User documentationDiscover features and concepts for GitLab users",
-    true
-  ],
-  "2": [
-    "GitLab administrator",
-    "https://docs.gitlab.com/ee/administration/index.html",
-    "includes, except GitLab administrator settings, unless you have admin privileges to install, configure, and upgrade your GitLab instance",
-    true
-  ],
-  "3": [
-    "Install",
-    "https://docs.gitlab.com/ee/install/index.html",
-    "Install: Requirements, directory structures, and installation methods",
-    true
-  ],
-  "4": [
-    "system requirements",
-    "https://docs.gitlab.com/ee/install/requirements.html",
-    "Before you install GitLab, be sure to review the system requirements",
-    true
-  ],
-  "5": [
-    "installation from source guide",
-    "https://docs.gitlab.com/ee/install/installation.html",
-    "Please see the installation from source guide and the installation guides for more information",
-    true
-  ],
-  "6": [
-    "letting the Sidekiq terminate gracefully",
-    "https://docs.gitlab.com/ee/administration/operations/sidekiq_memory_killer.html",
-    "Omnibus packages solve this by letting the Sidekiq terminate gracefully if it uses too much memory",
-    true
-  ],
-  "7": [
-    "Keep a backup",
-    "https://docs.gitlab.com/ee/raketasks/backup_restore.html",
-    "Keep a backup",
-    true
-  ],
-  "8": [
-    "object storage",
-    "https://docs.gitlab.com/ee/administration/object_storage.html",
-    "If you’re using object storage, be sure to enable backups with your object storage provider, if desired",
-    true
-  ],
-  "9": [
-    "MinIO",
-    "https://docs.gitlab.com/charts/advanced/external-object-storage/minio.html",
-    "We have a guide to deploying this within our Helm Chart documentation",
-    true
-  ],
-  "10": [
-    "direct upload mode",
-    "https://docs.gitlab.com/ee/development/uploads.html#direct-upload",
-    "Because direct upload mode must be enabled, only the following providers can be used: Amazon S3-compatible providers Google Cloud Storage Azure Blob storage When consolidated object storage is used, direct upload is enabled automatically",
-    true
-  ],
-  "11": [
-    "File Storage in GitLab",
-    "https://docs.gitlab.com/ee/development/file_storage.html",
-    "Additional information can be found on File Storage in GitLab",
-    true
-  ],
-  "12": [
-    "Hashed Storage",
-    "https://docs.gitlab.com/ee/administration/repository_storage_types.html",
-    "In the case of Issues/MR/Notes Markdown attachments, there is a different approach using the Hashed Storage layout, instead of basing the path into a mutable variable :project_path_with_namespace, it’s possible to use the hash of the project ID instead, if project migrates to the new approach (introduced in 10.2)",
-    true
-  ],
-  "13": [
-    "Gitaly",
-    "https://docs.gitlab.com/ee/administration/gitaly/index.html",
-    "Accessed via Gitaly, optionally on its own server",
-    true
-  ],
-  "14": [
-    "repositories",
-    "https://docs.gitlab.com/ee/user/project/repository/index.html",
-    "GitLab accesses repositories through the configured repository storages",
-    true
-  ],
-  "15": [
-    "project",
-    "https://docs.gitlab.com/ee/user/project/index.html",
-    "Each project contains a repository",
-    true
-  ],
-  "16": [
-    "publicly, internally, or privately",
-    "https://docs.gitlab.com/ee/public_access/public_access.html",
-    "Projects can be available publicly, internally, or privately",
-    true
-  ],
-  "17": [
-    "Owners",
-    "https://docs.gitlab.com/ee/user/permissions.html",
-    "GitLab allows Owners to set a project’s visibility as: Public Internal Private These visibility levels affect who can see the project in the public access directory (/public for your GitLab instance)",
-    true
-  ],
-  "18": [
-    "public and internal projects",
-    "https://docs.gitlab.com/ee/api/projects.html#project-visibility-level",
-    "On public and internal projects, the Guest role (not to be confused with Guest user) is not enforced",
-    true
-  ],
-  "19": [
-    "access level",
-    "https://docs.gitlab.com/ee/api/members.html#valid-access-levels",
-    "min_access_level integer  No Limit by current user minimal access level",
-    true
-  ],
-  "20": [
-    "SSO enabled groups",
-    "https://docs.gitlab.com/ee/user/group/saml_sso/index.html",
-    "The group_saml_identity attribute is only visible to a group owner for SSO enabled groups",
-    true
-  ],
-  "21": [
-    "SAML OmniAuth Provider",
-    "https://docs.gitlab.com/ee/integration/saml.html",
-    "For instance-wide SAML on self-managed GitLab instances, see SAML OmniAuth Provider",
-    true
-  ],
-  "22": [
-    "OmniAuth documentation",
-    "https://docs.gitlab.com/ee/integration/omniauth.html",
-    "You should also reference the OmniAuth documentation for general settings that apply to all OmniAuth providers",
-    true
-  ],
-  "23": [
-    "Atlassian Crowd",
-    "https://docs.gitlab.com/ee/administration/auth/crowd.html",
-    "Provider documentation OmniAuth provider name Atlassian Crowd crowd Atlassian atlassian_oauth2 Auth0 auth0 Authentiq authentiq AWS Cognito cognito Azure v2 azure_activedirectory_v2 Azure v1 azure_oauth2 Bitbucket Cloud bitbucket CAS cas3 Facebook facebook Generic OAuth2 oauth2_generic GitHub github GitLab.com gitlab Google google_oauth2 JWT jwt Kerberos kerberos OpenID Connect openid_connect Salesforce salesforce SAML saml Shibboleth shibboleth Twitter twitter",
-    true
-  ],
-  "24": [
-    "Reconfigure",
-    "https://docs.gitlab.com/ee/administration/restart_gitlab.html#omnibus-gitlab-reconfigure",
-    "Reconfigure or restart for the changes to take effect if you installed GitLab via Omnibus or from source respectively",
-    true
-  ],
-  "25": [
-    "Mailroom",
-    "https://docs.gitlab.com/ee/administration/reply_by_email.html",
-    "gitlab-ctl interacts with the Omnibus packages and can be used to restart the GitLab Rails application (Puma) as well as the other components, like: GitLab Workhorse Sidekiq PostgreSQL (if you are using the bundled one) NGINX (if you are using the bundled one) Redis (if you are using the bundled one) Mailroom Logrotate",
-    true
-  ],
-  "26": [
-    "incoming email",
-    "https://docs.gitlab.com/ee/administration/incoming_email.html",
-    "Make sure incoming email is set up",
-    true
-  ],
-  "27": [
-    "New issue by email",
-    "https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#new-issue-via-email",
-    "New issue by email: allow GitLab users to create a new issue by sending an email to a user-specific email address",
-    true
-  ],
-  "28": [
-    "GitLab Issues",
-    "https://docs.gitlab.com/ee/user/project/issues/index.html",
-    "GitLab Issues are the fundamental medium for collaborating on ideas and planning work in GitLab",
-    true
-  ],
-  "29": [
-    "labels",
-    "https://docs.gitlab.com/ee/user/project/labels.html",
-    "To learn how the GitLab Strategic Marketing department uses GitLab issues with labels and issue boards, see the video on &amp;Managing Commitments with Issues",
-    true
-  ],
-  "30": [
-    "issue boards",
-    "https://docs.gitlab.com/ee/user/project/issue_board.html",
-    "Labels are a key part of issue boards",
-    true
-  ],
-  "31": [
-    "epics",
-    "https://docs.gitlab.com/ee/user/group/epics/index.html",
-    "For examples of using issue boards along with epics, issue health status, and scoped labels for various Agile frameworks, check: The How to use GitLab for Agile portfolio planning and project management blog post (November 2020) Cross-project Agile work management with GitLab (15 min, July 2020)",
-    true
-  ],
-  "32": [
-    "group",
-    "https://docs.gitlab.com/ee/user/group/index.html",
-    "Use epics: When your team is working on a large feature that involves multiple discussions in different issues in different projects in a group",
-    true
-  ],
-  "33": [
-    "subgroups",
-    "https://docs.gitlab.com/ee/user/group/subgroups/index.html",
-    "For larger organizations, you can also create subgroups",
-    true
-  ],
-  "34": [
-    "public, internal, or private",
-    "https://docs.gitlab.com/ee/development/permissions.html#general-permissions",
-    "Since every group can have its own visibility level (public, internal, or private), you’re able to host groups for different purposes under the same umbrella",
-    true
-  ],
-  "35": [
-    "Confidential issues",
-    "https://docs.gitlab.com/ee/user/project/issues/confidential_issues.html",
-    "Confidential issues can be accessed only by project members who are at least reporters (they can’t be accessed by guests)",
-    true
-  ],
-  "36": [
-    "merge requests for confidential issues",
-    "https://docs.gitlab.com/ee/user/project/merge_requests/confidential.html",
-    "Learn how to create merge requests for confidential issues that prevent leaks of private data",
-    true
-  ],
-  "37": [
-    "forked",
-    "https://docs.gitlab.com/ee/user/project/repository/forking_workflow.html",
-    "You have forked the public repository",
-    true
-  ],
-  "38": [
-    "branching strategies",
-    "https://docs.gitlab.com/ee/topics/gitlab_flow.html",
-    "branching strategies to manage your work",
-    true
-  ],
-  "39": [
-    "draft merge request",
-    "https://docs.gitlab.com/ee/user/project/merge_requests/drafts.html",
-    "If you open the merge request but do not assign it to anyone, it is a draft merge request",
-    true
-  ],
-  "40": [
-    "quick action",
-    "https://docs.gitlab.com/ee/user/project/quick_actions.html#issues-merge-requests-and-epics",
-    "Commenting in an existing merge request: Add the /draft quick action in a comment",
-    true
-  ],
-  "41": [
-    "autocomplete characters",
-    "https://docs.gitlab.com/ee/user/project/autocomplete_characters.html",
-    "GitLab uses autocomplete characters with quick actions to help users enter parameters, by providing a list of available values",
-    true
-  ],
-  "42": [
-    "time tracking",
-    "https://docs.gitlab.com/ee/user/project/time_tracking.html",
-    "Learn more about time tracking",
-    true
-  ],
-  "43": [
-    "Connection",
-    "https://docs.gitlab.com/ee/api/graphql/reference/index.html#timelogconnection",
-    "Connection Edge Fields Group timelogs",
-    true
-  ],
-  "44": [
-    "GraphiQL IDE",
-    "https://docs.gitlab.com/ee/api/graphql/index.html#graphiql",
-    "The API can be explored interactively using the GraphiQL IDE",
-    true
-  ],
-  "45": [
-    "Getting started with GitLab GraphQL API",
-    "https://docs.gitlab.com/ee/api/graphql/getting_started.html",
-    "Getting started with GitLab GraphQL API",
-    true
-  ],
-  "46": [
-    "GraphQL API style guide",
-    "https://docs.gitlab.com/ee/development/api_graphql_styleguide.html",
-    "Read the GraphQL API style guide for implementation details aimed at developers who wish to work on developing the API itself",
-    true
-  ],
-  "47": [
-    "GraphQL Pro subscription",
-    "https://docs.gitlab.com/ee/development/graphql_guide/graphql_pro.html",
-    "For details see GraphQL Pro subscription",
-    true
-  ],
-  "48": [
-    "feature flags",
-    "https://docs.gitlab.com/ee/development/feature_flags/index.html",
-    "Developers can add feature flags to GraphQL fields in the following ways: Add the feature_flag property to a field",
-    true
-  ],
-  "49": [
-    "feature flags offered as part of the product",
-    "https://docs.gitlab.com/ee/operations/feature_flags.html",
-    "as the feature flags offered as part of the product",
-    true
-  ],
-  "50": [
-    "Feature Flag User List API",
-    "https://docs.gitlab.com/ee/api/feature_flag_user_lists.html",
-    "Enables the feature for lists of users created in the Feature Flags UI, or with the Feature Flag User List API",
-    true
-  ],
-  "51": [
+ "0": [
+  "Gitlab Docs",
+  "https://docs.gitlab.com/ee/",
+  "",
+  true
+ ],
+ "1": [
+  "User documentation",
+  "https://docs.gitlab.com/ee/user/index.html",
+  "Essential documentation Essential documentation User documentationDiscover features and concepts for GitLab users",
+  true
+ ],
+ "2": [
+  "GitLab administrator",
+  "https://docs.gitlab.com/ee/administration/index.html",
+  "includes, except GitLab administrator settings, unless you have admin privileges to install, configure, and upgrade your GitLab instance",
+  true
+ ],
+ "3": [
+  "Install",
+  "https://docs.gitlab.com/ee/install/index.html",
+  "Install: Requirements, directory structures, and installation methods",
+  true
+ ],
+ "4": [
+  "system requirements",
+  "https://docs.gitlab.com/ee/install/requirements.html",
+  "Before you install GitLab, be sure to review the system requirements",
+  true
+ ],
+ "5": [
+  "installation from source guide",
+  "https://docs.gitlab.com/ee/install/installation.html",
+  "Please see the installation from source guide and the installation guides for more information",
+  true
+ ],
+ "6": [
+  "letting the Sidekiq terminate gracefully",
+  "https://docs.gitlab.com/ee/administration/operations/sidekiq_memory_killer.html",
+  "Omnibus packages solve this by letting the Sidekiq terminate gracefully if it uses too much memory",
+  true
+ ],
+ "7": [
+  "Keep a backup",
+  "https://docs.gitlab.com/ee/raketasks/backup_restore.html",
+  "Keep a backup",
+  true
+ ],
+ "8": [
+  "object storage",
+  "https://docs.gitlab.com/ee/administration/object_storage.html",
+  "If you’re using object storage, be sure to enable backups with your object storage provider, if desired",
+  true
+ ],
+ "9": [
+  "a guide to deploying this",
+  "https://docs.gitlab.com/charts/advanced/external-object-storage/minio.html",
+  "We have a guide to deploying this within our Helm Chart documentation",
+  true
+ ],
+ "10": [
+  "direct upload mode",
+  "https://docs.gitlab.com/ee/development/uploads.html#direct-upload",
+  "Because direct upload mode must be enabled, only the following providers can be used: Amazon S3-compatible providers Google Cloud Storage Azure Blob storage When consolidated object storage is used, direct upload is enabled automatically",
+  true
+ ],
+ "11": [
+  "File Storage in GitLab",
+  "https://docs.gitlab.com/ee/development/file_storage.html",
+  "Additional information can be found on File Storage in GitLab",
+  true
+ ],
+ "12": [
+  "Hashed Storage",
+  "https://docs.gitlab.com/ee/administration/repository_storage_types.html",
+  "In the case of Issues/MR/Notes Markdown attachments, there is a different approach using the Hashed Storage layout, instead of basing the path into a mutable variable :project_path_with_namespace, it’s possible to use the hash of the project ID instead, if project migrates to the new approach (introduced in 10.2)",
+  true
+ ],
+ "13": [
+  "Gitaly",
+  "https://docs.gitlab.com/ee/administration/gitaly/index.html",
+  "Accessed via Gitaly, optionally on its own server",
+  true
+ ],
+ "14": [
+  "repositories",
+  "https://docs.gitlab.com/ee/user/project/repository/index.html",
+  "GitLab accesses repositories through the configured repository storages",
+  true
+ ],
+ "15": [
+  "project",
+  "https://docs.gitlab.com/ee/user/project/index.html",
+  "Each project contains a repository",
+  true
+ ],
+ "16": [
+  "publicly, internally, or privately",
+  "https://docs.gitlab.com/ee/public_access/public_access.html",
+  "Projects can be available publicly, internally, or privately",
+  true
+ ],
+ "17": [
+  "Owners",
+  "https://docs.gitlab.com/ee/user/permissions.html",
+  "GitLab allows Owners to set a project’s visibility as: Public Internal Private These visibility levels affect who can see the project in the public access directory (/public for your GitLab instance)",
+  true
+ ],
+ "18": [
+  "public and internal projects",
+  "https://docs.gitlab.com/ee/api/projects.html#project-visibility-level",
+  "On public and internal projects, the Guest role (not to be confused with Guest user) is not enforced",
+  true
+ ],
+ "19": [
+  "access level",
+  "https://docs.gitlab.com/ee/api/members.html#valid-access-levels",
+  "min_access_level integer  No Limit by current user minimal access level",
+  true
+ ],
+ "20": [
+  "SSO enabled groups",
+  "https://docs.gitlab.com/ee/user/group/saml_sso/index.html",
+  "The group_saml_identity attribute is only visible to a group owner for SSO enabled groups",
+  true
+ ],
+ "21": [
+  "SAML OmniAuth Provider",
+  "https://docs.gitlab.com/ee/integration/saml.html",
+  "For instance-wide SAML on self-managed GitLab instances, see SAML OmniAuth Provider",
+  true
+ ],
+ "22": [
+  "OmniAuth documentation",
+  "https://docs.gitlab.com/ee/integration/omniauth.html",
+  "You should also reference the OmniAuth documentation for general settings that apply to all OmniAuth providers",
+  true
+ ],
+ "23": [
+  "Atlassian Crowd",
+  "https://docs.gitlab.com/ee/administration/auth/crowd.html",
+  "Provider documentation OmniAuth provider name Atlassian Crowd crowd Atlassian atlassian_oauth2 Auth0 auth0 Authentiq authentiq AWS Cognito cognito Azure v2 azure_activedirectory_v2 Azure v1 azure_oauth2 Bitbucket Cloud bitbucket CAS cas3 Facebook facebook Generic OAuth2 oauth2_generic GitHub github GitLab.com gitlab Google google_oauth2 JWT jwt Kerberos kerberos OpenID Connect openid_connect Salesforce salesforce SAML saml Shibboleth shibboleth Twitter twitter",
+  true
+ ],
+ "24": [
+  "Reconfigure",
+  "https://docs.gitlab.com/ee/administration/restart_gitlab.html#omnibus-gitlab-reconfigure",
+  "Reconfigure or restart for the changes to take effect if you installed GitLab via Omnibus or from source respectively",
+  true
+ ],
+ "25": [
+  "Mailroom",
+  "https://docs.gitlab.com/ee/administration/reply_by_email.html",
+  "gitlab-ctl interacts with the Omnibus packages and can be used to restart the GitLab Rails application (Puma) as well as the other components, like: GitLab Workhorse Sidekiq PostgreSQL (if you are using the bundled one) NGINX (if you are using the bundled one) Redis (if you are using the bundled one) Mailroom Logrotate",
+  true
+ ],
+ "26": [
+  "incoming email",
+  "https://docs.gitlab.com/ee/administration/incoming_email.html",
+  "Make sure incoming email is set up",
+  true
+ ],
+ "27": [
+  "New issue by email",
+  "https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#new-issue-via-email",
+  "New issue by email: allow GitLab users to create a new issue by sending an email to a user-specific email address",
+  true
+ ],
+ "28": [
+  "GitLab Issues",
+  "https://docs.gitlab.com/ee/user/project/issues/index.html",
+  "GitLab Issues are the fundamental medium for collaborating on ideas and planning work in GitLab",
+  true
+ ],
+ "29": [
+  "labels",
+  "https://docs.gitlab.com/ee/user/project/labels.html",
+  "To learn how the GitLab Strategic Marketing department uses GitLab issues with labels and issue boards, see the video on &amp;Managing Commitments with Issues",
+  true
+ ],
+ "30": [
+  "issue boards",
+  "https://docs.gitlab.com/ee/user/project/issue_board.html",
+  "Labels are a key part of issue boards",
+  true
+ ],
+ "31": [
+  "epics",
+  "https://docs.gitlab.com/ee/user/group/epics/index.html",
+  "For examples of using issue boards along with epics, issue health status, and scoped labels for various Agile frameworks, check: The How to use GitLab for Agile portfolio planning and project management blog post (November 2020) Cross-project Agile work management with GitLab (15 min, July 2020)",
+  true
+ ],
+ "32": [
+  "group",
+  "https://docs.gitlab.com/ee/user/group/index.html",
+  "Use epics: When your team is working on a large feature that involves multiple discussions in different issues in different projects in a group",
+  true
+ ],
+ "33": [
+  "subgroups",
+  "https://docs.gitlab.com/ee/user/group/subgroups/index.html",
+  "For larger organizations, you can also create subgroups",
+  true
+ ],
+ "34": [
+  "public, internal, or private",
+  "https://docs.gitlab.com/ee/development/permissions.html#general-permissions",
+  "Since every group can have its own visibility level (public, internal, or private), you’re able to host groups for different purposes under the same umbrella",
+  true
+ ],
+ "35": [
+  "Confidential issues",
+  "https://docs.gitlab.com/ee/user/project/issues/confidential_issues.html",
+  "Confidential issues can be accessed only by project members who are at least reporters (they can’t be accessed by guests)",
+  true
+ ],
+ "36": [
+  "merge requests for confidential issues",
+  "https://docs.gitlab.com/ee/user/project/merge_requests/confidential.html",
+  "Learn how to create merge requests for confidential issues that prevent leaks of private data",
+  true
+ ],
+ "37": [
+  "forked",
+  "https://docs.gitlab.com/ee/user/project/repository/forking_workflow.html",
+  "You have forked the public repository",
+  true
+ ],
+ "38": [
+  "branching strategies",
+  "https://docs.gitlab.com/ee/topics/gitlab_flow.html",
+  "branching strategies to manage your work",
+  true
+ ],
+ "39": [
+  "draft merge request",
+  "https://docs.gitlab.com/ee/user/project/merge_requests/drafts.html",
+  "If you open the merge request but do not assign it to anyone, it is a draft merge request",
+  true
+ ],
+ "40": [
+  "quick action",
+  "https://docs.gitlab.com/ee/user/project/quick_actions.html#issues-merge-requests-and-epics",
+  "Commenting in an existing merge request: Add the /draft quick action in a comment",
+  true
+ ],
+ "41": [
+  "autocomplete characters",
+  "https://docs.gitlab.com/ee/user/project/autocomplete_characters.html",
+  "GitLab uses autocomplete characters with quick actions to help users enter parameters, by providing a list of available values",
+  true
+ ],
+ "42": [
+  "time tracking",
+  "https://docs.gitlab.com/ee/user/project/time_tracking.html",
+  "Learn more about time tracking",
+  true
+ ],
+ "43": [
+  "Connection",
+  "https://docs.gitlab.com/ee/api/graphql/reference/index.html#timelogconnection",
+  "Connection Edge Fields Group timelogs",
+  true
+ ],
+ "44": [
+  "GraphiQL IDE",
+  "https://docs.gitlab.com/ee/api/graphql/index.html#graphiql",
+  "The API can be explored interactively using the GraphiQL IDE",
+  true
+ ],
+ "45": [
+  "Getting started with GitLab GraphQL API",
+  "https://docs.gitlab.com/ee/api/graphql/getting_started.html",
+  "Getting started with GitLab GraphQL API",
+  true
+ ],
+ "46": [
+  "GraphQL API style guide",
+  "https://docs.gitlab.com/ee/development/api_graphql_styleguide.html",
+  "Read the GraphQL API style guide for implementation details aimed at developers who wish to work on developing the API itself",
+  true
+ ],
+ "47": [
+  "GraphQL Pro subscription",
+  "https://docs.gitlab.com/ee/development/graphql_guide/graphql_pro.html",
+  "For details see GraphQL Pro subscription",
+  true
+ ],
+ "48": [
+  "feature flags",
+  "https://docs.gitlab.com/ee/development/feature_flags/index.html",
+  "Developers can add feature flags to GraphQL fields in the following ways: Add the feature_flag property to a field",
+  true
+ ],
+ "49": [
+  "feature flags offered as part of the product",
+  "https://docs.gitlab.com/ee/operations/feature_flags.html",
+  "as the feature flags offered as part of the product",
+  true
+ ],
+ "50": [
+  "Feature Flag User List API",
+  "https://docs.gitlab.com/ee/api/feature_flag_user_lists.html",
+  "Enables the feature for lists of users created in the Feature Flags UI, or with the Feature Flag User List API",
+  true
+ ],
+ "51": [
     "merge issues",
     "https://docs.gitlab.com/ee/user/index.html",
     "",
@@ -604,5 +604,599 @@
     "https://docs.gitlab.com/ee/api/feature_flag_user_lists.html",
     "",
     false
-  ]
+  ],
+ "101": [
+  "install GitLab Runner as a binary",
+  "https://docs.gitlab.com/runner/install/linux-manually.html#using-binary-file",
+  "You may be able to install GitLab Runner as a binary on other Linux distributions",
+  true
+ ],
+ "102": [
+  "Docker executor",
+  "https://docs.gitlab.com/runner/executors/docker.html",
+  "If you want to use the Docker executor, you must install Docker before using GitLab Runner",
+  true
+ ],
+ "103": [
+  "set up in .gitlab-ci.yml",
+  "https://docs.gitlab.com/ee/ci/yaml/README.html",
+  "The Docker executor when used with GitLab CI, connects to Docker Engine and runs each build in a separate and isolated container using the predefined image that is set up in .gitlab-ci.yml and in accordance in config.toml",
+  true
+ ],
+ "104": [
+  "config.toml",
+  "https://docs.gitlab.com/runner/commands/index.html#configuration-file",
+  "The Docker executor when used with GitLab CI, connects to Docker Engine and runs each build in a separate and isolated container using the predefined image that is set up in .gitlab-ci.yml and in accordance in config.toml",
+  true
+ ],
+ "105": [
+  "graceful shutdowns",
+  "https://docs.gitlab.com/runner/best_practice/index.html#graceful-shutdown",
+  "For example, to force a reload of a runner’s configuration file, run: sudo kill -SIGHUP <main_runner_pid> For graceful shutdowns: sudo kill -SIGQUIT <main_runner_pid> cautionDo not use killall or pkill for graceful shutdowns if you are using shell or docker executors",
+  true
+ ],
+ "106": [
+  "Kubernetes",
+  "https://docs.gitlab.com/runner/executors/kubernetes.html",
+  "Kubernetes, Docker and  Machine executors, it is /builds inside of the container",
+  true
+ ],
+ "107": [
+  "Helm chart",
+  "https://docs.gitlab.com/runner/install/kubernetes.html",
+  "noteThe GitLab Runner Helm chart has been tested on Google Kubernetes Engine and Azure Container Service",
+  true
+ ],
+ "108": [
+  "authorization errors when they complete",
+  "https://docs.gitlab.com/runner/faq/index.html#helm-chart-error--unauthorized",
+  "Pausing the runner prevents problems arising with the jobs, such as authorization errors when they complete",
+  true
+ ],
+ "109": [
+  "guarantee backward compatibility",
+  "https://docs.gitlab.com/runner/index.html#gitlab-runner-versions",
+  "GitLab aims to guarantee backward compatibility",
+  true
+ ],
+ "110": [
+  "install",
+  "https://docs.gitlab.com/runner/install/index.html",
+  "You can choose to install the GitLab Runner application on infrastructure that you own or manage",
+  true
+ ],
+ "111": [
+  "Install on macOS",
+  "https://docs.gitlab.com/runner/install/osx.html",
+  "Install on macOS Install on Windows Install on FreeBSD Install nightly builds",
+  true
+ ],
+ "112": [
+  "visit this documentation",
+  "https://docs.gitlab.com/runner/install/old.html",
+  "noteFor documentation on GitLab Runner 9 and earlier, visit this documentation",
+  true
+ ],
+ "113": [
+  "Bleeding Edge - download any other tagged release",
+  "https://docs.gitlab.com/runner/install/bleeding-edge.html#download-any-other-tagged-release",
+  "Download the binary for your system: sudo curl --output /usr/local/bin/gitlab-runner \"https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-darwin-amd64\"   You can download a binary for every available version as described in Bleeding Edge - download any other tagged release",
+  true
+ ],
+ "114": [
+  "Register a runner",
+  "https://docs.gitlab.com/runner/register/index.html",
+  "Register a runner noteWhen you build iOS or macOS applications on macOS, use the shell executor",
+  true
+ ],
+ "115": [
+  "shared runner",
+  "https://docs.gitlab.com/ee/ci/runners/#shared-runners",
+  "For a shared runner, have an administrator go to the GitLab Admin Area and click Overview > Runners For a group runner, go to Settings > CI/CD and expand the Runners section For a project-specific runner, go to Settings > CI/CD and expand the Runners section noteWhen registering a runner on GitLab.com, the gitlab-ci coordinator URL is https://gitlab.com",
+  true
+ ],
+ "116": [
+  "Linux",
+  "https://docs.gitlab.com/ee/ci/runners/build_cloud/linux_build_cloud.html",
+  "Your jobs can run on Linux or Windows",
+  true
+ ],
+ "117": [
+  "pre_clone_script",
+  "https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runners-section",
+  "pre_clone_script can be used for: Seeding the build directory with repository data Sending a request to a server Downloading assets from a CDN Any other commands that must run before the git init To use this feature, define a CI/CD variable called CI_PRE_CLONE_SCRIPT that contains a bash script",
+  true
+ ],
+ "118": [
+  "gitlab-runner Helm chart",
+  "https://docs.gitlab.com/charts/charts/gitlab/gitlab-runner/index.html",
+  "gitlab-runner Helm chart, but an issue exists to track this work",
+  true
+ ],
+ "119": [
+  "interactive web terminal",
+  "https://docs.gitlab.com/ee/ci/interactive_web_terminal/index.html",
+  "The [session_server] section lets users interact with jobs, for example, in the interactive web terminal",
+  true
+ ],
+ "120": [
+  "GitLab Runner",
+  "https://docs.gitlab.com/runner/",
+  "Since this is giving the user shell access to the environment where GitLab Runner is deployed, some security precautions were taken to protect the users",
+  true
+ ],
+ "121": [
+  "executor",
+  "https://docs.gitlab.com/runner/executors/index.html",
+  "An executor determines the environment each job runs in",
+  true
+ ],
+ "122": [
+  "SSH",
+  "https://docs.gitlab.com/runner/executors/ssh.html",
+  "To jump into the specific documentation for each executor, visit: SSH Shell Parallels VirtualBox Docker Docker Machine (auto-scaling) Kubernetes Custom The list of executors above is locked",
+  true
+ ],
+ "123": [
+  "Shell",
+  "https://docs.gitlab.com/runner/executors/shell.html",
+  "To jump into the specific documentation for each executor, visit: SSH Shell Parallels VirtualBox Docker Docker Machine (auto-scaling) Kubernetes Custom The list of executors above is locked",
+  true
+ ],
+ "124": [
+  "supports certain shells",
+  "https://docs.gitlab.com/runner/shells/index.html",
+  "GitLab Runner supports certain shells",
+  true
+ ],
+ "125": [
+  "parallels",
+  "https://docs.gitlab.com/runner/executors/parallels.html",
+  "Executors that load shell profiles: shell parallels (The shell profile of the target virtual machine is loaded) virtualbox (The shell profile of the target virtual machine is loaded) ssh (The shell profile of the target machine is loaded) docker-ssh (The shell profile of the target machine is loaded) docker-ssh+machine (The shell profile of the target machine is loaded)",
+  true
+ ],
+ "126": [
+  "VirtualBox executor",
+  "https://docs.gitlab.com/runner/executors/virtualbox.html",
+  "Check the VirtualBox executor to see how to configure the parallels executor",
+  true
+ ],
+ "127": [
+  "Windows shared runners",
+  "https://docs.gitlab.com/ee/user/gitlab_com/#windows-shared-runners-beta",
+  "Windows PowerShell and PowerShell Core 7 on GitLab Windows shared runners",
+  true
+ ],
+ "128": [
+  "custom suffix",
+  "https://docs.gitlab.com/ee/user/project/service_desk.html#configuring-a-custom-email-address-suffix",
+  "custom suffix in project settings",
+  true
+ ],
+ "129": [
+  "templates",
+  "https://docs.gitlab.com/ee/user/project/description_templates.html",
+  "If you have templates in your repository, you can optionally select one from the selector menu to append it to all Service Desk issues",
+  true
+ ],
+ "130": [
+  "Markdown",
+  "https://docs.gitlab.com/ee/user/markdown.html",
+  "Description templates must be written in Markdown and stored in your project’s repository in the .gitlab directory",
+  true
+ ],
+ "131": [
+  "GitLab documentation website",
+  "https://docs.gitlab.com",
+  "The GitLab documentation website and the main GitLab website use Kramdown instead",
+  true
+ ],
+ "132": [
+  "PlantUML  GitLab",
+  "https://docs.gitlab.com/ee/administration/integration/plantuml.html",
+  "&amp;PlantUML  GitLab page",
+  true
+ ],
+ "133": [
+  "Kroki integration",
+  "https://docs.gitlab.com/ee/administration/integration/kroki.html",
+  "For more information, see the Kroki integration page",
+  true
+ ],
+ "134": [
+  "alert",
+  "https://docs.gitlab.com/ee/operations/incident_management/alerts.html",
+  "GitLab Flavored Markdown recognizes the following: references input cross-project reference shortcut inside same namespace specific user @user_name     specific group @group_name     entire team @all     project namespace/project     issue #123 namespace/project#123 project#123 merge request !123 namespace/project!123 project!123 snippet $123 namespace/project$123 project$123 epic  &amp;123 group1/subgroup&amp;123   vulnerability  (1) [vulnerability:123] [vulnerability:namespace/project/123] [vulnerability:project/123] feature flag [feature_flag:123] [feature_flag:namespace/project/123] [feature_flag:project/123] label by ID ~123 namespace/project~123 project~123 one-word label by name ~bug namespace/project~bug project~bug multi-word label by name ~\"feature request\" namespace/project~\"feature request\" project~\"feature request\" scoped label by name ~\"priority::high\" namespace/project~\"priority::high\" project~\"priority::high\" project milestone by ID %123 namespace/project%123 project%123 one-word milestone by name %v1.23 namespace/project%v1.23 project%v1.23 multi-word milestone by name %\"release candidate\" namespace/project%\"release candidate\" project%\"release candidate\" specific commit 9ba12248 namespace/project@9ba12248 project@9ba12248 commit range comparison 9ba12248...b19a04f5 namespace/project@9ba12248...b19a04f5 project@9ba12248...b19a04f5 repository file references [README](doc/README.md)     repository file line references [README](doc/README.md#L13)     alert ^alert#123 namespace/project^alert#123 project^alert#123 Introduced in GitLab 13.7",
+  true
+ ],
+ "135": [
+  "Embedding metrics based on alerts in incident issues",
+  "https://docs.gitlab.com/ee/operations/metrics/embed.html#embedding-metrics-based-on-alerts-in-incident-issues",
+  "For information about how to configure your alerting rules, see Embedding metrics based on alerts in incident issues",
+  true
+ ],
+ "136": [
+  "Kubernetes",
+  "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/kubernetes.html",
+  "This feature requires Kubernetes metrics",
+  true
+ ],
+ "137": [
+  "Prometheus",
+  "https://docs.gitlab.com/ee/user/project/integrations/prometheus.html",
+  "The Prometheus and Kubernetes integration services must be enabled",
+  true
+ ],
+ "138": [
+  "metric library",
+  "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/index.html",
+  "Once enabled, GitLab detects metrics from known services in the metric library",
+  true
+ ],
+ "139": [
+  "NGINX",
+  "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/nginx.html",
+  "NGINX NGINX Ingress Controller 0.9.0-0.15.x NGINX Ingress Controller 0.16.0+ HAProxy Amazon Cloud Watch We have tried to surface the most important metrics for each exporter, and continue to add support for additional exporters in future releases",
+  true
+ ],
+ "140": [
+  "environment_filter",
+  "https://docs.gitlab.com/ee/operations/metrics/dashboards/variables.html#environment_filter",
+  "environment_filter is one of the predefined variables that metrics dashboards support",
+  true
+ ],
+ "141": [
+  "Variables can be defined",
+  "https://docs.gitlab.com/ee/operations/metrics/dashboards/yaml.html#templating-templating-properties",
+  "Variables can be defined in a custom dashboard YAML file",
+  true
+ ],
+ "142": [
+  "templating",
+  "https://docs.gitlab.com/ee/operations/metrics/dashboards/templating_variables.html",
+  "Read the documentation on templating",
+  true
+ ],
+ "143": [
+  "links",
+  "https://docs.gitlab.com/ee/operations/metrics/dashboards/index.html#add-related-links-to-custom-dashboards",
+  "Specifies the link type, can be: grafana Read the documentation on links",
+  true
+ ],
+ "144": [
+  "GitLab-defined Prometheus dashboard",
+  "https://docs.gitlab.com/ee/operations/metrics/dashboards/default.html",
+  "By default, all projects include a GitLab-defined Prometheus dashboard, which includes a few key metrics, but you can also define your own custom dashboards",
+  true
+ ],
+ "145": [
+  "Metrics dashboard for your CI/CD environment",
+  "https://docs.gitlab.com/ee/operations/metrics/index.html",
+  "To learn about the components of a dashboard, read Metrics dashboard for your CI/CD environment",
+  true
+ ],
+ "146": [
+  "an in-cluster Prometheus",
+  "https://docs.gitlab.com/ee/user/clusters/integrations.html#prometheus-cluster-integration",
+  "For a cluster integrated Prometheus - GitLab can query an in-cluster Prometheus",
+  true
+ ],
+ "147": [
+  "project",
+  "https://docs.gitlab.com/ee/user/project/clusters/add_remove_clusters.html",
+  "To enable cluster integrations, first add a Kubernetes cluster to a GitLab project or group or instance",
+  true
+ ],
+ "148": [
+  "Infrastructure as Code",
+  "https://docs.gitlab.com/ee/user/infrastructure/index.html",
+  "Kubernetes cluster, similar to any other infrastructure, should be created, updated, maintained using Infrastructure as Code",
+  true
+ ],
+ "149": [
+  "Infrastructure as Code and GitOps",
+  "https://docs.gitlab.com/ee/user/infrastructure/iac/index.html",
+  "Infrastructure as Code and GitOps Kubernetes clusters Runbooks",
+  true
+ ],
+ "150": [
+  "the remote store of your choice",
+  "https://docs.gitlab.com/ee/administration/terraform_state.html",
+  "the remote store of your choice",
+  true
+ ],
+ "151": [
+  "external object storage",
+  "https://docs.gitlab.com/charts/advanced/external-object-storage/#lfs-artifacts-uploads-packages-external-diffs-pseudonymizer-terraform-state-dependency-proxy",
+  "Use external object storage configuration for GitLab Helm chart installations",
+  true
+ ],
+ "152": [
+  "server side encryption headers",
+  "https://docs.gitlab.com/charts/charts/globals.html#storage_options",
+  "In GitLab, enable server side encryption headers",
+  true
+ ],
+ "153": [
+  "NGINX chart",
+  "https://docs.gitlab.com/charts/charts/nginx/index.html#configuring-nginx",
+  "This will be templated into the NGINX chart, in place of the more complex nginx.service.loadBalancerIP",
+  true
+ ],
+ "154": [
+  "Our NGINX fork",
+  "https://docs.gitlab.com/charts/charts/nginx/fork.html",
+  "See Our NGINX fork for details on what was modified in our fork",
+  true
+ ],
+ "155": [
+  "gitlab/webservice deployments settings",
+  "https://docs.gitlab.com/charts/charts/gitlab/webservice/index.html#deployments-settings",
+  "The only exception is when populating the gitlab/webservice deployments settings, where path must be specified",
+  true
+ ],
+ "156": [
+  "GitLab documentation",
+  "https://docs.gitlab.com/ee/security/rack_attack.html",
+  "Takes precedence over global.psql.port puma.disableWorkerKiller false Disables Puma worker memory killer puma.workerMaxMemory 1024 The maximum memory (in megabytes) for the Puma worker killer puma.threads.min 4 The minimum amount of Puma threads puma.threads.max 4 The maximum amount of Puma threads rack_attack.git_basic_auth {} See GitLab documentation for details redis.serviceName redis Redis service name registry.api.port 5000 Registry port registry.api.protocol http Registry protocol registry.api.serviceName registry Registry service name registry.enabled true Add/Remove registry link in all projects menu registry.tokenIssuer gitlab-issuer Registry token issuer replicaCount 1 Webservice number of replicas resources.requests.cpu 300m Webservice minimum CPU resources.requests.memory 1.5G Webservice minimum memory service.externalPort 8080 Webservice exposed port securityContext.fsGroup 1000 Group ID under which the pod should be started securityContext.runAsUser 1000 User ID under which the pod should be started serviceLabels {} Supplemental service labels service.internalPort 8080 Webservice internal port service.type ClusterIP Webservice service type service.workhorseExternalPort 8181 Workhorse exposed port service.workhorseInternalPort 8181 Workhorse internal port service.loadBalancerIP   IP address to assign to LoadBalancer (if supported by cloud provider) service.loadBalancerSourceRanges   List of IP CIDRs allowed access to LoadBalancer (if supported) Required for service.type = LoadBalancer shell.authToken.key secret Key to shell token in shell secret shell.authToken.secret gitlab-shell-secret Shell token secret shell.port nil Port number to use in SSH URLs generated by UI shutdown.blackoutSeconds 10 Number of seconds to keep Webservice running after receiving shutdown, note this must shorter than deployment.terminationGracePeriodSeconds tolerations [] Toleration labels for pod assignment trusted_proxies [] See GitLab documentation for details workhorse.logFormat json Logging format",
+  true
+ ],
+ "157": [
+  "User and IP rate limits",
+  "https://docs.gitlab.com/ee/user/admin_area/settings/user_and_ip_rate_limits.html",
+  "noteSee User and IP rate limits for simpler limits that are configured in the UI",
+  true
+ ],
+ "158": [
+  "Rate limits",
+  "https://docs.gitlab.com/ee/security/rate_limits.html",
+  "Rate limits",
+  true
+ ],
+ "159": [
+  "GitLab.com-specific rate limits",
+  "https://docs.gitlab.com/ee/user/gitlab_com/index.html#gitlabcom-specific-rate-limits",
+  "GitLab.com-specific rate limits",
+  true
+ ],
+ "160": [
+  "Through the UI",
+  "https://docs.gitlab.com/ee/user/project/settings/import_export.html",
+  "To back up an entire project on GitLab.com, you can export it either: Through the UI",
+  true
+ ],
+ "161": [
+  "Project import/export API",
+  "https://docs.gitlab.com/ee/api/project_import_export.html",
+  "See also: Project import/export API Project import/export administration Rake tasks  Group import/export Group import/export API To set up a project import/export: On the top bar, go to Menu > Admin > Settings > General > Visibility and access controls",
+  true
+ ],
+ "162": [
+  "Project import/export administration Rake tasks",
+  "https://docs.gitlab.com/ee/administration/raketasks/project_import_export.html",
+  "Project import/export administration Rake tasks.",
+  true
+ ],
+ "163": [
+  "Developer documentation: project import/export",
+  "https://docs.gitlab.com/ee/development/import_export.html",
+  "Developer documentation: project import/export",
+  true
+ ],
+ "164": [
+  "developer documentation",
+  "https://docs.gitlab.com/ee/development/import_project.html#importing-via-a-rake-task",
+  "If you have a larger project, consider using a Rake task, as described in our developer documentation",
+  true
+ ],
+ "165": [
+  "import the project via GitHub",
+  "https://docs.gitlab.com/ee/user/project/import/github.html",
+  "There is also an option to import the project via GitHub: Create the group qa-perf-testing Import the GitLab FOSS repository that’s mirrored on GitHub into the group via the UI",
+  true
+ ],
+ "166": [
+  "Git Large File Storage (LFS) Objects",
+  "https://docs.gitlab.com/ee/topics/git/lfs/index.html",
+  "The following aspects of a project are imported: Repository description (GitLab.com &amp; 7.7+) Git repository data (GitLab.com &amp; 7.7+) Issues (GitLab.com &amp; 7.7+) Pull requests (GitLab.com &amp; 8.4+) Wiki pages (GitLab.com &amp; 8.4+) Milestones (GitLab.com &amp; 8.7+) Labels (GitLab.com &amp; 8.7+) Release note descriptions (GitLab.com &amp; 8.12+) Pull request review comments (GitLab.com &amp; 10.2+) Pull request reviews (GitLab.com &amp; 13.7+) Pull request “merged by” information (GitLab.com &amp; 13.7+) Regular issue and pull request comments Git Large File Storage (LFS) Objects References to pull requests and issues are preserved (GitLab.com &amp; 8.7+), and each imported repository maintains visibility level unless that  level is restricted, in which case it defaults to the default project visibility",
+  true
+ ],
+ "167": [
+  "LFS administration doc",
+  "https://docs.gitlab.com/ee/administration/lfs/index.html",
+  "Documentation for GitLab instance administrators is under LFS administration doc",
+  true
+ ],
+ "168": [
+  "PostgreSQL console",
+  "https://docs.gitlab.com/omnibus/settings/database.html#connecting-to-the-bundled-postgresql-database",
+  "From PostgreSQL console (sudo gitlab-psql -d gitlabhq_production) verify objectstg below (where file_store=2) has count of all artifacts: gitlabhq_production=# SELECT count(*) AS total, sum(case when file_store = '1' then 1 else 0 end) AS filesystem, sum(case when file_store = '2' then 1 else 0 end) AS objectstg FROM lfs_objects; total | filesystem | objectstg ------+------------+-----------  2409 |          0 |      2409   Verify no files on disk in artifacts folder: sudo find /var/opt/gitlab/gitlab-rails/shared/lfs-objects -type f | grep -v tmp/cache | wc -l",
+  true
+ ],
+ "169": [
+  "default shipped version",
+  "https://docs.gitlab.com/omnibus/package-information/postgresql_versions.html",
+  "This updates PostgreSQL to the default shipped version during package upgrades, unless specifically opted out",
+  true
+ ],
+ "170": [
+  "using Slony",
+  "https://docs.gitlab.com/ee/update/upgrading_postgresql_using_slony.html",
+  "To avoid downtime, it’s possible to upgrade to a new database using Slony",
+  true
+ ],
+ "171": [
+  "convert to using patroni",
+  "https://docs.gitlab.com/ee/administration/postgresql/replication_and_failover.html#switching-from-repmgr-to-patroni",
+  "If using repmgr, convert to using patroni",
+  true
+ ],
+ "172": [
+  "default ports",
+  "https://docs.gitlab.com/omnibus/package-information/defaults.html#ports",
+  "Each service in the package comes with a set of default ports",
+  true
+ ],
+ "173": [
+  "configure the Consul nodes",
+  "https://docs.gitlab.com/ee/administration/consul.html",
+  "Make sure to configure the Consul nodes",
+  true
+ ],
+ "174": [
+  "reference architecture",
+  "https://docs.gitlab.com/ee/administration/reference_architectures/index.html#available-reference-architectures",
+  "Review the reference architecture documentation to determine the number of Consul server nodes you should have",
+  true
+ ],
+ "175": [
+  "Up to 1,000 users",
+  "https://docs.gitlab.com/ee/administration/reference_architectures/1k_users.html",
+  "Up to 1,000 users Up to 2,000 users Up to 3,000 users Up to 5,000 users Up to 10,000 users Up to 25,000 users Up to 50,000 users The following Cloud Native Hybrid reference architectures, where select recommended components can be run in Kubernetes, are available: Up to 3,000 users Up to 5,000 users Up to 10,000 users Up to 25,000 users Up to 50,000 users A GitLab Premium or Ultimate license is required to get assistance from Support with troubleshooting the 2,000 users and higher reference architectures",
+  true
+ ],
+ "176": [
+  "3K reference architecture",
+  "https://docs.gitlab.com/ee/administration/reference_architectures/3k_users.html#supported-modifications-for-lower-user-counts-ha",
+  "For a highly-available environment, you can follow a modified 3K reference architecture",
+  true
+ ],
+ "177": [
+  "2,000-user reference architecture",
+  "https://docs.gitlab.com/ee/administration/reference_architectures/2k_users.html",
+  "If maintaining a high level of uptime for your GitLab environment isn’t a requirement, or if you don’t have the expertise to maintain this sort of environment, we recommend using the non-HA 2,000-user reference architecture for your GitLab installation",
+  true
+ ],
+ "178": [
+  "Web terminal",
+  "https://docs.gitlab.com/ee/ci/environments/index.html#web-terminals",
+  "(1): Web terminal support requires your load balancer to correctly handle WebSocket connections",
+  true
+ ],
+ "179": [
+  "GitLab CI/CD",
+  "https://docs.gitlab.com/ee/ci/yaml/index.html",
+  "Each time GitLab CI/CD deploys a version of code to an environment, a deployment is created",
+  true
+ ],
+ "180": [
+  "quick start guide",
+  "https://docs.gitlab.com/ee/ci/quick_start/index.html",
+  "For a quick introduction to GitLab CI/CD, follow the quick start guide",
+  true
+ ],
+ "181": [
+  "Migrate from CircleCI",
+  "https://docs.gitlab.com/ee/ci/migration/circleci.html",
+  "If you are migrating from another CI/CD tool, view this documentation: Migrate from CircleCI",
+  true
+ ],
+ "182": [
+  "GitLab CI/CD",
+  "https://docs.gitlab.com/ee/ci/introduction/index.html",
+  "If you are currently using CircleCI, you can migrate your CI/CD pipelines to GitLab CI/CD, and start making use of all its powerful features",
+  true
+ ],
+ "183": [
+  "Auto DevOps",
+  "https://docs.gitlab.com/ee/topics/autodevops/index.html",
+  "You may also be interested in Auto DevOps which can be used to build, test, and deploy your applications with little to no configuration needed at all",
+  true
+ ],
+ "184": [
+  "stages",
+  "https://docs.gitlab.com/ee/topics/autodevops/stages.html",
+  "Based on the DevOps stages, use Auto DevOps to: Build your app: Auto Build Auto Dependency Scanning Test your app: Auto Test Auto Browser Performance Testing Auto Code Intelligence Auto Code Quality Auto Container Scanning Auto License Compliance Deploy your app: Auto Review Apps Auto Deploy Monitor your app: Auto Monitoring Secure your app: Auto Dynamic Application Security Testing (DAST) Auto Static Application Security Testing (SAST) Auto Secret Detection",
+  true
+ ],
+ "185": [
+  "customizing the Auto Deploy Helm chart",
+  "https://docs.gitlab.com/ee/topics/autodevops/customize.html#custom-helm-chart",
+  "Override the default values by customizing the Auto Deploy Helm chart",
+  true
+ ],
+ "186": [
+  "Settings that can be accessed with API calls",
+  "https://docs.gitlab.com/ee/api/settings.html#list-of-settings-that-can-be-accessed-via-api-calls",
+  "Settings that can be accessed with API calls, which include auto_devops_enabled, to enable Auto DevOps on projects by default",
+  true
+ ],
+ "187": [
+  "abuse reports",
+  "https://docs.gitlab.com/ee/user/admin_area/review_abuse_reports.html",
+  "If set, abuse reports are sent to this address",
+  true
+ ],
+ "188": [
+  "Deletes the reported user",
+  "https://docs.gitlab.com/ee/user/profile/account/delete_account.html",
+  "This: Deletes the reported user from the instance",
+  true
+ ],
+ "189": [
+  "API",
+  "https://docs.gitlab.com/ee/api/users.html#user-deletion",
+  "Administrators can also request this behavior when deleting users from the API or the Admin Area",
+  true
+ ],
+ "190": [
+  "alert bot",
+  "https://docs.gitlab.com/ee/operations/incident_management/integrations.html",
+  "GET /users?external=true GitLab supports bot users such as the alert bot or the support bot",
+  true
+ ],
+ "191": [
+  "External Prometheus instances",
+  "https://docs.gitlab.com/ee/operations/metrics/alerts.html#external-prometheus-instances",
+  "This can be configured generically or, in GitLab versions 13.1 and greater, you can configure External Prometheus instances to use this endpoint",
+  true
+ ],
+ "192": [
+  "on a dashboard",
+  "https://docs.gitlab.com/ee/user/operations_dashboard/index.html#adding-a-project-to-the-dashboard",
+  "You can display alerts with a gitlab_environment_name of production on a dashboard",
+  true
+ ],
+ "193": [
+  "Environments",
+  "https://docs.gitlab.com/ee/ci/environments/environments_dashboard.html",
+  "The Operations and Environments dashboards share the same list of projects",
+  true
+ ],
+ "194": [
+  "profile preferences",
+  "https://docs.gitlab.com/ee/user/profile/preferences.html",
+  "To make it the default, visit your profile preferences",
+  true
+ ],
+ "195": [
+  "Web IDE",
+  "https://docs.gitlab.com/ee/user/project/web_ide/index.html",
+  "The default syntax theme is White, and you can choose among 5 different themes: White Dark Solarized light Solarized dark Monokai Introduced in GitLab 13.6, the themes Solarized and Monokai also apply to the Web IDE and Snippets",
+  true
+ ],
+ "196": [
+  "Web Editor",
+  "https://docs.gitlab.com/ee/user/project/repository/web_editor.html",
+  "WebIDE is built with the Web Editor",
+  true
+ ],
+ "197": [
+  "remove your project’s fork relationship",
+  "https://docs.gitlab.com/ee/user/project/settings/index.html#removing-a-fork-relationship",
+  "To make this button appear, one possible workaround is to remove your project’s fork relationship",
+  true
+ ],
+ "198": [
+  "default branch",
+  "https://docs.gitlab.com/ee/user/project/repository/branches/default.html",
+  "Adjust your project’s name, description, avatar, default branch, and topics: The project description also partially supports standard Markdown",
+  true
+ ],
+ "199": [
+  "initially protected",
+  "https://docs.gitlab.com/ee/user/project/protected_branches.html#protected-branches",
+  "It’s initially protected against accidental deletion and forced pushes",
+  true
+ ]
 }

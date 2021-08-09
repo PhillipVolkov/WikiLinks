@@ -19,13 +19,16 @@ public class NaiveAlgorithm {
 	
 	private double disScore;
 	private int disCount;
+	private int totalOccurences;
 	private int wordCount;
 	
 	private double startTimeSearch;
 	private double endTimeSearch;
 	
 	private double tokenProximityFactor = (double)this.disScore/this.disCount;
+	private double unCurvedProximity;
 	private double tokenWordCountFactor;
+	private double unCurvedWordCount;
 	private double titleMatchFactor;
 	private double singleWordReliancePenalty;
 	private double finalScore;
@@ -44,6 +47,10 @@ public class NaiveAlgorithm {
 		this.subSection = linkPair[1].indexOf("#") != -1;
 	}
 	
+	public boolean getValid() {
+		return valid;
+	}
+	
 	public double getFinalScore() {
 		return finalScore;
 	}
@@ -52,26 +59,50 @@ public class NaiveAlgorithm {
 		return tokenProximityFactor;
 	}
 	
+	public double getProximityFactorNoCurve() {
+		return unCurvedProximity;
+	}
+	
 	public double getWordCountNoCurve() {
-		return (double)occurences.size()/wordCount;
+		return unCurvedWordCount;
+	}
+	
+	public double getWordCountPerc() {
+		return tokenWordCountFactor;
 	}
 	
 	public double getTitleMatch() {
 		return titleMatchFactor;
 	}
 	
+	public double getSingleWordReliance() {
+		return singleWordReliancePenalty;
+	}
+	
+	public int getTokenAmount() {
+		return occurences.size();
+	}
+	
+	public int getTotalOccurences() {
+		return totalOccurences;
+	}
+	
+	public int getWordCount() {
+		return wordCount;
+	}
+	
     public void calculateMatch() {
     	//tokenize the search phrase
-    	if (this.valid) {
+    	if (valid) {
 		    	double startTime = System.nanoTime();
 	    		
 	    		tokenPreprocessing();
 	    		
 				findOccurences();
-				
-	    		if (occurences.size() != 0) {
-	    			medianFilter();
-		    	
+
+//				if (occurences.size() != 0) medianFilter();
+    			
+	    		if (occurences.size() != 0 && valid) {
 	    			calcTokenDistance();
 					
 					calcScores();
@@ -354,7 +385,7 @@ public class NaiveAlgorithm {
 		}
 		else {
 			this.disCount = occurences.get(0).size();
-			this.disScore = (double)this.disCount;
+			this.disScore = 0.0;
 		}
     }
     
@@ -371,7 +402,7 @@ public class NaiveAlgorithm {
 		}
 		
 		//calculate ranking
-		int totalOccurences = 0;
+		totalOccurences = 0;
 		int secondMaxOccurence = occurences.get(0).size();
 		int maxOccurence = occurences.get(0).size();
 		for (ArrayList<Integer> occurence : occurences) {
@@ -385,14 +416,17 @@ public class NaiveAlgorithm {
 
 		//factors impacting score
 		//double tokenQuantityFactor = (((double)Constants.maxTokenQuantity-1)/-indexes.length + Constants.maxTokenQuantity)/Constants.maxTokenQuantity;
-		tokenProximityFactor = (double)this.disScore/this.disCount;
+		unCurvedProximity = (double)this.disScore/this.disCount;
+		tokenProximityFactor = unCurvedProximity;
 		double wordCountFactor = (-Constants.wordCountMultiplier/((double)wordCount+Constants.wordCountMultiplier)+1);
-		tokenWordCountFactor = (double)totalOccurences/wordCount*wordCountFactor;
+		unCurvedWordCount =  (double)totalOccurences/wordCount;
+		tokenWordCountFactor = unCurvedWordCount*wordCountFactor;
 		titleMatchFactor = (double)titleMatch/title.size();
 		singleWordReliancePenalty = Constants.occurenceDifferencePenalty*(totalOccurences/(((double)maxOccurence-secondMaxOccurence)+Constants.occurenceDifferencePenalty))/totalOccurences;
 		
 		//balancing of token proximity weight
 		tokenProximityFactor *= 1-(1/(double)occurences.size());
+		unCurvedWordCount *= 1/(double)occurences.size();
 		tokenWordCountFactor *= 1/(double)occurences.size();
 		
 		//Logistic Regression: 	proximity, token word count, token amount, titleMatch
