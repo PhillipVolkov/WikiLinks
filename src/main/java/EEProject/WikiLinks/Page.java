@@ -465,6 +465,12 @@ public class Page {
     		    	stemmer.stem();
     		    	token = stemmer.getCurrent();
     		    	
+    		    	for (String removedChar : Constants.removedChars) {
+    		    		if (token.indexOf(removedChar) != -1) {
+    		    			token = token.replace(removedChar, "");
+    		    		}
+    		    	}
+    		    	
     		    	if (!Constants.contains(Constants.stopWords, token)) {
     		    		tokens.add(token);
     		    	}

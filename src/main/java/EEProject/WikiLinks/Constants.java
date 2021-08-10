@@ -24,6 +24,8 @@ public class Constants {
 			"you're", "you've", "your", "yours", "yourself", "yourselves", ",", ".", "!", "?", "(", ")", "+", "-", "_", "/", ":",
 			"#", "’s", "'s", "<", ">", "--", "=", "\"", "", "#"};
 	
+	static final String[] removedChars = new String[] {"'", "’", "(", ")", ",", ":", ";", "/", "-"};
+	
 	static final boolean debugPrint = false;
 	static final double threshold = 15;
 	static final int maxTokenSeperation = 20;
@@ -33,6 +35,7 @@ public class Constants {
 	static final double titleFactorWeight = 0.4;
 	
 	static final String stemmerDelims = " |\n|:|, |\\. |\\.\n|-";
+	static final String sentenceDelims = "\\. |\\.\n";
 
 	static final String stem = "https://docs.gitlab.com";
 	static final String page = "/ee/user/project/clusters/index.html";

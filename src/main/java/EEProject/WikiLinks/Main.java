@@ -1,31 +1,45 @@
 package EEProject.WikiLinks;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Random;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-//fix proximity indicator
+import weka.attributeSelection.InfoGainAttributeEval;
+import weka.classifiers.Evaluation;
+import weka.classifiers.functions.LibSVM;
+import weka.classifiers.trees.J48;
+import weka.core.Attribute;
+import weka.core.Instances;
+import weka.core.converters.CSVLoader;
+import weka.filters.Filter;
+import weka.filters.unsupervised.attribute.Remove;
+
 public class Main {
 	private static final boolean testLinks = true;
-	private static final String operation = "create";
+	private static final String operation = "summarize";
 	private static final String[] crawlStartPage = new String[] {"Gitlab Docs", "https://docs.gitlab.com/ee/", ""};
 	private static final String jsonName = "trainingSetLinks.json";
 	private static final String trainingDataName = "trainingSet.csv";
+	private static final String testingDataName = "testingSet.csv";
+	private static final String mlModelName = "ml.model";
 	
 	private static int counter = 0;
 	private static final int maxCount = 200;
 	
-	//TODO create false links, improve context?
+	private static Remove removeFilter;
+	
+	//TODO modifiy training set, change false to have correct phrase but bad links
+	//TODO predict document contents, find match utilizing Word2Vec
     public static void main(String[] args) {
     	if (operation.toLowerCase().equals("crawl")) {
     		System.out.printf("%-6d| %-72s| %-128s| %-128s|", 0, "Title", "URL", "SearchUrl");
@@ -53,9 +67,97 @@ public class Main {
 				e.printStackTrace();
 			}
     	}
-    	else if (operation.toLowerCase().equals("test")) performTests();
+    	else if (operation.toLowerCase().equals("create train")) createDataSet();
+    	else if (operation.toLowerCase().equals("create test")) createTestSet();
     	else if (operation.toLowerCase().equals("match")) matchTests();
-    	else if (operation.toLowerCase().equals("create")) createDataSet();
+    	else if (operation.toLowerCase().equals("train model")) train();
+    	else if (operation.toLowerCase().equals("test model")) testModel();
+    	else if (operation.toLowerCase().equals("summarize")) {
+    		Page page = new Page(Constants.stem, "/ee/user/project/clusters/index.html");
+    		
+    		ArrayList<String> combinedStems = new ArrayList<String>();
+    		
+    		for (int i = 0; i < page.getStems().size(); i++) {
+    			for (int j = 0; j < page.getStems().get(i).size(); j++) {
+        			combinedStems.add(page.getStems().get(i).get(j));
+    			}
+    		}
+    		
+    		DocumentExtraction extractor = new DocumentExtraction(combinedStems, page.getSections());
+    		extractor.getSummary();
+    	}
+    }
+    
+    private static void train() {
+		try {
+			System.out.println("\nTRAINING DATA SET:");
+			System.out.println("------------------");
+			CSVLoader source = new CSVLoader();
+			source.setSource(new File(trainingDataName));
+	    	Instances data = source.getDataSet();
+	    	data.setClassIndex(data.numAttributes()-1);
+	    	
+	    	removeFilter = new Remove();
+	    	removeFilter.setAttributeIndicesArray(new int[] {0, 1, 2, data.numAttributes()-1});
+	    	removeFilter.setInvertSelection(true);
+	    	removeFilter.setInputFormat(data);
+	    	data = Filter.useFilter(data, removeFilter);
+	    	
+	    	InfoGainAttributeEval attrEval = new InfoGainAttributeEval();
+	    	attrEval.buildEvaluator(data);
+	    	
+	    	for (int i = 0; i < data.numAttributes(); i++) {
+	    	    Attribute attr = data.attribute(i);
+	    	    double score  = attrEval.evaluateAttribute(i);
+	    	    
+	    	    System.out.println(attr.name() + ": " + score);
+	    	}
+	    	
+			LibSVM svm = new LibSVM();
+			svm.buildClassifier(data);
+			weka.core.SerializationHelper.write(mlModelName, svm);
+			
+			Evaluation eval = new Evaluation(data);
+			eval.crossValidateModel(svm, data, 10, new Random(1));
+			System.out.println("Correct: " + eval.pctCorrect() + "%");
+			System.out.println("------------------");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		testModel();
+    }
+    
+    private static void testModel() {
+    	try {
+			System.out.println("\nTESTING DATA SET:");
+			System.out.println("------------------");
+			CSVLoader source = new CSVLoader();
+			source.setSource(new File(testingDataName));
+	    	Instances data = source.getDataSet();
+	    	data.setClassIndex(data.numAttributes()-1);
+	    	
+	    	if (removeFilter != null) data = Filter.useFilter(data, removeFilter);
+	    	
+	    	InfoGainAttributeEval attrEval = new InfoGainAttributeEval();
+	    	attrEval.buildEvaluator(data);
+	    	
+	    	for (int i = 0; i < data.numAttributes(); i++) {
+	    	    Attribute attr = data.attribute(i);
+	    	    double score  = attrEval.evaluateAttribute(i);
+	    	    
+	    	    System.out.println(attr.name() + ": " + score);
+	    	}
+	    	
+	    	LibSVM svm = (LibSVM) weka.core.SerializationHelper.read(mlModelName);
+	    	Evaluation eval = new Evaluation(data);
+			eval.crossValidateModel(svm, data, 10, new Random(1));
+			System.out.println("Correct: " + eval.pctCorrect() + "%");
+			System.out.println("------------------");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
     //recursion to crawl through all links starting with initial page
@@ -174,7 +276,7 @@ public class Main {
 		verifyLinks(testLinks, testLinksCheck);
     }
     
-    private static void performTests() {
+    private static void createTestSet() {
     	if (!Constants.debugPrint) {
 			System.out.printf("%-72s| %-128s| %-12s| %-12s| %-22s| %-1s", "Tokens", "URL", "Parse Time", "Algo Time", "Score", "Match?");
 			System.out.println();
@@ -266,7 +368,40 @@ public class Main {
 	    	testLinksCheck.add(false);
     	}
     	
-    	verifyLinks(testLinksArr, testLinksCheck);
+    	try {
+    		FileWriter writer = new FileWriter(testingDataName);
+    		writer.append("Proximity,");
+    		writer.append("WordCount,");
+    		writer.append("TitleMatch,");
+    		writer.append("Reliance,");
+    		writer.append("Score,");
+    		writer.append("Match\n");
+			
+			int i = 0;
+	        for (String[] linkPair : testLinksArr) {
+	        	NaiveAlgorithm naive = new NaiveAlgorithm(linkPair, Constants.stem);
+	        	naive.calculateMatch();
+	        	
+	        	if (naive.getValid()) {
+	        		writer.append(naive.getProximityFactorNoCurve() + ",");
+	        		writer.append(naive.getWordCountNoCurve() + ",");
+	        		writer.append(naive.getTitleMatch() + ",");
+	        		writer.append(naive.getSingleWordReliance() + ",");
+	        		writer.append(naive.getFinalScore() + ",");
+	        		writer.append(testLinksCheck.get(i) + "\n");
+	        	}
+		        	
+	        	System.out.println();
+		        i++;
+	        }
+	        writer.flush();
+	        writer.close();
+	        
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+    	
+//    	verifyLinks(testLinksArr, testLinksCheck);
     }
     
     private static void verifyLinks(ArrayList<String[]> links, ArrayList<Boolean> check) {
