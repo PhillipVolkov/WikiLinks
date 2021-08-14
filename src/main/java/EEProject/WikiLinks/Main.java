@@ -20,6 +20,7 @@ import org.json.simple.parser.ParseException;
 import com.opencsv.CSVReader;
 
 import weka.attributeSelection.InfoGainAttributeEval;
+import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.classifiers.functions.LibSVM;
 import weka.classifiers.trees.J48;
@@ -34,6 +35,7 @@ public class Main {
 	private static final boolean testLinks = true;
 	private static final String operation = "create train";
 	private static final String crawlGoal = "links";
+	private static final String processing = "normalize";
 	
 	private static final String[] crawlStartPage = new String[] {"Gitlab Docs", "https://docs.gitlab.com/ee/", ""};
 	private static final String jsonName = "trainingSetLinks.json";
@@ -44,7 +46,7 @@ public class Main {
 	private static final String mlModelName = "ml.model";
 	
 	private static int counter = 0;
-	private static final int maxCount = 302;//302;
+	private static final int maxCount = 10;
 	
 	private static Remove removeFilter;
 	
@@ -81,20 +83,20 @@ public class Main {
 		    	    	
 		    	    	count++;
 		    	    	
-//		    	    	//add false link
-//		    	    	links = new JSONArray();
-//		        	    links.add(searchLinkPair[0]);
-//		        	    int randIndex = Constants.getSavedLinks().indexOf(searchLinkPair);
-//		        	    while (randIndex == Constants.getSavedLinks().indexOf(searchLinkPair)) {
-//		        	    	randIndex = ThreadLocalRandom.current().nextInt(0, Constants.getSavedLinks().size());
-//		        	    }
-//		        	    links.add(Constants.getSavedLinks().get(randIndex)[1]);
-//		        	    links.add(searchLinkPair[2]);
-//		        	    links.add(false);
-//		        	    
-//		    	    	savedPagesJSON.put(count, links);
-//		    	    	
-//		    	    	count++;
+		    	    	//add false link
+		    	    	links = new JSONArray();
+		        	    links.add(searchLinkPair[0]);
+		        	    int randIndex = Constants.getSavedLinks().indexOf(searchLinkPair);
+		        	    while (randIndex == Constants.getSavedLinks().indexOf(searchLinkPair)) {
+		        	    	randIndex = ThreadLocalRandom.current().nextInt(0, Constants.getSavedLinks().size());
+		        	    }
+		        	    links.add(Constants.getSavedLinks().get(randIndex)[1]);
+		        	    links.add(searchLinkPair[2]);
+		        	    links.add(false);
+		        	    
+		    	    	savedPagesJSON.put(count, links);
+		    	    	
+		    	    	count++;
 		    	    }
 	    		
 	    			Files.write(Paths.get(jsonName), savedPagesJSON.toJSONString().getBytes());
@@ -190,7 +192,7 @@ public class Main {
 	    	    System.out.println(attr.name() + ": " + score);
 	    	}
 	    	
-	    	RandomForest cls = new RandomForest();
+	    	LibSVM cls = new LibSVM();
 			cls.buildClassifier(data);
 			weka.core.SerializationHelper.write(mlModelName, cls);
 			
@@ -228,7 +230,7 @@ public class Main {
 	    	    System.out.println(attr.name() + ": " + score);
 	    	}
 	    	
-	    	RandomForest cls = (RandomForest) weka.core.SerializationHelper.read(mlModelName);
+	    	LibSVM cls = (LibSVM) weka.core.SerializationHelper.read(mlModelName);
 	    	Evaluation eval = new Evaluation(data);
 			eval.evaluateModel(cls, data);
 			System.out.println("Correct: " + eval.pctCorrect() + "%");
@@ -353,8 +355,13 @@ public class Main {
     		final int numScores = 7;
     		
     		Double[] scoreMean = new Double[numScores];
-    		
     		for (int i = 0; i < scoreMean.length; i++) scoreMean[i] = 0.0;
+    		
+    		Double[] scoreMin = new Double[numScores];
+    		for (int i = 0; i < scoreMin.length; i++) scoreMin[i] = 1.0;
+    		
+    		Double[] scoreMax = new Double[numScores];
+    		for (int i = 0; i < scoreMax.length; i++) scoreMax[i] = 0.0;
     		
     		//store all variables
 			int total = 0;
@@ -379,6 +386,9 @@ public class Main {
 	        		
 	        		for (int i = 0; i < scoreRow.length; i++) {
 	        			scoreMean[i] += scoreRow[i];
+	        			
+	        			if (scoreRow[i] < scoreMin[i]) scoreMin[i] = scoreRow[i];
+	        			else if (scoreRow[i] > scoreMax[i]) scoreMax[i] = scoreRow[i];
 	        		}
 	        		
 	        		scores.add(scoreRow);
@@ -388,35 +398,51 @@ public class Main {
 	        		labelRow[1] = linkPair[1];
 	        		
 	        		labels.add(labelRow);
+	        		
+		        	total++;
 	        	}
 		        	
 	        	System.out.println();
-	        	total++;
 	        }
 	        
-	        //find the mean for each score
-	        for (int i = 0; i < scoreMean.length; i++) {
-    			scoreMean[i] /= total;
-    		}
-
-	        //subtract mean and find the deviation for each score
-    		Double[] scoreMaxDeviation = new Double[numScores];
-    		for (int i = 0; i < scoreMaxDeviation.length; i++) scoreMaxDeviation[i] = 0.0;
-    		
-    		for (Double[] scoreRow : scores) {
-    			for (int i = 0; i < scoreRow.length; i++) {
-    				scoreRow[i] -= scoreMean[i];
-    				
-    				if (Math.abs(scoreRow[i]) > scoreMaxDeviation[i]) scoreMaxDeviation[i] = Math.abs(scoreRow[i]);
-        		}
-    		}
-    		
-    		//divide by deviation for each score
-    		for (Double[] scoreRow : scores) {
-    			for (int i = 0; i < scoreRow.length; i++) {
-    				scoreRow[i] /= scoreMaxDeviation[i];
-        		}
-    		}
+	        if (processing.equals("normalize")) {
+	        	//scale appropriately
+	        	for (Double[] scoreRow : scores) {
+	    			for (int i = 0; i < scoreRow.length; i++) {
+	    				scoreRow[i] = (scoreRow[i]-scoreMin[i])/(scoreMax[i]-scoreMin[i]);
+	        		}
+	    		}
+	        }
+	        else if (processing.equals("standardize")) {
+		        //find the mean for each score
+		        for (int i = 0; i < scoreMean.length; i++) {
+	    			scoreMean[i] /= total;
+	    		}
+	
+		        //subtract mean and find the deviation for each score
+	    		Double[] scoreStandardDeviation = new Double[numScores];
+	    		for (int i = 0; i < scoreStandardDeviation.length; i++) scoreStandardDeviation[i] = 0.0;
+		        
+	    		for (Double[] scoreRow : scores) {
+	    			for (int i = 0; i < scoreRow.length; i++) {
+	    				scoreRow[i] -= scoreMean[i];
+	    				
+	    				scoreStandardDeviation[i] += Math.pow(scoreRow[i], 2);
+	        		}
+	    		}
+	    		
+	    		for (int i = 0; i < scoreStandardDeviation.length; i++) {
+	    			scoreStandardDeviation[i] /= scores.size();
+	    			scoreStandardDeviation[i] = Math.sqrt(scoreStandardDeviation[i]);
+	    		}
+	    		
+	    		//divide by deviation for each score
+	    		for (Double[] scoreRow : scores) {
+	    			for (int i = 0; i < scoreRow.length; i++) {
+	    				scoreRow[i] /= scoreStandardDeviation[i];
+	        		}
+	    		}
+	        }
     		
     		//append scores to csv
     		for (int i = 0; i < scores.size(); i++) {
