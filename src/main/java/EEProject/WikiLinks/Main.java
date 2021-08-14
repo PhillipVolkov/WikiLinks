@@ -7,12 +7,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import com.opencsv.CSVReader;
 
 import weka.attributeSelection.InfoGainAttributeEval;
 import weka.classifiers.Evaluation;
@@ -26,65 +30,133 @@ import weka.filters.unsupervised.attribute.Remove;
 
 public class Main {
 	private static final boolean testLinks = true;
-	private static final String operation = "summarize";
+	private static final String operation = "crawl";
+	private static final String crawlGoal = "saveSentences";
+	
 	private static final String[] crawlStartPage = new String[] {"Gitlab Docs", "https://docs.gitlab.com/ee/", ""};
 	private static final String jsonName = "trainingSetLinks.json";
+	private static final String sentenceName = "sentences.json";
+	private static final String idfName = "idf.csv";
 	private static final String trainingDataName = "trainingSet.csv";
 	private static final String testingDataName = "testingSet.csv";
 	private static final String mlModelName = "ml.model";
 	
 	private static int counter = 0;
-	private static final int maxCount = 200;
+	private static final int maxCount = 10000;//302;
 	
 	private static Remove removeFilter;
 	
-	//TODO modifiy training set, change false to have correct phrase but bad links
-	//TODO predict document contents, find match utilizing Word2Vec
+	//TODO improve TfIdf to give similarity rating (ADD TITLES INTO SEPERATE COUNT), fix low occurrence ratings and edit links dataset
+		//Analyze low occurrences and high false positives, remove inaccurate rows
+		//Discover source of improper matches, add additional useful differentiators
+		//Use word2vec and cosine similarity for increasing synonym comprehension
+		//Add support for finding top phrases also, use that for multiple token queries
+		//MAYBE just improve title similarity matching
+	
+	//TODO improve test data set, create body similarity feature, analyze low similarity
+	//TODO auto train set through randomization of false links, add cases of match but with no present words
+	
     public static void main(String[] args) {
+    	
     	if (operation.toLowerCase().equals("crawl")) {
     		System.out.printf("%-6d| %-72s| %-128s| %-128s|", 0, "Title", "URL", "SearchUrl");
     		System.out.println();
     		crawlPage(crawlStartPage);
-	    	
-    		JSONObject savedPagesJSON = new JSONObject();
     	    
-    	    int count = 0;
-    	    for (String[] searchLinkPair : Constants.getSavedLinks()) {
-        	    JSONArray links = new JSONArray();
-        	    links.add(searchLinkPair[0]);
-        	    links.add(searchLinkPair[1]);
-        	    links.add(searchLinkPair[2]);
-        	    links.add(true);
-        	    
-    	    	savedPagesJSON.put(count, links);
+    		if (crawlGoal.equals("links")) {
+	    	    try {
+	    			JSONObject savedPagesJSON = new JSONObject();
+	    	    
+		    	    int count = 0;
+		    	    for (String[] searchLinkPair : Constants.getSavedLinks()) {
+		    	    	//add true link
+		        	    JSONArray links = new JSONArray();
+		        	    links.add(searchLinkPair[0]);
+		        	    links.add(searchLinkPair[1]);
+		        	    links.add(searchLinkPair[2]);
+		        	    links.add(true);
+		        	    
+		    	    	savedPagesJSON.put(count, links);
+		    	    	
+		    	    	count++;
+		    	    	
+		    	    	//add false link
+		    	    	links = new JSONArray();
+		        	    links.add(searchLinkPair[0]);
+		        	    int randIndex = Constants.getSavedLinks().indexOf(searchLinkPair);
+		        	    while (randIndex == Constants.getSavedLinks().indexOf(searchLinkPair)) {
+		        	    	randIndex = ThreadLocalRandom.current().nextInt(0, Constants.getSavedLinks().size());
+		        	    }
+		        	    links.add(Constants.getSavedLinks().get(randIndex)[1]);
+		        	    links.add(searchLinkPair[2]);
+		        	    links.add(false);
+		        	    
+		    	    	savedPagesJSON.put(count, links);
+		    	    	
+		    	    	count++;
+		    	    }
+	    		
+	    			Files.write(Paths.get(jsonName), savedPagesJSON.toJSONString().getBytes());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+    		}
+    		else if (crawlGoal.equals("saveSentences")) {
+    	    	JSONObject savedSentencesJSON = new JSONObject();
+    	    	JSONArray sentences = new JSONArray();
+
+    	    	for (ArrayList<String> sentence : Constants.getSavedSentences()) {
+        	    	JSONArray sentenceJSON = new JSONArray();
+    	    		for (String stem : sentence) {
+    	    			sentenceJSON.add(stem);
+    	    		}
+    	    		sentences.add(sentenceJSON);
+    	    	}
+
+    	    	savedSentencesJSON.put("Sentences:", sentences);
     	    	
-    	    	count++;
+    	    	try {
+    	    		Files.write(Paths.get(sentenceName), savedSentencesJSON.toJSONString().getBytes());
+	    		} 
+    	    	catch (IOException e1) {
+	    			e1.printStackTrace();
+	    		}
     	    }
-    	    
-    	    try {
-				Files.write(Paths.get(jsonName), savedPagesJSON.toJSONString().getBytes());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+    	    else if (crawlGoal.equals("idf")) {
+	    	    try {
+	        		FileWriter writer = new FileWriter(idfName);
+	        		writer.append("term,");
+	        		writer.append("frequency,");
+	        		writer.append("total,");
+	        		writer.append("idf\n");
+	        		
+	    	        for (Map.Entry<String, Integer> entry : Constants.getSavedTerms().entrySet()) {
+		        		writer.append(entry.getKey() + ",");
+		        		writer.append(entry.getValue() + ",");
+		        		writer.append(Constants.getSavedLinks().size() + ",");
+		        		writer.append(Math.log((double)Constants.getSavedLinks().size()/entry.getValue()) + "\n");
+	    	        }
+	    	        writer.flush();
+	    	        writer.close();
+	    	        
+	    		} catch (IOException e1) {
+	    			e1.printStackTrace();
+	    		}
+    	    }
     	}
     	else if (operation.toLowerCase().equals("create train")) createDataSet();
     	else if (operation.toLowerCase().equals("create test")) createTestSet();
     	else if (operation.toLowerCase().equals("match")) matchTests();
     	else if (operation.toLowerCase().equals("train model")) train();
     	else if (operation.toLowerCase().equals("test model")) testModel();
-    	else if (operation.toLowerCase().equals("summarize")) {
-    		Page page = new Page(Constants.stem, "/ee/user/project/clusters/index.html");
-    		
-    		ArrayList<String> combinedStems = new ArrayList<String>();
-    		
-    		for (int i = 0; i < page.getStems().size(); i++) {
-    			for (int j = 0; j < page.getStems().get(i).size(); j++) {
-        			combinedStems.add(page.getStems().get(i).get(j));
-    			}
-    		}
-    		
-    		DocumentExtraction extractor = new DocumentExtraction(combinedStems, page.getSections());
-    		extractor.getSummary();
+    	else if (operation.toLowerCase().equals("debug")) {
+        	ScoreCompiler score = new ScoreCompiler(new String[] {"GitLab CI/CD Examples", "https://docs.gitlab.com/ee/ci/examples/README.html", ""}, Constants.stem);
+        	score.calculateMatch();
+        	System.out.println();
+        	System.out.println(score.getTokens());
+        	System.out.println(score.getTitle());
+        	System.out.println(score.getTitleSimilarity());
+        	System.out.println(score.getFinalScore());
     	}
     }
     
@@ -98,7 +170,7 @@ public class Main {
 	    	data.setClassIndex(data.numAttributes()-1);
 	    	
 	    	removeFilter = new Remove();
-	    	removeFilter.setAttributeIndicesArray(new int[] {0, 1, 2, data.numAttributes()-1});
+	    	removeFilter.setAttributeIndicesArray(new int[] {3, 4, data.numAttributes()-1});
 	    	removeFilter.setInvertSelection(true);
 	    	removeFilter.setInputFormat(data);
 	    	data = Filter.useFilter(data, removeFilter);
@@ -113,7 +185,7 @@ public class Main {
 	    	    System.out.println(attr.name() + ": " + score);
 	    	}
 	    	
-			LibSVM svm = new LibSVM();
+	    	LibSVM svm = new LibSVM();
 			svm.buildClassifier(data);
 			weka.core.SerializationHelper.write(mlModelName, svm);
 			
@@ -125,7 +197,32 @@ public class Main {
 			e.printStackTrace();
 		}
 		
+		getNaiveCorrect(trainingDataName);
+		
 		testModel();
+    }
+    
+    private static void getNaiveCorrect(String file) {
+    	try (CSVReader reader = new CSVReader(new FileReader(file))) {
+			String[] row;
+			reader.readNext();
+			int matches = 0;
+			int count = 0;
+			
+			while ((row = reader.readNext()) != null) {
+				double match = Double.parseDouble(row[row.length-4]);
+				if (match != -1 && !Constants.debugPrint) {
+					if ((match >= Constants.threshold) == Boolean.parseBoolean(row[row.length-1])) matches++;
+				}
+				
+				count++;
+			}
+			
+			System.out.println("Naive Correct: " + ((double)matches/count*100) + "%");
+			System.out.println("------------------");
+			System.out.println();
+		}
+		catch (Exception e) {e.printStackTrace();}
     }
     
     private static void testModel() {
@@ -151,13 +248,15 @@ public class Main {
 	    	
 	    	LibSVM svm = (LibSVM) weka.core.SerializationHelper.read(mlModelName);
 	    	Evaluation eval = new Evaluation(data);
-			eval.crossValidateModel(svm, data, 10, new Random(1));
+			eval.evaluateModel(svm, data);
 			System.out.println("Correct: " + eval.pctCorrect() + "%");
 			System.out.println("------------------");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		getNaiveCorrect(testingDataName);
     }
     
     //recursion to crawl through all links starting with initial page
@@ -178,8 +277,38 @@ public class Main {
 		System.out.println();
 	    
     	if (!searchPage.getFailed() && (counter <= maxCount)) {
+    		//if document is unique
     		if (!Constants.getSavedLinks().contains(linkPair)) {
+    			//add to saved hastable
     			Constants.addSavedLink(linkPair);
+    			
+    			if (crawlGoal.equals("saveSentences")) {
+    				for (ArrayList<String> sentence : searchPage.getSentenceStems()) {
+    					if (!Constants.getSavedSentences().contains(sentence)) {
+    						Constants.addSavedSentence(sentence);
+    					}
+    				}
+    			}
+    			else if (crawlGoal.equals("idf")) {
+	    			//calculate idf
+		    		ArrayList<String> foundStems = new ArrayList<String>();
+		    		for (ArrayList<String> stemList : searchPage.getStems()) {
+		    			for (String stem : stemList) {
+		    				if (foundStems.contains(stem)) break;
+		    				
+		    				if (Constants.getSavedTerms().containsKey(stem)) {
+		    					Constants.incrementSavedTerm(stem);
+		    				}
+		    				else {
+		    					Constants.addSavedTerm(stem);
+		    				}
+		    				
+		    				foundStems.add(stem);
+		    			}
+		    		}
+    			}
+	    		
+	    		
     		}
     		
 	    	for (String[] searchLinkPair : searchPage.getLinks()) {
@@ -223,22 +352,29 @@ public class Main {
     		FileWriter writer = new FileWriter(trainingDataName);
     		writer.append("Proximity,");
     		writer.append("WordCount,");
+    		writer.append("TfIdf,");
     		writer.append("TitleMatch,");
-    		writer.append("Reliance,");
+    		writer.append("Similarity,");
     		writer.append("Score,");
+    		writer.append("Phrase,");
+    		writer.append("Link,");
     		writer.append("Match\n");
 			
 			int i = 0;
 	        for (String[] linkPair : testLinks) {
-	        	NaiveAlgorithm naive = new NaiveAlgorithm(linkPair, Constants.stem);
-	        	naive.calculateMatch();
+	        	ScoreCompiler score = new ScoreCompiler(linkPair, Constants.stem);
+	        	score.calculateMatch();
 	        	
-	        	if (naive.getValid()) {
-	        		writer.append(naive.getProximityFactorNoCurve() + ",");
-	        		writer.append(naive.getWordCountNoCurve() + ",");
-	        		writer.append(naive.getTitleMatch() + ",");
-	        		writer.append(naive.getSingleWordReliance() + ",");
-	        		writer.append(naive.getFinalScore() + ",");
+	        	if (score.getValid()) {
+	        		writer.append(score.getProximityFactorNoCurve() + ",");
+	        		writer.append(score.getWordCountNoCurve() + ",");
+	        		writer.append(score.getTfIdfScore() + ",");
+	        		writer.append(score.getTitleMatch() + ",");
+	        		if (!Double.isNaN(score.getTitleSimilarity())) writer.append(score.getTitleSimilarity() + ",");
+	        		else writer.append(0 + ",");
+	        		writer.append(score.getFinalScore() + ",");
+	        		writer.append(String.join(" ", linkPair[0].split(",")) + ",");
+	        		writer.append(linkPair[1] + ",");
 	        		writer.append(testLinksCheck.get(i) + "\n");
 	        	}
 		        	
@@ -372,22 +508,29 @@ public class Main {
     		FileWriter writer = new FileWriter(testingDataName);
     		writer.append("Proximity,");
     		writer.append("WordCount,");
+    		writer.append("TfIdf,");
     		writer.append("TitleMatch,");
-    		writer.append("Reliance,");
+    		writer.append("Similarity,");
     		writer.append("Score,");
+    		writer.append("Phrase,");
+    		writer.append("Link,");
     		writer.append("Match\n");
 			
 			int i = 0;
 	        for (String[] linkPair : testLinksArr) {
-	        	NaiveAlgorithm naive = new NaiveAlgorithm(linkPair, Constants.stem);
-	        	naive.calculateMatch();
+	        	ScoreCompiler score = new ScoreCompiler(linkPair, Constants.stem);
+	        	score.calculateMatch();
 	        	
-	        	if (naive.getValid()) {
-	        		writer.append(naive.getProximityFactorNoCurve() + ",");
-	        		writer.append(naive.getWordCountNoCurve() + ",");
-	        		writer.append(naive.getTitleMatch() + ",");
-	        		writer.append(naive.getSingleWordReliance() + ",");
-	        		writer.append(naive.getFinalScore() + ",");
+	        	if (score.getValid()) {
+	        		writer.append(score.getProximityFactorNoCurve() + ",");
+	        		writer.append(score.getWordCountNoCurve() + ",");
+	        		writer.append(score.getTfIdfScore() + ",");
+	        		writer.append(score.getTitleMatch() + ",");
+	        		if (!Double.isNaN(score.getTitleSimilarity())) writer.append(score.getTitleSimilarity() + ",");
+	        		else writer.append(0 + ",");
+	        		writer.append(score.getFinalScore() + ",");
+	        		writer.append(String.join(" ", linkPair[0].split(",")) + ",");
+	        		writer.append(linkPair[1] + ",");
 	        		writer.append(testLinksCheck.get(i) + "\n");
 	        	}
 		        	
@@ -410,10 +553,10 @@ public class Main {
     	double startTime = System.nanoTime();
     	int i = 0;
         for (String[] linkPair : links) {
-        	NaiveAlgorithm naive = new NaiveAlgorithm(linkPair, Constants.stem);
-        	naive.calculateMatch();
+        	ScoreCompiler score = new ScoreCompiler(linkPair, Constants.stem);
+        	score.calculateMatch();
         	
-        	double match = naive.getFinalScore();
+        	double match = score.getFinalScore();
         	if (match != -1 && !Constants.debugPrint) {
             	if (match >= Constants.threshold) System.out.printf("| true\n");
             	else System.out.printf("| false\n");

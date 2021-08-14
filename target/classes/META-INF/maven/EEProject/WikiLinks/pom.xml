@@ -52,6 +52,32 @@
 	    <artifactId>LibSVM</artifactId>
 	    <version>1.0.10</version>
 	</dependency>
+	 <dependency>
+	     <groupId>de.jungblut.glove</groupId>
+	     <artifactId>glove</artifactId>
+	     <version>0.3</version>
+	 </dependency>
+	 <dependency>
+	      <groupId>com.opencsv</groupId>
+	      <artifactId>opencsv</artifactId>
+	      <version>5.3</version>
+	  </dependency>
+	  <dependency>
+	    <groupId>org.deeplearning4j</groupId>
+	    <artifactId>deeplearning4j-nlp</artifactId>
+	    <version>1.0.0-M1</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.deeplearning4j</groupId>
+	    <artifactId>deeplearning4j-core</artifactId>
+	    <version>1.0.0-M1</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.nd4j</groupId>
+	    <artifactId>nd4j-native</artifactId>
+	    <version>1.0.0-M1</version>
+	</dependency>
+		
   </dependencies>
 
   <build>

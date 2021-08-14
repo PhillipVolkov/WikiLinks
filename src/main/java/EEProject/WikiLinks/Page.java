@@ -9,18 +9,27 @@ import java.util.Hashtable;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-import org.tartarus.snowball.ext.PorterStemmer;
-
 public class Page {
 	private String title;
 	private ArrayList<String> sections;
+	private ArrayList<String> sentences;
+	private ArrayList<ArrayList<String>> sentenceStems;
 	private ArrayList<ArrayList<String>> stems;
+	private Hashtable<String, Double> topStems;
 	private ArrayList<String[]> links;
 	private Hashtable<String, Integer> permaLinks;
 	private boolean failed;
 	
 	public Page(String stem, String pages) {
 		readGitLabPage(stem, pages);
+		if (!failed) parseSentences();
+	}
+	
+	public Page(String stem, String pages, boolean calculateTopStems) {
+		readGitLabPage(stem, pages);
+		if (!failed) parseSentences();
+		
+		if (calculateTopStems && !failed) calculateTopStem();
 	}
 	
 	public boolean getFailed() {
@@ -33,6 +42,14 @@ public class Page {
 	
 	public ArrayList<String> getSections() {
 		return this.sections;
+	}
+	
+	public ArrayList<String> getSentences() {
+		return this.sentences;
+	}
+	
+	public ArrayList<ArrayList<String>> getSentenceStems() {
+		return this.sentenceStems;
 	}
 	
 	public Hashtable<String, Integer> getPermaLinks() {
@@ -54,6 +71,10 @@ public class Page {
 	
 	public ArrayList<ArrayList<String>> getStems() {
 		return this.stems;
+	}
+			
+	public Hashtable<String, Double> getTopStems() {
+		return this.topStems;
 	}
 	
 	public String getStemsString() {
@@ -108,7 +129,7 @@ public class Page {
 	}
 	
 	//parse the page into the object
-    public void readGitLabPage(String stem, String pages) {
+    private void readGitLabPage(String stem, String pages) {
     	this.failed = true;
     	
     	try {
@@ -127,6 +148,7 @@ public class Page {
     		String linkContext = "";
             boolean mainOpen = false;
             boolean articleContent = false;
+    		boolean ignoreOpen = false;
             int divsOpen = 0;
 
     		boolean addSection = false;
@@ -149,7 +171,6 @@ public class Page {
             	
             	//parsing
             	if (mainOpen && articleContent) {
-            		
             		boolean singleBracketOpen = false;
             		int bracketPrevOpen = -2;
             		int bracketPrevClosed = -2;
@@ -157,6 +178,14 @@ public class Page {
             		int prevPeriod = -2;
             		int prevL = -2;
             		int prevU = -2;
+            		
+            		int prevc = -2;
+            		int prevo = -2;
+            		int prevd = -2;
+            		int preve = -2;
+            		
+            		int prevs = -2;
+            		int prevv = -2;
             		boolean linkBracketOpen = false;
             		boolean linkUrlParse = false;
             		boolean linkSentence = false;
@@ -183,6 +212,32 @@ public class Page {
             				bracketPrevClosed = i;
             				endBracketOpen = true;
             				ignoreCurrChar = true;
+            			}
+            			else if (currLine.charAt(i) == 'c' && (bracketPrevOpen == i-1 || bracketPrevClosed == i-1)) {
+            				prevc = i;
+            			}
+            			else if (currLine.charAt(i) == 'o' && prevc == i-1) {
+            				prevo = i;
+            			}
+            			else if (currLine.charAt(i) == 'd' && prevo == i-1) {
+            				prevd = i;
+            			}
+            			else if (currLine.charAt(i) == 'e' && prevd == i-1) {
+            				preve = i;
+            			}
+            			else if (currLine.charAt(i) == 's' && (bracketPrevOpen == i-1 || bracketPrevClosed == i-1)) {
+            				prevs = i;
+            			}
+            			else if (currLine.charAt(i) == 'v' && prevs == i-1) {
+            				prevv = i;
+            			}
+            			else if (currLine.charAt(i) == 'g' && prevv == i-1) {
+            				if (bracketPrevOpen == i-3) ignoreOpen = true;
+            				else if (bracketPrevClosed == i-3) ignoreOpen = false;
+            			}
+            			else if (currLine.charAt(i) == '>' && preve == i-1) {
+            				if (bracketPrevOpen == i-5) ignoreOpen = true;
+            				else if (bracketPrevClosed == i-5) ignoreOpen = false;
             			}
             			else if (currLine.charAt(i) == 'u' && (bracketPrevOpen == i-1 || bracketPrevClosed == i-1)) {
             				prevU = i;
@@ -232,7 +287,7 @@ public class Page {
             			//System.out.print(currLine.charAt(i) + " " + singleBracketOpen);
             			
             			//write currentChar
-            			if (!endBracketOpen && !ignoreCurrChar) {
+            			if (!endBracketOpen && !ignoreCurrChar && !ignoreOpen) {
             				if (escapeSequence) escapeCharacters += currLine.charAt(i);
             				
             				else if (singleBracketOpen) internalText += currLine.charAt(i);
@@ -260,6 +315,8 @@ public class Page {
             						ignoreBracketContents = true;
             					}
             				}
+            				
+            				if (internalText.equals("br")) newLine += " ";
             				
             				if (!singleBracketOpen) {
 	    						internalText = "";
@@ -450,34 +507,10 @@ public class Page {
             
             //stemming
             for (String section : sections) {
-    	    	ArrayList<String> tokens = new ArrayList<String>();
-    	    	
-    		    PorterStemmer stemmer = new PorterStemmer();
-    		    
     		    String[] tokenized = section.toLowerCase().split(Constants.stemmerDelims);
-    		    stemmer = new PorterStemmer();
-    		    
-    		    for (String token : tokenized) {
-    		    	token = token.toLowerCase().strip();
-    		    	token = String.join("", token.split("\n"));
-    		    	
-    		    	stemmer.setCurrent(token);
-    		    	stemmer.stem();
-    		    	token = stemmer.getCurrent();
-    		    	
-    		    	for (String removedChar : Constants.removedChars) {
-    		    		if (token.indexOf(removedChar) != -1) {
-    		    			token = token.replace(removedChar, "");
-    		    		}
-    		    	}
-    		    	
-    		    	if (!Constants.contains(Constants.stopWords, token)) {
-    		    		tokens.add(token);
-    		    	}
-    		    }
-
-    		    
-    	    	stems.add(tokens);
+    	    	ArrayList<String> tokens = new ArrayList<String>();
+    		    for (String token : tokenized) tokens.add(token);
+    		    stems.add(Constants.tokenize(tokens));
             }
 
             this.title = title;
@@ -492,4 +525,136 @@ public class Page {
             System.out.println(e.getStackTrace());
         }
     }
+    
+    private void parseSentences() {
+		this.sentences = new ArrayList<String>();
+		this.sentenceStems = new ArrayList<ArrayList<String>>();
+    
+		for (String section : sections) {
+			String[] whiteSpaceSplit = section.split("\n");
+			whiteSpaceSplit[0] = "";
+			section = String.join(" ", whiteSpaceSplit);
+			section = section.toLowerCase().strip();
+			
+			String[] tokenized = section.split(Constants.sentenceDelims);
+
+			//add sentence tokens
+			for (String token : tokenized) {
+				this.sentences.add(token);
+			    
+			    String[] stemsTokenizedArr = token.toLowerCase().split(Constants.stemmerDelims);
+			    
+			    ArrayList<String> stemsTokenized = new ArrayList<String>();
+				for (String stemToken : stemsTokenizedArr) {
+					stemsTokenized.add(stemToken);
+				}
+			    
+				//add word tokens
+			    stemsTokenized = Constants.tokenize(stemsTokenized);
+
+			    sentenceStems.add(new ArrayList<String>());
+			    for (String stemToken : stemsTokenized) {
+			    	sentenceStems.get(sentenceStems.size()-1).add(stemToken);
+			    }
+			}
+		}
+    }
+    
+    public void calculateTopStem() {
+		Hashtable<String, Integer> occurences = new Hashtable<String, Integer>();
+		
+		ArrayList<String> stems = new ArrayList<String>();
+		
+		for (ArrayList<String> stemList : this.stems) { 
+			for (String stem : stemList) {
+				stems.add(stem);
+			}
+		}
+		
+		if (stems.size() == 0) return;
+		
+		for (String word : stems) {
+			if (occurences.containsKey(word)) occurences.put(word, occurences.get(word)+1);
+			else occurences.put(word, 1);
+		}
+
+		//sort stems
+		ArrayList<String> sortedStems = new ArrayList<String>();
+		int total = 0;
+		for (int i = 0; i < stems.size(); i++) {
+			if (sortedStems.contains(stems.get(i))) continue;
+
+			total += occurences.get(stems.get(i));
+			
+			if (sortedStems.size() == 0) {
+				sortedStems.add(stems.get(i));
+			}
+			else {
+				boolean appended = false;
+				for (int j = 0; j < sortedStems.size(); j++) {
+					if (occurences.get(stems.get(i)) > occurences.get(sortedStems.get(j))) {
+						sortedStems.add(j, stems.get(i));
+						appended = true;
+						break;
+					}
+				}
+				
+				if (!appended) sortedStems.add(stems.get(i));
+			}
+		}
+		
+		int average = (int)Math.round((double)total/occurences.size())*3;
+		int maxScore = occurences.get(sortedStems.get(0));
+		
+		Hashtable<String, Double> tfIdf = new Hashtable<String, Double>();
+		ArrayList<String> unFoundStems = new ArrayList<String>();
+		
+		//add tf and idf scores
+		for (int i = 0; i < sortedStems.size(); i++) {
+			//if (occurences.get(sortedStems.get(i)) < average && i >= 3) break;
+			
+			tfIdf.put(sortedStems.get(i), (double)occurences.get(sortedStems.get(i))/maxScore);
+			
+			if (Constants.getSavedIdf().containsKey(sortedStems.get(i))) tfIdf.replace(sortedStems.get(i), tfIdf.get(sortedStems.get(i))*(Constants.getSavedIdf().get(sortedStems.get(i))));
+			
+			//System.out.println(sortedStems.get(i) + ": " + tfIdf.get(sortedStems.get(i)));
+		}
+		//System.out.println();
+		
+		//resort stems
+		sortedStems = new ArrayList<String>();
+		total = 0;
+		for (int i = 0; i < stems.size(); i++) {
+			if (sortedStems.contains(stems.get(i)) || !tfIdf.containsKey(stems.get(i))) continue;
+
+			total += tfIdf.get(stems.get(i));
+			
+			if (sortedStems.size() == 0) {
+				sortedStems.add(stems.get(i));
+			}
+			else {
+				boolean appended = false;
+				for (int j = 0; j < sortedStems.size(); j++) {
+					if (tfIdf.get(stems.get(i)) > tfIdf.get(sortedStems.get(j))) {
+						sortedStems.add(j, stems.get(i));
+						appended = true;
+						break;
+					}
+				}
+				
+				if (!appended) sortedStems.add(stems.get(i));
+			}
+		}
+		
+		//normalize scores
+		double maxTfIdfScore = tfIdf.get(sortedStems.get(0));
+		
+		this.topStems = new Hashtable<String, Double>();
+		
+		for (int i = 0; i < sortedStems.size(); i++) {
+			tfIdf.replace(sortedStems.get(i), (double)tfIdf.get(sortedStems.get(i))/maxTfIdfScore);
+			//System.out.println(sortedStems.get(i) + "\t" + tfIdf.get(sortedStems.get(i)));
+			this.topStems.put(sortedStems.get(i), tfIdf.get(sortedStems.get(i)));
+		}
+	}
 }

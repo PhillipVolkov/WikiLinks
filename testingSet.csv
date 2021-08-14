@@ -1,28 +1,28 @@
-Proximity,WordCount,TitleMatch,Reliance,Score,Match
-0.7777777777777778,0.15384615384615385,1.0,1.0,64.27083333333333,true
-0.26835451625544493,0.058823529411764705,1.0,1.0,52.881322359011804,true
-0.45759219555476843,0.08778625954198473,1.0,1.0,61.96416527577164,true
-0.10269578634558878,0.051839464882943144,1.0,0.35377358490566035,16.26264351938619,true
-0.3484042477669132,0.054778554778554776,1.0,1.0,53.044039197713275,true
-0.3645025778302387,0.07290015847860538,1.0,0.8064516129032259,46.99986694894743,true
-0.2926956289632451,0.03342618384401114,1.0,0.9259259259259258,49.284085648427734,true
-0.55,0.1,0.5,1.0,37.19230769230769,true
-0.36922867266422804,0.0365025466893039,1.0,1.0,52.909246543563206,true
-0.30797139994488365,0.007738095238095238,0.4,0.986842105263158,30.718939343870726,true
-0.3505545331861121,0.026442307692307692,1.0,1.0,51.53830782220875,true
-0.06752355032452513,0.011578947368421053,0.0,0.7075471698113207,1.9021394661406077,true
-0.0,0.0019309678976587015,0.5,1.0,20.112728980742133,true
-0.12380952380952381,0.02142857142857143,1.0,0.9868421052631579,43.6191830928673,true
-0.31712684351368686,0.011142061281337047,0.0,1.0,10.020134419334656,false
-0.051702926886545875,0.015267175572519083,0.0,1.0,2.1876925811321852,false
-0.07352172091608955,0.04992076069730586,0.3333333333333333,0.625,11.295310640724491,false
-0.0797345133764967,0.0304398385662494,0.0,0.635593220338983,3.161226363893508,false
-0.0,0.06666666666666667,0.5,1.0,22.440677966101696,true
-0.0,0.07455226988754686,0.5,1.0,24.268680445151038,true
-0.07285952299023918,0.03642384105960265,0.5,1.0,23.426387193466574,true
-0.0,0.012539184952978056,0.5,1.0,20.55299539170507,true
-0.0,0.05555555555555555,0.25,1.0,11.463414634146343,true
-0.0,0.02335456475583864,0.25,1.0,11.12627986348123,true
-0.0,0.0036529680365296802,0.0,1.0,0.2117647058823529,false
-0.08734561316829784,0.013952519783423574,0.0,0.6578947368421053,2.2495102088588617,false
-0.0,0.016666666666666666,0.0,1.0,0.6101694915254237,false
+Proximity,WordCount,TfIdf,TitleMatch,Similarity,Score,Phrase,Link,Match
+0.777777778,0.153846154,0.061930625,1,1,64.27083333,Auto DevOps,https://docs.gitlab.com/ee/user/project/clusters/index.html#auto-devops,TRUE
+0.271841236,0.060606061,0.551054575,1,0.970853746,53.04366642,the Prometheus cluster integration is enabled,https://docs.gitlab.com/ee/user/clusters/integrations.html#prometheus-cluster-integration,TRUE
+0.476653068,0.112195122,0.677866019,1,1,63.3786227,Cluster management project,https://docs.gitlab.com/ee/user/clusters/management_project.html,TRUE
+0.101457129,0.057917889,0.533198783,1,1,16.28471198,CI/CD Pipelines,https://docs.gitlab.com/ee/ci/pipelines/index.html,TRUE
+0.355932099,0.083050847,0.78959493,1,1,54.26332881,cluster integrations,https://docs.gitlab.com/ee/user/clusters/integrations.html,TRUE
+0.389445771,0.079393939,0.730687579,1,1,59.51768048,project access tokens,https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html,TRUE
+0.290498743,0.038946163,0.60354481,1,1,49.34706164,GitLab to manage your cluster for you,https://docs.gitlab.com/ee/user/project/clusters/gitlab_managed_clusters.html,TRUE
+0.55,0.1,0.644531839,0.5,0.759514928,37.19230769,Infrastructure as Code,https://docs.gitlab.com/ee/user/infrastructure,TRUE
+0.360636628,0.036328872,0.815891742,1,1,52.60593269,Deploy Boards,https://docs.gitlab.com/ee/user/project/deploy_boards.html,TRUE
+Infinity,0.008116883,0.058336142,0.4,0.840240955,Infinity,role-based or attribute-based access controls,https://docs.gitlab.com/ee/user/project/clusters/cluster_access.html,TRUE
+0.355755582,0.036912752,0.226422533,1,0.929456472,51.92266746,Read more about Kubernetes monitoring,https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/kubernetes.html,TRUE
+0.077008211,0.017088175,0.47153629,0,0.795543909,2.421398525,Kubernetes with Knative,https://docs.gitlab.com/ee/user/project/clusters/serverless/index.html,TRUE
+0,0.005030181,0.042904147,0.5,0.870818913,20.2853067,Through the API,https://docs.gitlab.com/ee/api/users.html,TRUE
+0.15,0.033333333,0.091277871,1,0.761253119,44.46957237,Elasticsearch.log file,https://docs.gitlab.com/ee/administration/logs.html#elasticsearchlog,TRUE
+0.372982338,0.012027491,0.164610059,0,0.728038609,11.70671153,Kubernetes Engine,https://docs.gitlab.com/ee/user/project/clusters/gitlab_managed_clusters.html,FALSE
+0.052867543,0.019512195,0.152321247,0,0.726986945,2.336026301,Kubernetes Pipeline,https://docs.gitlab.com/ee/user/clusters/management_project.html,FALSE
+0.04122744,0.036969697,0.311816919,0.333333333,0.859701991,11.6784843,find users api tokens,https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html,FALSE
+0.081215653,0.034267089,0.760363892,0,0.686147571,2.327223179,gitlab search index,https://docs.gitlab.com/ee/integration/elasticsearch.html,FALSE
+0,0.075949367,0.436563191,0.5,0.888816655,22.63736264,package,https://docs.gitlab.com/ee/user/packages/index.html,TRUE
+0,0.08501594,1,0.5,0.884344637,24.80721082,environment,https://docs.gitlab.com/ee/ci/environments/index.html,TRUE
+0.072052148,0.03313253,0.554137093,0.5,0.84529686,23.33594167,NGINX Ingress,https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/nginx.html,TRUE
+0,0.013513514,0.057791295,0.5,0.838808179,20.58394161,Kubernetes podlogs,https://docs.gitlab.com/ee/user/project/clusters/kubernetes_pod_logs.html,TRUE
+0,0.056179775,0.29317464,0.25,0.746689022,11.47058824,instance,https://docs.gitlab.com/ee/user/instance/clusters/index.html,TRUE
+0,0.03117506,0.206217815,0.25,0.719030917,11.46616541,group,https://docs.gitlab.com/ee/user/group/clusters/index.html,TRUE
+0,0.005532503,0.13547044,0,0.552193344,0.315236427,developers,https://docs.gitlab.com/ee/user/permissions.html,FALSE
+0.134284331,0.011424017,0.16605925,0,0.6464715,3.983947921,dynamic names,https://docs.gitlab.com/ee/ci/environments/index.html,FALSE
+0,0.018987342,0.125803955,0,0.529197931,0.659340659,dependency,https://docs.gitlab.com/ee/user/packages/index.html,FALSE
