@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -22,6 +23,7 @@ import weka.attributeSelection.InfoGainAttributeEval;
 import weka.classifiers.Evaluation;
 import weka.classifiers.functions.LibSVM;
 import weka.classifiers.trees.J48;
+import weka.classifiers.trees.RandomForest;
 import weka.core.Attribute;
 import weka.core.Instances;
 import weka.core.converters.CSVLoader;
@@ -30,7 +32,7 @@ import weka.filters.unsupervised.attribute.Remove;
 
 public class Main {
 	private static final boolean testLinks = true;
-	private static final String operation = "debug";
+	private static final String operation = "create train";
 	private static final String crawlGoal = "links";
 	
 	private static final String[] crawlStartPage = new String[] {"Gitlab Docs", "https://docs.gitlab.com/ee/", ""};
@@ -42,7 +44,7 @@ public class Main {
 	private static final String mlModelName = "ml.model";
 	
 	private static int counter = 0;
-	private static final int maxCount = 500;//302;
+	private static final int maxCount = 302;//302;
 	
 	private static Remove removeFilter;
 	
@@ -53,7 +55,7 @@ public class Main {
 		//Add support for finding top phrases also, use that for multiple token queries
 		//MAYBE just improve title similarity matching
 	
-	//TODO improve test data set, create body similarity feature, analyze low similarity
+	//TODO standardize (minVal = -1, meanVals = 0, maxVal = 1), improve test data set, analyze low similarity
 	
     public static void main(String[] args) {
     	
@@ -79,20 +81,20 @@ public class Main {
 		    	    	
 		    	    	count++;
 		    	    	
-		    	    	//add false link
-		    	    	links = new JSONArray();
-		        	    links.add(searchLinkPair[0]);
-		        	    int randIndex = Constants.getSavedLinks().indexOf(searchLinkPair);
-		        	    while (randIndex == Constants.getSavedLinks().indexOf(searchLinkPair)) {
-		        	    	randIndex = ThreadLocalRandom.current().nextInt(0, Constants.getSavedLinks().size());
-		        	    }
-		        	    links.add(Constants.getSavedLinks().get(randIndex)[1]);
-		        	    links.add(searchLinkPair[2]);
-		        	    links.add(false);
-		        	    
-		    	    	savedPagesJSON.put(count, links);
-		    	    	
-		    	    	count++;
+//		    	    	//add false link
+//		    	    	links = new JSONArray();
+//		        	    links.add(searchLinkPair[0]);
+//		        	    int randIndex = Constants.getSavedLinks().indexOf(searchLinkPair);
+//		        	    while (randIndex == Constants.getSavedLinks().indexOf(searchLinkPair)) {
+//		        	    	randIndex = ThreadLocalRandom.current().nextInt(0, Constants.getSavedLinks().size());
+//		        	    }
+//		        	    links.add(Constants.getSavedLinks().get(randIndex)[1]);
+//		        	    links.add(searchLinkPair[2]);
+//		        	    links.add(false);
+//		        	    
+//		    	    	savedPagesJSON.put(count, links);
+//		    	    	
+//		    	    	count++;
 		    	    }
 	    		
 	    			Files.write(Paths.get(jsonName), savedPagesJSON.toJSONString().getBytes());
@@ -173,7 +175,7 @@ public class Main {
 	    	data.setClassIndex(data.numAttributes()-1);
 	    	
 	    	removeFilter = new Remove();
-	    	removeFilter.setAttributeIndicesArray(new int[] {2, 4, 5, data.numAttributes()-1});
+	    	removeFilter.setAttributeIndicesArray(new int[] {3, 4, 5, data.numAttributes()-1});
 	    	removeFilter.setInvertSelection(true);
 	    	removeFilter.setInputFormat(data);
 	    	data = Filter.useFilter(data, removeFilter);
@@ -188,12 +190,12 @@ public class Main {
 	    	    System.out.println(attr.name() + ": " + score);
 	    	}
 	    	
-	    	LibSVM svm = new LibSVM();
-			svm.buildClassifier(data);
-			weka.core.SerializationHelper.write(mlModelName, svm);
+	    	RandomForest cls = new RandomForest();
+			cls.buildClassifier(data);
+			weka.core.SerializationHelper.write(mlModelName, cls);
 			
 			Evaluation eval = new Evaluation(data);
-			eval.crossValidateModel(svm, data, 10, new Random(1));
+			eval.crossValidateModel(cls, data, 10, new Random(1));
 			System.out.println("Correct: " + eval.pctCorrect() + "%");
 			System.out.println("------------------");
 		} catch (Exception e) {
@@ -226,9 +228,9 @@ public class Main {
 	    	    System.out.println(attr.name() + ": " + score);
 	    	}
 	    	
-	    	LibSVM svm = (LibSVM) weka.core.SerializationHelper.read(mlModelName);
+	    	RandomForest cls = (RandomForest) weka.core.SerializationHelper.read(mlModelName);
 	    	Evaluation eval = new Evaluation(data);
-			eval.evaluateModel(svm, data);
+			eval.evaluateModel(cls, data);
 			System.out.println("Correct: " + eval.pctCorrect() + "%");
 			System.out.println("------------------");
 			
@@ -336,8 +338,8 @@ public class Main {
     		FileWriter writer = new FileWriter(fileName);
     		writer.append("Proximity,");
     		writer.append("WordCount,");
-    		writer.append("TfIdf,");
     		writer.append("TitleMatch,");
+    		writer.append("TfIdf,");
     		writer.append("TitleSimilarity,");
     		writer.append("ContentSimilarity,");
     		writer.append("Score,");
@@ -345,32 +347,90 @@ public class Main {
     		writer.append("Link,");
     		writer.append("Match\n");
 			
-			int i = 0;
+    		ArrayList<Double[]> scores = new ArrayList<Double[]>();
+    		ArrayList<String[]> labels = new ArrayList<String[]>();
+
+    		final int numScores = 7;
+    		
+    		Double[] scoreMean = new Double[numScores];
+    		
+    		for (int i = 0; i < scoreMean.length; i++) scoreMean[i] = 0.0;
+    		
+    		//store all variables
+			int total = 0;
 	        for (String[] linkPair : testLinks) {
 	        	ScoreCompiler score = new ScoreCompiler(linkPair, Constants.stem);
 	        	score.calculateMatch();
 	        	
 	        	if (score.getValid()) {
-	        		writer.append(score.getProximityFactorNoCurve() + ",");
-	        		writer.append(score.getWordCountNoCurve() + ",");
-	        		writer.append(score.getTfIdfScore() + ",");
-	        		writer.append(score.getTitleMatch() + ",");
+	        		Double[] scoreRow = new Double[numScores];
 	        		
-	        		if (!Double.isNaN(score.getTitleSimilarity())) writer.append(score.getTitleSimilarity() + ",");
-	        		else writer.append(0 + ",");
+	        		scoreRow[0] = score.getProximityFactorNoCurve();
+	        		scoreRow[1] = score.getWordCountNoCurve();
+	        		scoreRow[2] = score.getTitleMatch();
 	        		
-	        		if (!Double.isNaN(score.getContentSimilarity())) writer.append(score.getContentSimilarity() + ",");
-	        		else writer.append(0 + ",");
+	        		scoreRow[3] = score.getTfIdfScore();
+	        		if (!Double.isNaN(score.getTitleSimilarity())) scoreRow[4] = score.getTitleSimilarity();
+	        		else scoreRow[4] = 0.0;
+	        		if (!Double.isNaN(score.getContentSimilarity())) scoreRow[5] = score.getContentSimilarity();
+	        		else scoreRow[5] = 0.0;
 	        		
-	        		writer.append(score.getFinalScore() + ",");
-	        		writer.append(String.join(" ", linkPair[0].split(",")) + ",");
-	        		writer.append(linkPair[1] + ",");
-	        		writer.append(testLinksCheck.get(i) + "\n");
+	        		scoreRow[6] = score.getFinalScore();
+	        		
+	        		for (int i = 0; i < scoreRow.length; i++) {
+	        			scoreMean[i] += scoreRow[i];
+	        		}
+	        		
+	        		scores.add(scoreRow);
+	        		
+	        		String[] labelRow = new String[2];
+	        		labelRow[0] = String.join(" ", linkPair[0].split(","));
+	        		labelRow[1] = linkPair[1];
+	        		
+	        		labels.add(labelRow);
 	        	}
 		        	
 	        	System.out.println();
-		        i++;
+	        	total++;
 	        }
+	        
+	        //find the mean for each score
+	        for (int i = 0; i < scoreMean.length; i++) {
+    			scoreMean[i] /= total;
+    		}
+
+	        //subtract mean and find the deviation for each score
+    		Double[] scoreMaxDeviation = new Double[numScores];
+    		for (int i = 0; i < scoreMaxDeviation.length; i++) scoreMaxDeviation[i] = 0.0;
+    		
+    		for (Double[] scoreRow : scores) {
+    			for (int i = 0; i < scoreRow.length; i++) {
+    				scoreRow[i] -= scoreMean[i];
+    				
+    				if (Math.abs(scoreRow[i]) > scoreMaxDeviation[i]) scoreMaxDeviation[i] = Math.abs(scoreRow[i]);
+        		}
+    		}
+    		
+    		//divide by deviation for each score
+    		for (Double[] scoreRow : scores) {
+    			for (int i = 0; i < scoreRow.length; i++) {
+    				scoreRow[i] /= scoreMaxDeviation[i];
+        		}
+    		}
+    		
+    		//append scores to csv
+    		for (int i = 0; i < scores.size(); i++) {
+    			for (int j = 0; j < scores.get(i).length; j++) {
+        			writer.append(scores.get(i)[j] + ",");
+        		}
+    			
+    			for (int j = 0; j < labels.get(i).length; j++) {
+        			writer.append(labels.get(i)[j] + ",");
+        		}
+    			
+    			writer.append(testLinksCheck.get(i) + "\n");
+    		}
+    		
 	        writer.flush();
 	        writer.close();
 	        
@@ -457,9 +517,7 @@ public class Main {
 	    	testLinksCheck.add(true);
 	    	testLinksArr.add(new String[] {"Kubernetes with Knative", "https://docs.gitlab.com/ee/user/project/clusters/serverless/index.html", "Run serverless workloads on Kubernetes with Knative"});
 	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"related documentation", "https://docs.gitlab.com/ee/user/analytics/value_stream_analytics.html#permissions", "Find the current permissions on the Value Stream Analytics dashboard, as described in related documentation"});
-	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"Through the API", "https://docs.gitlab.com/ee/api/users.html", "You can also create users through the API as an admin"});
+	    	testLinksArr.add(new String[] {"Create users", "https://docs.gitlab.com/ee/api/users.html", "You can also create users through the API as an admin"});
 	    	testLinksCheck.add(true);
 	    	testLinksArr.add(new String[] {"Elasticsearch.log file", "https://docs.gitlab.com/ee/administration/logs.html#elasticsearchlog", ""});
 	    	testLinksCheck.add(true);
@@ -468,7 +526,7 @@ public class Main {
 	    	testLinksCheck.add(false);
 	    	testLinksArr.add(new String[] {"Kubernetes Pipeline", "https://docs.gitlab.com/ee/user/clusters/management_project.html", ""});
 	    	testLinksCheck.add(false);
-	    	testLinksArr.add(new String[] {"find users' api tokens", "https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html", ""});
+	    	testLinksArr.add(new String[] {"find users api tokens", "https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html", ""});
 	    	testLinksCheck.add(false);
 	    	testLinksArr.add(new String[] {"gitlab search index", "https://docs.gitlab.com/ee/integration/elasticsearch.html", ""});
 	    	testLinksCheck.add(false);
@@ -481,12 +539,12 @@ public class Main {
 	    	testLinksCheck.add(true);
 	    	testLinksArr.add(new String[] {"Kubernetes podlogs", "https://docs.gitlab.com/ee/user/project/clusters/kubernetes_pod_logs.html", "View your Kubernetes podlogs directly in GitLab"});
 	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"instance", "https://docs.gitlab.com/ee/user/instance/clusters/index.html", "On the group level, to use the same cluster across multiple projects within your group"});
+	    	testLinksArr.add(new String[] {"instance level", "https://docs.gitlab.com/ee/user/instance/clusters/index.html", "On the instance level, to use the same cluster across multiple groups and projects."});
 	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"group", "https://docs.gitlab.com/ee/user/group/clusters/index.html", "On the instance level, to use the same cluster across multiple groups and projects."});
+	    	testLinksArr.add(new String[] {"group level", "https://docs.gitlab.com/ee/user/group/clusters/index.html", "On the group level, to use the same cluster across multiple projects within your group"});
 	    	testLinksCheck.add(true);
 	    	
-	    	testLinksArr.add(new String[] {"developers", "https://docs.gitlab.com/ee/user/permissions.html", "cautionThe whole cluster security is based on a model where developers are trusted, so only trusted users should be allowed to control your clusters"});
+	    	testLinksArr.add(new String[] {"developers", "https://docs.gitlab.com/ee/user/permissions.html", "The whole cluster security is based on a model where developers are trusted, so only trusted users should be allowed to control your clusters"});
 	    	testLinksCheck.add(false);
 	    	testLinksArr.add(new String[] {"dynamic names", "https://docs.gitlab.com/ee/ci/environments/index.html", ""});
 	    	testLinksCheck.add(false);
