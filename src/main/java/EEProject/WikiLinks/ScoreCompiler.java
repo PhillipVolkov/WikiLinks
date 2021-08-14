@@ -2,6 +2,7 @@ package EEProject.WikiLinks;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Hashtable;
 
 import org.deeplearning4j.models.embeddings.wordvectors.WordVectors;
 import org.nd4j.linalg.api.ndarray.INDArray;
@@ -17,6 +18,8 @@ public class ScoreCompiler {
 
 	private boolean subSection;
 	private ArrayList<String> tokens = new ArrayList<String>();
+	private ArrayList<String> topTokens = new ArrayList<String>();
+	private Hashtable<String, Double> topTokensWithValues = new Hashtable<String, Double>();
 	private ArrayList<String> title = new ArrayList<String>();
 	
 	private Page searchPage;
@@ -37,6 +40,7 @@ public class ScoreCompiler {
 	private double unCurvedWordCount;
 	private double titleMatchFactor;
 	private double titleSimilarity;
+	private double contentSimilarity;
 	private double singleWordReliancePenalty;
 	private double finalScore;
 	
@@ -102,6 +106,10 @@ public class ScoreCompiler {
 	
 	public double getTitleSimilarity() {
 		return titleSimilarity;
+	}
+	
+	public double getContentSimilarity() {
+		return contentSimilarity;
 	}
 	
 	public double getSingleWordReliance() {
@@ -252,6 +260,13 @@ public class ScoreCompiler {
 	    		i--;
 	    	}
 	    }
+	    
+	    if (!subSection || !searchPage.getPermaLinks().containsKey(linkPair[1].split("#")[1])) topTokens = this.searchPage.getTopStemsSorted(this.tokens.size()*3);
+	    else topTokens = this.searchPage.getTopStemsSortedSections(this.tokens.size()*3, linkPair[1].split("#")[1]);
+	    
+	    if (!subSection || !searchPage.getPermaLinks().containsKey(linkPair[1].split("#")[1])) topTokensWithValues = this.searchPage.getTopStems();
+	    else topTokensWithValues = this.searchPage.getTopStemsSections(linkPair[1].split("#")[1]);
+	    //this.searchPage.getTopStemsSortedSections(this.tokens.size()*3, linkPair[1].split("#")[1]);
 	    
 //	    if (Constants.debugPrint) {
 //	    	System.out.println(linkPair[0]);
@@ -461,8 +476,8 @@ public class ScoreCompiler {
 			tfIdfScore = 0;
 			int count = 0;
 			for (String token : tokens) {
-				if (searchPage.getTopStems().containsKey(token)) {
-					tfIdfScore += searchPage.getTopStems().get(token);
+				if (topTokensWithValues.containsKey(token)) {
+					tfIdfScore += topTokensWithValues.get(token);
 				}
 				count ++;
 			}
@@ -485,11 +500,26 @@ public class ScoreCompiler {
 		calcWord2Vec();
     }
     
+    //calculate cosine similarity from vectors
     private void calcWord2Vec() {
     	WordVectors model = Constants.word2vecModel;
-		
 		long dimensions = model.getWordVectorMatrix("gitlab").length();
-		INDArray searchVector = Nd4j.create(dimensions);
+		
+		INDArray searchVector = addVector(dimensions, model, this.tokens);
+		INDArray headlineVector = addVector(dimensions, model, this.title);
+		INDArray contentsVector = addVector(dimensions, model, this.topTokens);
+		
+		titleSimilarity = Transforms.cosineSim(searchVector, headlineVector);
+		contentSimilarity = Transforms.cosineSim(searchVector, contentsVector);
+		
+		if (titleSimilarity > 1.0) titleSimilarity = 1.0;
+		if (contentSimilarity > 1.0) contentSimilarity = 1.0;
+		
+		//calculate body similarity
+    }
+    
+    private INDArray addVector(long dimensions, WordVectors model, ArrayList<String> tokens) {
+    	INDArray searchVector = Nd4j.create(dimensions);
 		
 		for (int i = 0; i < dimensions; i++) {
 			int skipped = 0;
@@ -505,24 +535,6 @@ public class ScoreCompiler {
 			searchVector.putScalar(i, searchVector.getDouble(i)/(tokens.size()-skipped));
 		}
 		
-		INDArray headlineVector = Nd4j.create(dimensions);
-		
-		for (int i = 0; i < dimensions; i++) {
-			int skipped = 0;
-			
-			for (String token : title) {
-				if (model.getWordVector(token) == null) {
-					skipped++;
-					continue;
-				}
-				
-				headlineVector.putScalar(i, headlineVector.getDouble(i) + model.getWordVector(token)[i]);
-			}
-			headlineVector.putScalar(i, headlineVector.getDouble(i)/(title.size()-skipped));
-		}
-		
-		titleSimilarity = Transforms.cosineSim(searchVector, headlineVector);
-		
-		if (titleSimilarity > 1.0) titleSimilarity = 1.0;
+		return searchVector;
     }
 }

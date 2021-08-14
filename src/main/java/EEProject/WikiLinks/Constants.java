@@ -45,7 +45,7 @@ public class Constants {
 	
 	static final String stemmerDelims = " |\n|:|, |\\. |\\.\n|-";
 	static final String sentenceDelims = "\\. |\\.\n";
-	static final String splitChars = "\\-|\\+|&|\\=|_|\\\\";
+	static final String splitChars = "\\-|\\+|&|\\=|_";
 
 	static final String stem = "https://docs.gitlab.com";
 	static final String page = "/ee/user/project/clusters/index.html";

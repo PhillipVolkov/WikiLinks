@@ -24,6 +24,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Phillip/git/WikiLinks/src/main/java/EEProject/WikiLinks/slf4j-nop-2.0.0-alpha2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

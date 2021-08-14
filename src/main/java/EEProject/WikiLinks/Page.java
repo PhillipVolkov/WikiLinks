@@ -16,6 +16,9 @@ public class Page {
 	private ArrayList<ArrayList<String>> sentenceStems;
 	private ArrayList<ArrayList<String>> stems;
 	private Hashtable<String, Double> topStems;
+	private ArrayList<String> topStemsSorted;
+	private ArrayList<Hashtable<String, Double>> topStemsSections;
+	private ArrayList<ArrayList<String>> topStemsSortedSections;
 	private ArrayList<String[]> links;
 	private Hashtable<String, Integer> permaLinks;
 	private boolean failed;
@@ -75,6 +78,36 @@ public class Page {
 			
 	public Hashtable<String, Double> getTopStems() {
 		return this.topStems;
+	}
+	
+	public Hashtable<String, Double> getTopStemsSections(String permaLink) {
+		return this.topStemsSections.get(permaLinks.get(permaLink));
+	}
+	
+	public ArrayList<String> getTopStemsSorted(int n) {
+		ArrayList<String> topSorted = new ArrayList<String>();
+		
+		for (int i = 0; i < topStemsSorted.size(); i++) {
+			if (i >= n) break;
+			
+			topSorted.add(topStemsSorted.get(i));
+		}
+		
+		return topSorted;
+	}
+	
+	public ArrayList<String> getTopStemsSortedSections(int n, String permaLink) {
+		ArrayList<String> topSorted = new ArrayList<String>();
+		
+		int section = permaLinks.get(permaLink);
+		
+		for (int i = 0; i < topStemsSortedSections.get(section).size(); i++) {
+			if (i >= n) break;
+			
+			topSorted.add(topStemsSortedSections.get(section).get(i));
+		}
+		
+		return topSorted;
 	}
 	
 	public String getStemsString() {
@@ -561,14 +594,33 @@ public class Page {
     }
     
     public void calculateTopStem() {
+    	this.topStemsSections = new ArrayList<Hashtable<String, Double>>();
+    	this.topStemsSortedSections = new ArrayList<ArrayList<String>>();
+    	
+    	for (int i = -1; i < stems.size(); i++) {
+    		if (i != -1) {
+    			this.topStemsSections.add(new Hashtable<String, Double>());
+    			this.topStemsSortedSections.add(new ArrayList<String>());
+    		}
+    		
+    		calculateTopStems(i);
+    	}
+    }
+    
+    private void calculateTopStems(int section) {
 		Hashtable<String, Integer> occurences = new Hashtable<String, Integer>();
 		
 		ArrayList<String> stems = new ArrayList<String>();
 		
-		for (ArrayList<String> stemList : this.stems) { 
-			for (String stem : stemList) {
-				stems.add(stem);
+		if (section == -1) {
+			for (ArrayList<String> stemList : this.stems) { 
+				for (String stem : stemList) {
+					stems.add(stem);
+				}
 			}
+		}
+		else {
+			stems = this.stems.get(section);
 		}
 		
 		if (stems.size() == 0) return;
@@ -649,12 +701,25 @@ public class Page {
 		//normalize scores
 		double maxTfIdfScore = tfIdf.get(sortedStems.get(0));
 		
-		this.topStems = new Hashtable<String, Double>();
-		
-		for (int i = 0; i < sortedStems.size(); i++) {
-			tfIdf.replace(sortedStems.get(i), (double)tfIdf.get(sortedStems.get(i))/maxTfIdfScore);
-			//System.out.println(sortedStems.get(i) + "\t" + tfIdf.get(sortedStems.get(i)));
-			this.topStems.put(sortedStems.get(i), tfIdf.get(sortedStems.get(i)));
+		//save into class variables
+		if (section == -1) {
+			this.topStemsSorted = sortedStems;
+			this.topStems = new Hashtable<String, Double>();
+			
+			for (int i = 0; i < sortedStems.size(); i++) {
+				tfIdf.replace(sortedStems.get(i), (double)tfIdf.get(sortedStems.get(i))/maxTfIdfScore);
+				//System.out.println(sortedStems.get(i) + "\t" + tfIdf.get(sortedStems.get(i)));
+				this.topStems.put(sortedStems.get(i), tfIdf.get(sortedStems.get(i)));
+			}
+		}
+		else {
+			this.topStemsSortedSections.set(section, sortedStems);
+			
+			for (int i = 0; i < sortedStems.size(); i++) {
+				tfIdf.replace(sortedStems.get(i), (double)tfIdf.get(sortedStems.get(i))/maxTfIdfScore);
+				//System.out.println(sortedStems.get(i) + "\t" + tfIdf.get(sortedStems.get(i)));
+				this.topStemsSections.get(section).put(sortedStems.get(i), tfIdf.get(sortedStems.get(i)));
+			}
 		}
 	}
 }

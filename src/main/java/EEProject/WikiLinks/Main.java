@@ -30,8 +30,8 @@ import weka.filters.unsupervised.attribute.Remove;
 
 public class Main {
 	private static final boolean testLinks = true;
-	private static final String operation = "crawl";
-	private static final String crawlGoal = "saveSentences";
+	private static final String operation = "debug";
+	private static final String crawlGoal = "links";
 	
 	private static final String[] crawlStartPage = new String[] {"Gitlab Docs", "https://docs.gitlab.com/ee/", ""};
 	private static final String jsonName = "trainingSetLinks.json";
@@ -42,7 +42,7 @@ public class Main {
 	private static final String mlModelName = "ml.model";
 	
 	private static int counter = 0;
-	private static final int maxCount = 10000;//302;
+	private static final int maxCount = 500;//302;
 	
 	private static Remove removeFilter;
 	
@@ -54,7 +54,6 @@ public class Main {
 		//MAYBE just improve title similarity matching
 	
 	//TODO improve test data set, create body similarity feature, analyze low similarity
-	//TODO auto train set through randomization of false links, add cases of match but with no present words
 	
     public static void main(String[] args) {
     	
@@ -144,23 +143,27 @@ public class Main {
 	    		}
     	    }
     	}
-    	else if (operation.toLowerCase().equals("create train")) createDataSet();
+    	else if (operation.toLowerCase().equals("create train")) createTrainSet();
     	else if (operation.toLowerCase().equals("create test")) createTestSet();
-    	else if (operation.toLowerCase().equals("match")) matchTests();
-    	else if (operation.toLowerCase().equals("train model")) train();
+    	else if (operation.toLowerCase().equals("train model")) trainModel();
     	else if (operation.toLowerCase().equals("test model")) testModel();
     	else if (operation.toLowerCase().equals("debug")) {
-        	ScoreCompiler score = new ScoreCompiler(new String[] {"GitLab CI/CD Examples", "https://docs.gitlab.com/ee/ci/examples/README.html", ""}, Constants.stem);
+        	ScoreCompiler score = new ScoreCompiler(new String[] {"Auto DevOps", "https://docs.gitlab.com/ee/user/project/clusters/index.html#auto-devops", ""}, Constants.stem);
         	score.calculateMatch();
         	System.out.println();
+        	System.out.println("\nScores:");
         	System.out.println(score.getTokens());
         	System.out.println(score.getTitle());
         	System.out.println(score.getTitleSimilarity());
-        	System.out.println(score.getFinalScore());
+        	System.out.println(score.getTfIdfScore());
+        	System.out.println("\nSummary:");
+        	System.out.println(score.getSearchPage().getTopStemsSorted(score.getTokens().size()*3));
+        	System.out.println(score.getSearchPage().getTopStemsSortedSections(score.getTokens().size()*3, "auto-devops"));
+        	System.out.println(score.getContentSimilarity());
     	}
     }
     
-    private static void train() {
+    private static void trainModel() {
 		try {
 			System.out.println("\nTRAINING DATA SET:");
 			System.out.println("------------------");
@@ -170,7 +173,7 @@ public class Main {
 	    	data.setClassIndex(data.numAttributes()-1);
 	    	
 	    	removeFilter = new Remove();
-	    	removeFilter.setAttributeIndicesArray(new int[] {3, 4, data.numAttributes()-1});
+	    	removeFilter.setAttributeIndicesArray(new int[] {2, 4, 5, data.numAttributes()-1});
 	    	removeFilter.setInvertSelection(true);
 	    	removeFilter.setInputFormat(data);
 	    	data = Filter.useFilter(data, removeFilter);
@@ -178,7 +181,7 @@ public class Main {
 	    	InfoGainAttributeEval attrEval = new InfoGainAttributeEval();
 	    	attrEval.buildEvaluator(data);
 	    	
-	    	for (int i = 0; i < data.numAttributes(); i++) {
+	    	for (int i = 0; i < data.numAttributes()-1; i++) {
 	    	    Attribute attr = data.attribute(i);
 	    	    double score  = attrEval.evaluateAttribute(i);
 	    	    
@@ -202,6 +205,40 @@ public class Main {
 		testModel();
     }
     
+    private static void testModel() {
+    	try {
+			System.out.println("\nTESTING DATA SET:");
+			System.out.println("------------------");
+			CSVLoader source = new CSVLoader();
+			source.setSource(new File(testingDataName));
+	    	Instances data = source.getDataSet();
+	    	data.setClassIndex(data.numAttributes()-1);
+	    	
+	    	if (removeFilter != null) data = Filter.useFilter(data, removeFilter);
+	    	
+	    	InfoGainAttributeEval attrEval = new InfoGainAttributeEval();
+	    	attrEval.buildEvaluator(data);
+	    	
+	    	for (int i = 0; i < data.numAttributes()-1; i++) {
+	    	    Attribute attr = data.attribute(i);
+	    	    double score  = attrEval.evaluateAttribute(i);
+	    	    
+	    	    System.out.println(attr.name() + ": " + score);
+	    	}
+	    	
+	    	LibSVM svm = (LibSVM) weka.core.SerializationHelper.read(mlModelName);
+	    	Evaluation eval = new Evaluation(data);
+			eval.evaluateModel(svm, data);
+			System.out.println("Correct: " + eval.pctCorrect() + "%");
+			System.out.println("------------------");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		getNaiveCorrect(testingDataName);
+    }
+    
     private static void getNaiveCorrect(String file) {
     	try (CSVReader reader = new CSVReader(new FileReader(file))) {
 			String[] row;
@@ -223,40 +260,6 @@ public class Main {
 			System.out.println();
 		}
 		catch (Exception e) {e.printStackTrace();}
-    }
-    
-    private static void testModel() {
-    	try {
-			System.out.println("\nTESTING DATA SET:");
-			System.out.println("------------------");
-			CSVLoader source = new CSVLoader();
-			source.setSource(new File(testingDataName));
-	    	Instances data = source.getDataSet();
-	    	data.setClassIndex(data.numAttributes()-1);
-	    	
-	    	if (removeFilter != null) data = Filter.useFilter(data, removeFilter);
-	    	
-	    	InfoGainAttributeEval attrEval = new InfoGainAttributeEval();
-	    	attrEval.buildEvaluator(data);
-	    	
-	    	for (int i = 0; i < data.numAttributes(); i++) {
-	    	    Attribute attr = data.attribute(i);
-	    	    double score  = attrEval.evaluateAttribute(i);
-	    	    
-	    	    System.out.println(attr.name() + ": " + score);
-	    	}
-	    	
-	    	LibSVM svm = (LibSVM) weka.core.SerializationHelper.read(mlModelName);
-	    	Evaluation eval = new Evaluation(data);
-			eval.evaluateModel(svm, data);
-			System.out.println("Correct: " + eval.pctCorrect() + "%");
-			System.out.println("------------------");
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		getNaiveCorrect(testingDataName);
     }
     
     //recursion to crawl through all links starting with initial page
@@ -328,33 +331,15 @@ public class Main {
     	}
     }
     
-    private static void createDataSet() {
-    	ArrayList<String[]> testLinks = new ArrayList<String[]>();
-    	ArrayList<Boolean> testLinksCheck = new ArrayList<Boolean>();
-    	
-		try {
-			FileReader reader = new FileReader(jsonName);
-	        JSONParser jsonParser = new JSONParser();
-			
-	        JSONObject obj = ((JSONObject)jsonParser.parse(reader));
-	        
-			for (int i = 0; i < obj.size(); i++) {
-				JSONArray arr = (JSONArray)obj.get(i+"");
-				
-				testLinks.add(new String[] {(String)arr.get(0), (String)arr.get(1), (String)arr.get(2)});
-				testLinksCheck.add((Boolean)arr.get(3));
-			}
-		} catch (IOException | ParseException e1) {
-			e1.printStackTrace();
-		}
-    	
+    private static void writeDataSet(String fileName, ArrayList<String[]> testLinks, ArrayList<Boolean> testLinksCheck) {
     	try {
-    		FileWriter writer = new FileWriter(trainingDataName);
+    		FileWriter writer = new FileWriter(fileName);
     		writer.append("Proximity,");
     		writer.append("WordCount,");
     		writer.append("TfIdf,");
     		writer.append("TitleMatch,");
-    		writer.append("Similarity,");
+    		writer.append("TitleSimilarity,");
+    		writer.append("ContentSimilarity,");
     		writer.append("Score,");
     		writer.append("Phrase,");
     		writer.append("Link,");
@@ -370,8 +355,13 @@ public class Main {
 	        		writer.append(score.getWordCountNoCurve() + ",");
 	        		writer.append(score.getTfIdfScore() + ",");
 	        		writer.append(score.getTitleMatch() + ",");
+	        		
 	        		if (!Double.isNaN(score.getTitleSimilarity())) writer.append(score.getTitleSimilarity() + ",");
 	        		else writer.append(0 + ",");
+	        		
+	        		if (!Double.isNaN(score.getContentSimilarity())) writer.append(score.getContentSimilarity() + ",");
+	        		else writer.append(0 + ",");
+	        		
 	        		writer.append(score.getFinalScore() + ",");
 	        		writer.append(String.join(" ", linkPair[0].split(",")) + ",");
 	        		writer.append(linkPair[1] + ",");
@@ -389,8 +379,8 @@ public class Main {
 		}
     }
     
-    private static void matchTests() {
-    	ArrayList<String[]> testLinks = new ArrayList<String[]>();
+    private static void createTrainSet() {
+    	ArrayList<String[]> testLinksArr = new ArrayList<String[]>();
     	ArrayList<Boolean> testLinksCheck = new ArrayList<Boolean>();
     	
 		try {
@@ -402,14 +392,14 @@ public class Main {
 			for (int i = 0; i < obj.size(); i++) {
 				JSONArray arr = (JSONArray)obj.get(i+"");
 				
-				testLinks.add(new String[] {(String)arr.get(0), (String)arr.get(1), (String)arr.get(2)});
+				testLinksArr.add(new String[] {(String)arr.get(0), (String)arr.get(1), (String)arr.get(2)});
 				testLinksCheck.add((Boolean)arr.get(3));
 			}
 		} catch (IOException | ParseException e1) {
 			e1.printStackTrace();
 		}
-		
-		verifyLinks(testLinks, testLinksCheck);
+    	
+		writeDataSet(trainingDataName, testLinksArr, testLinksCheck);
     }
     
     private static void createTestSet() {
@@ -504,47 +494,7 @@ public class Main {
 	    	testLinksCheck.add(false);
     	}
     	
-    	try {
-    		FileWriter writer = new FileWriter(testingDataName);
-    		writer.append("Proximity,");
-    		writer.append("WordCount,");
-    		writer.append("TfIdf,");
-    		writer.append("TitleMatch,");
-    		writer.append("Similarity,");
-    		writer.append("Score,");
-    		writer.append("Phrase,");
-    		writer.append("Link,");
-    		writer.append("Match\n");
-			
-			int i = 0;
-	        for (String[] linkPair : testLinksArr) {
-	        	ScoreCompiler score = new ScoreCompiler(linkPair, Constants.stem);
-	        	score.calculateMatch();
-	        	
-	        	if (score.getValid()) {
-	        		writer.append(score.getProximityFactorNoCurve() + ",");
-	        		writer.append(score.getWordCountNoCurve() + ",");
-	        		writer.append(score.getTfIdfScore() + ",");
-	        		writer.append(score.getTitleMatch() + ",");
-	        		if (!Double.isNaN(score.getTitleSimilarity())) writer.append(score.getTitleSimilarity() + ",");
-	        		else writer.append(0 + ",");
-	        		writer.append(score.getFinalScore() + ",");
-	        		writer.append(String.join(" ", linkPair[0].split(",")) + ",");
-	        		writer.append(linkPair[1] + ",");
-	        		writer.append(testLinksCheck.get(i) + "\n");
-	        	}
-		        	
-	        	System.out.println();
-		        i++;
-	        }
-	        writer.flush();
-	        writer.close();
-	        
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-    	
-//    	verifyLinks(testLinksArr, testLinksCheck);
+    	writeDataSet(testingDataName, testLinksArr, testLinksCheck);
     }
     
     private static void verifyLinks(ArrayList<String[]> links, ArrayList<Boolean> check) {

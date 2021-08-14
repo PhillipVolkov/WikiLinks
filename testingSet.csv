@@ -1,28 +1,29 @@
-Proximity,WordCount,TfIdf,TitleMatch,Similarity,Score,Phrase,Link,Match
-0.777777778,0.153846154,0.061930625,1,1,64.27083333,Auto DevOps,https://docs.gitlab.com/ee/user/project/clusters/index.html#auto-devops,TRUE
-0.271841236,0.060606061,0.551054575,1,0.970853746,53.04366642,the Prometheus cluster integration is enabled,https://docs.gitlab.com/ee/user/clusters/integrations.html#prometheus-cluster-integration,TRUE
-0.476653068,0.112195122,0.677866019,1,1,63.3786227,Cluster management project,https://docs.gitlab.com/ee/user/clusters/management_project.html,TRUE
-0.101457129,0.057917889,0.533198783,1,1,16.28471198,CI/CD Pipelines,https://docs.gitlab.com/ee/ci/pipelines/index.html,TRUE
-0.355932099,0.083050847,0.78959493,1,1,54.26332881,cluster integrations,https://docs.gitlab.com/ee/user/clusters/integrations.html,TRUE
-0.389445771,0.079393939,0.730687579,1,1,59.51768048,project access tokens,https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html,TRUE
-0.290498743,0.038946163,0.60354481,1,1,49.34706164,GitLab to manage your cluster for you,https://docs.gitlab.com/ee/user/project/clusters/gitlab_managed_clusters.html,TRUE
-0.55,0.1,0.644531839,0.5,0.759514928,37.19230769,Infrastructure as Code,https://docs.gitlab.com/ee/user/infrastructure,TRUE
-0.360636628,0.036328872,0.815891742,1,1,52.60593269,Deploy Boards,https://docs.gitlab.com/ee/user/project/deploy_boards.html,TRUE
-Infinity,0.008116883,0.058336142,0.4,0.840240955,Infinity,role-based or attribute-based access controls,https://docs.gitlab.com/ee/user/project/clusters/cluster_access.html,TRUE
-0.355755582,0.036912752,0.226422533,1,0.929456472,51.92266746,Read more about Kubernetes monitoring,https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/kubernetes.html,TRUE
-0.077008211,0.017088175,0.47153629,0,0.795543909,2.421398525,Kubernetes with Knative,https://docs.gitlab.com/ee/user/project/clusters/serverless/index.html,TRUE
-0,0.005030181,0.042904147,0.5,0.870818913,20.2853067,Through the API,https://docs.gitlab.com/ee/api/users.html,TRUE
-0.15,0.033333333,0.091277871,1,0.761253119,44.46957237,Elasticsearch.log file,https://docs.gitlab.com/ee/administration/logs.html#elasticsearchlog,TRUE
-0.372982338,0.012027491,0.164610059,0,0.728038609,11.70671153,Kubernetes Engine,https://docs.gitlab.com/ee/user/project/clusters/gitlab_managed_clusters.html,FALSE
-0.052867543,0.019512195,0.152321247,0,0.726986945,2.336026301,Kubernetes Pipeline,https://docs.gitlab.com/ee/user/clusters/management_project.html,FALSE
-0.04122744,0.036969697,0.311816919,0.333333333,0.859701991,11.6784843,find users api tokens,https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html,FALSE
-0.081215653,0.034267089,0.760363892,0,0.686147571,2.327223179,gitlab search index,https://docs.gitlab.com/ee/integration/elasticsearch.html,FALSE
-0,0.075949367,0.436563191,0.5,0.888816655,22.63736264,package,https://docs.gitlab.com/ee/user/packages/index.html,TRUE
-0,0.08501594,1,0.5,0.884344637,24.80721082,environment,https://docs.gitlab.com/ee/ci/environments/index.html,TRUE
-0.072052148,0.03313253,0.554137093,0.5,0.84529686,23.33594167,NGINX Ingress,https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/nginx.html,TRUE
-0,0.013513514,0.057791295,0.5,0.838808179,20.58394161,Kubernetes podlogs,https://docs.gitlab.com/ee/user/project/clusters/kubernetes_pod_logs.html,TRUE
-0,0.056179775,0.29317464,0.25,0.746689022,11.47058824,instance,https://docs.gitlab.com/ee/user/instance/clusters/index.html,TRUE
-0,0.03117506,0.206217815,0.25,0.719030917,11.46616541,group,https://docs.gitlab.com/ee/user/group/clusters/index.html,TRUE
-0,0.005532503,0.13547044,0,0.552193344,0.315236427,developers,https://docs.gitlab.com/ee/user/permissions.html,FALSE
-0.134284331,0.011424017,0.16605925,0,0.6464715,3.983947921,dynamic names,https://docs.gitlab.com/ee/ci/environments/index.html,FALSE
-0,0.018987342,0.125803955,0,0.529197931,0.659340659,dependency,https://docs.gitlab.com/ee/user/packages/index.html,FALSE
+Proximity,WordCount,TfIdf,TitleMatch,TitleSimilarity,ContentSimilarity,Score,Phrase,Link,Match
+0.7777777777777778,0.15384615384615385,0.07736580660811151,1.0,1.0,0.8989763855934143,64.27083333333333,Auto DevOps,https://docs.gitlab.com/ee/user/project/clusters/index.html#auto-devops,true
+0.27184123565520785,0.06060606060606061,0.5504792810041551,1.0,0.9708537459373474,0.8465874791145325,53.043666415295164,the Prometheus cluster integration is enabled,https://docs.gitlab.com/ee/user/clusters/integrations.html#prometheus-cluster-integration,true
+0.4766530675844018,0.11219512195121951,0.6769360643786334,1.0,1.0,0.8962178826332092,63.378622703376074,Cluster management project,https://docs.gitlab.com/ee/user/clusters/management_project.html,true
+0.10152390453464956,0.059398496240601506,0.5331506684535995,1.0,1.0,0.8571972250938416,16.31196970163679,CI/CD Pipelines,https://docs.gitlab.com/ee/ci/pipelines/index.html,true
+0.35593209855797253,0.08305084745762711,0.7865633649032366,1.0,1.0,0.9111323356628418,54.26332881039772,cluster integrations,https://docs.gitlab.com/ee/user/clusters/integrations.html,true
+0.3894457713692921,0.07939393939393939,0.7333874047044353,1.0,1.0,0.9302801489830017,59.517680478831835,project access tokens,https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html,true
+0.2904987431555414,0.038946162657502864,0.45668164321540444,1.0,1.0,0.753434419631958,49.347061642141014,GitLab to manage your cluster for you,https://docs.gitlab.com/ee/user/project/clusters/gitlab_managed_clusters.html,true
+0.55,0.1,0.6449462091846396,0.5,0.7595149278640747,0.8227254152297974,37.19230769230769,Infrastructure as Code,https://docs.gitlab.com/ee/user/infrastructure,true
+0.3606366276907843,0.036328871892925434,0.8241145138290649,1.0,1.0,0.8606638312339783,52.605932686522905,Deploy Boards,https://docs.gitlab.com/ee/user/project/deploy_boards.html,true
+0.3085719821338136,0.008441558441558443,0.09536242039830205,0.4,0.8573365807533264,0.8218647241592407,30.76998302828703,role-based or attribute-based access controls,https://docs.gitlab.com/ee/user/project/clusters/cluster_access.html,true
+0.3557555821371611,0.03691275167785235,0.3400339145654023,1.0,0.9294564723968506,0.7765421271324158,51.92266746411484,Read more about Kubernetes monitoring,https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/kubernetes.html,true
+0.0770082112767275,0.017088174982911826,0.5699386406559311,0.0,0.795543909072876,0.8719549179077148,2.4213985251290704,Kubernetes with Knative,https://docs.gitlab.com/ee/user/project/clusters/serverless/index.html,true
+0.0,0.0,0.0,0.0,0.5511526465415955,0.7057948708534241,0.0,related documentation,https://docs.gitlab.com/ee/user/analytics/value_stream_analytics.html#permissions,true
+0.0,0.005030181086519115,0.042606093798640325,0.5,0.8708189129829407,0.5108923316001892,20.285306704707562,Through the API,https://docs.gitlab.com/ee/api/users.html,true
+0.15,0.03333333333333333,0.2426962415898152,1.0,0.7612531185150146,0.8562048673629761,44.46957236842105,Elasticsearch.log file,https://docs.gitlab.com/ee/administration/logs.html#elasticsearchlog,true
+0.3729823384752962,0.012027491408934709,0.25150599192246653,0.0,0.7280386090278625,0.6819465756416321,11.70671153356923,Kubernetes Engine,https://docs.gitlab.com/ee/user/project/clusters/gitlab_managed_clusters.html,false
+0.05286754335358627,0.01951219512195122,0.14796786625536315,0.0,0.7269869446754456,0.7200828194618225,2.3360263006075876,Kubernetes Pipeline,https://docs.gitlab.com/ee/user/clusters/management_project.html,false
+0.041227439852452044,0.03696969696969697,0.31224266072425483,0.3333333333333333,0.8597019910812378,0.885803759098053,11.678484301108908,find users' api tokens,https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html,false
+0.08121565331830208,0.034267089499647636,0.4624814818059552,0.0,0.6861475706100464,0.9021084308624268,2.3272231794591236,gitlab search index,https://docs.gitlab.com/ee/integration/elasticsearch.html,false
+0.0,0.0759493670886076,0.8163478128983043,0.5,0.8888166546821594,0.8395772576332092,22.63736263736264,package,https://docs.gitlab.com/ee/user/packages/index.html,true
+0.0,0.08501594048884166,1.0,0.5,0.8843446373939514,0.8338263034820557,24.807210816224337,environment,https://docs.gitlab.com/ee/ci/environments/index.html,true
+0.07205214809580837,0.03313253012048193,0.5538311717942376,0.5,0.8452968597412109,0.7577523589134216,23.33594166707354,NGINX Ingress,https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/nginx.html,true
+0.0,0.013513513513513514,0.07740518917702147,0.5,0.8388081789016724,0.6650368571281433,20.583941605839417,Kubernetes podlogs,https://docs.gitlab.com/ee/user/project/clusters/kubernetes_pod_logs.html,true
+0.0,0.056179775280898875,0.2904267411018557,0.25,0.7466890215873718,0.5778936147689819,11.470588235294118,instance,https://docs.gitlab.com/ee/user/instance/clusters/index.html,true
+0.0,0.03117505995203837,0.20608444599942422,0.25,0.7190309166908264,0.5450924634933472,11.466165413533835,group,https://docs.gitlab.com/ee/user/group/clusters/index.html,true
+0.0,0.005532503457814661,0.14541549181821456,0.0,0.5521933436393738,0.5576485395431519,0.31523642732049034,developers,https://docs.gitlab.com/ee/user/permissions.html,false
+0.1342843313557995,0.011424017003188097,0.16500648679587182,0.0,0.6464715003967285,0.730785071849823,3.9839479211114757,dynamic names,https://docs.gitlab.com/ee/ci/environments/index.html,false
+0.0,0.0189873417721519,0.23292028624861866,0.0,0.5291979312896729,0.5895184278488159,0.6593406593406592,dependency,https://docs.gitlab.com/ee/user/packages/index.html,false
