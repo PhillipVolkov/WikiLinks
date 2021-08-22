@@ -1,0 +1,191 @@
+Proximity,WordCount,TitleMatch,TfIdf,TitleSimilarity,ContentSimilarity,Score,Phrase,Link,Match
+0,0.002109705,0,0.002309785,0.65317148,0.790366054,0.101867572,restrict which keys are permitted and their minimum lengths,https://docs.gitlab.com/ee/user/project/clusters/add_existing_cluster.html,FALSE
+0.145007009,0.03826087,0.571428571,0.385381393,0.968648672,0.934850693,30.9653054,restrict which keys are permitted and their minimum lengths,https://docs.gitlab.com/13.12/ee/security/ssh_keys_restrictions.html,TRUE
+0.543293019,0.111188811,1,0.885795998,1,0.861078918,62.04577851,deploy key,https://docs.gitlab.com/13.12/ee/user/project/deploy_keys/index.html,TRUE
+0.586250404,0.095516569,1,0.950593237,1,0.838631868,62.26904077,Deploy Tokens,https://docs.gitlab.com/13.12/ee/user/project/deploy_tokens/index.html,TRUE
+0,0,0,0,0.382646114,0.516261101,0,Deploy Tokens,https://docs.gitlab.com/ee/user/admin_area/settings/third_party_offers.html,FALSE
+0.169482112,0.037593985,0.5,0.331103846,0.793999791,0.821534932,26.29414077,package type of your choice,https://docs.gitlab.com/13.12/ee/user/packages/index.html,TRUE
+0,0,0,0,0.548607409,0.686814487,0,package type of your choice,https://docs.gitlab.com/13.12/charts/installation/secrets.html#gitlab-rails-secret,FALSE
+0,0.063318777,0.333333333,1,0.840772927,0.890092075,16.36998255,Composer,https://docs.gitlab.com/13.12/ee/user/packages/composer_repository/index.html,TRUE
+0,0,0,0,0.340590745,0.3817783,0,Composer,https://docs.gitlab.com/13.12/ee/user/project/merge_requests/index.html,FALSE
+0.231368453,0.023809524,1,0.332952829,0.932172358,0.727649808,50.26739633,Composer API documentation,https://docs.gitlab.com/13.12/ee/api/packages/composer.html,TRUE
+0,0,0,0,0.603712797,0.555672288,0,Composer API documentation,https://docs.gitlab.com/13.12/ee/ci/pipelines/pipeline_architectures.html#basic-pipelines,FALSE
+0.262045452,0.045833333,0,0.651905131,0.732598662,0.908628762,10.07985096,HashiCorp Vault,https://docs.gitlab.com/13.12/ee/ci/secrets/index.html,TRUE
+0,0,0,0,0.46214959,0.484041482,0,HashiCorp Vault,https://docs.gitlab.com/13.12/ee/ci/troubleshooting.html#fatal-reference-is-not-a-tree-error,FALSE
+0.198459362,0.026299694,1,0.452039324,1,0.911796629,50.6934702,Authenticating and Reading Secrets With HashiCorp Vault,https://docs.gitlab.com/13.12/ee/ci/examples/authenticating-with-hashicorp-vault/index.html,TRUE
+0,0,0,0,0.502245009,0.649611115,0,Authenticating and Reading Secrets With HashiCorp Vault,https://docs.gitlab.com/13.12/ee/user/project/description_templates.html,FALSE
+0,0.063305979,0.333333333,1,0.8766433,0.86929518,16.68044077,Conan,https://docs.gitlab.com/13.12/ee/user/packages/conan_repository/index.html,TRUE
+0,0,0,0,0.501181662,0.407615364,0,Conan,https://docs.gitlab.com/13.12/ee/user/project/working_with_projects.html#create-a-project,FALSE
+0.067321347,0.017841213,1,0.243195811,0.93482101,0.732636571,43.66372766,Conan API documentation,https://docs.gitlab.com/13.12/ee/api/packages/conan.html,TRUE
+0.001050246,0.00171969,0,0.027662995,0.617937207,0.663939655,0.131396385,Conan API documentation,https://docs.gitlab.com/runner/configuration/advanced-configuration.html,FALSE
+0,0.102739726,0.333333333,1,0.806522131,0.759553015,18.21579265,Go,https://docs.gitlab.com/13.12/ee/user/packages/go_proxy/index.html,TRUE
+0,0,0,0,0.519556999,0.525514543,0,Go,https://docs.gitlab.com/omnibus/index.html#configuring,FALSE
+0.248437181,0.033980583,1,0.278461303,0.959595919,0.721312284,52.48808434,Go Proxy API documentation,https://docs.gitlab.com/13.12/ee/api/packages/go_proxy.html,TRUE
+0.005605178,0.004652028,0.142857143,0.03833271,0.825307131,0.67596221,6.150107004,Go Proxy API documentation,https://docs.gitlab.com/ee/api/settings.html#list-of-settings-that-can-be-accessed-via-api-calls,FALSE
+0.293795832,0.074074074,1,0.550545587,0.753678918,0.865331471,53.17195163,Dependency Management in Go  Proxies,https://docs.gitlab.com/13.12/ee/development/go_guide/dependencies.html#proxies,TRUE
+0,0.004424779,0,0.032669532,0.613630414,0.661166489,0.175953079,Dependency Management in Go  Proxies,https://docs.gitlab.com/ee/administration/reference_architectures/1k_users.html,FALSE
+0,0.046721311,0.333333333,1,0.828714967,0.925612748,15.89513109,Maven,https://docs.gitlab.com/13.12/ee/user/packages/maven_repository/index.html,TRUE
+0,0,0,0,0.389099687,0.392351866,0,Maven,https://docs.gitlab.com/runner/register/index.html,FALSE
+0.194646889,0.042301184,1,0.385576738,0.931103647,0.74968195,49.38843968,Maven API documentation,https://docs.gitlab.com/13.12/ee/api/packages/maven.html,TRUE
+0,0,0,0,0.553430736,0.632449806,0,Maven API documentation,https://docs.gitlab.com/runner/configuration/speed_up_job_execution.html#use-a-distributed-cache,FALSE
+0,0.070680628,0.333333333,1,0.879122734,0.931543827,17.18741739,npm,https://docs.gitlab.com/13.12/ee/user/packages/npm_registry/index.html,TRUE
+0,0,0,0,0.472084373,0.47188437,0,npm,https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file,FALSE
+0.281114142,0.016161616,1,0.241522175,0.932999432,0.675011694,51.96366681,npm API documentation,https://docs.gitlab.com/13.12/ee/api/packages/npm.html,TRUE
+0,0.003717472,0,0.01271659,0.689300478,0.64163065,0.15625,npm API documentation,https://docs.gitlab.com/ee/administration/packages/dependency_proxy.html,FALSE
+0.21648657,0.030769231,1,0.499870656,1,0.884128749,52.52683527,Publish npm packages to the GitLab Package Registry using semantic-release,https://docs.gitlab.com/13.12/ee/ci/examples/semantic-release.html,TRUE
+0.113328224,0.029286927,0,0.015085313,0.634679794,0.723161638,5.000774795,Publish npm packages to the GitLab Package Registry using semantic-release,https://docs.gitlab.com/13.12/ee/user/project/clusters/add_remove_clusters.html,FALSE
+0.34719265,0.021118012,0.6,0.389576668,0.93119359,0.746046126,38.99640164,Continuous Integration settings,https://docs.gitlab.com/13.12/ee/user/admin_area/settings/continuous_integration.html,TRUE
+0.00466531,0.006486486,0,0.03618359,0.584033728,0.692646921,0.486113147,Continuous Integration settings,https://docs.gitlab.com/13.12/ee/ci/review_apps/index.html,FALSE
+0.609757379,0.01384083,0.666666667,0.798887334,0.97279042,0.888182402,45.65202872,Admin Area,https://docs.gitlab.com/13.12/ee/user/admin_area/settings/index.html,TRUE
+0,0,0,0,0.418124348,0.568065643,0,Admin Area,https://docs.gitlab.com/ee/user/project/time_tracking.html#estimates,FALSE
+0.275117562,0.058510638,0.666666667,0.548885654,0.935892403,0.853881419,36.4991409,Diff limits,https://docs.gitlab.com/13.12/ee/user/admin_area/diff_limits.html,TRUE
+0,0,0,0,0.47578156,0.545393825,0,Diff limits,https://docs.gitlab.com/ee/development/service_ping/metrics_instrumentation.html,FALSE
+0.196251737,0.064386318,0.25,0.766368951,0.809249103,0.879866242,20.9873244,view changes between files,https://docs.gitlab.com/13.12/ee/user/project/merge_requests/changes.html,TRUE
+0.293655203,0.044303797,1,0.695097138,1,0.847635388,51.01025489,Sign-up restrictions,https://docs.gitlab.com/13.12/ee/user/admin_area/settings/sign_up_restrictions.html,TRUE
+0,0,0,0,0.494294226,0.480294973,0,Sign-up restrictions,https://docs.gitlab.com/ee/administration/redis/index.html,FALSE
+0,0.159090909,0.25,1,0.801799357,0.86802423,12.64150943,approved,https://docs.gitlab.com/13.12/ee/user/admin_area/approving_users.html#approve-or-reject-a-user-sign-up,TRUE
+0,0,0,0,0.454811394,0.418312848,0,approved,https://docs.gitlab.com/13.12/ee/administration/feature_flags.html,FALSE
+0,0.109589041,0.5,1,0.85735172,0.796442866,22.55319149,blocked,https://docs.gitlab.com/13.12/ee/user/admin_area/moderate_users.html#blocking-a-user,TRUE
+0,0.004807692,0,0.068593312,0.420493931,0.447874844,0.225988701,blocked,https://docs.gitlab.com/ee/user/project/clusters/runbooks/index.html,FALSE
+0.31409482,0.030150754,1,0.477691923,1,0.771560133,50.56934142,slash commands,https://docs.gitlab.com/13.12/ee/integration/slash_commands.html,TRUE
+0,0,0,0,0.458181977,0.501594186,0,slash commands,https://docs.gitlab.com/13.12/ee/ci/directed_acyclic_graph/index.html,FALSE
+0.191301495,0.049019608,0,0.185872701,0.624001145,0.682055831,7.418149326,integration configuration,https://docs.gitlab.com/13.12/ee/user/project/integrations/slack_slash_commands.html,TRUE
+0,0,0,0,0.552438796,0.486359507,0,integration configuration,https://docs.gitlab.com/ce/development/understanding_explain_plans.html,FALSE
+0.194779596,0.037688442,1,0.48447146,1,0.912068129,49.54556982,Slack Notifications Service,https://docs.gitlab.com/13.12/ee/user/project/integrations/slack.html,TRUE
+0,0,0,0,0.434036821,0.506868303,0,Slack Notifications Service,https://docs.gitlab.com/13.12/ee/administration/operations/sidekiq_memory_killer.html,FALSE
+0.191009024,0.062222222,0.333333333,0.563482596,0.855569899,0.846398771,21.53419229,Slack app,https://docs.gitlab.com/13.12/ee/user/project/integrations/gitlab_slack_application.html,TRUE
+0,0,0,0,0.634511709,0.63824445,0,Slack app,https://docs.gitlab.com/ee/index.html#the-entire-devops-lifecycle,FALSE
+0,0.066433566,0.5,1,0.888375223,0.872427821,22.84289277,ChatOps,https://docs.gitlab.com/13.12/ee/ci/chatops/index.html,TRUE
+0,0,0,0,0.648811579,0.55351609,0,ChatOps,https://docs.gitlab.com/ce/user/admin_area/settings/sign_up_restrictions.html#disable-new-sign-ups,FALSE
+0,0.019277108,0,0.006653118,0.615724981,0.691239119,1.015873016,official GitLab ChatOps icon,https://docs.gitlab.com/ee/user/project/merge_requests/getting_started.html,FALSE
+0,0,0,0,0.543424249,0.65759486,0,GitLab API,https://docs.gitlab.com/13.12/ee/api/users.html#block-user,TRUE
+0,0.043165468,0,0.026240358,0.578694344,0.582136691,2.030075188,GitLab API,https://docs.gitlab.com/13.12/ee/ci/migration/circleci.html,FALSE
+0,0.081920904,0,0.5,0.515118241,0.764313459,4.228432564,alert bot,https://docs.gitlab.com/13.12/ee/operations/incident_management/integrations.html,TRUE
+0,0,0,0,0.635197639,0.637650549,0,alert bot,https://docs.gitlab.com/ee/user/project/issues/index.html,FALSE
+0.282447553,0.031578947,1,0.409179966,1,0.832534134,52.15504497,External Prometheus instances,https://docs.gitlab.com/13.12/ee/operations/metrics/alerts.html#external-prometheus-instances,TRUE
+0,0.004545455,0,0.026968788,0.707216859,0.745583177,0.179104478,External Prometheus instances,https://docs.gitlab.com/omnibus/,FALSE
+0.068460309,0.026548673,0.666666667,0.3454859,0.895539165,0.847687244,31.10929736,configuring metrics for your CI/CD environment,https://docs.gitlab.com/13.12/ee/operations/metrics/index.html,TRUE
+0.051133274,0.003894081,0,0.039775215,0.631788373,0.665887058,2.509717165,configuring metrics for your CI/CD environment,https://docs.gitlab.com/ee/user/project/clusters/add_eks_clusters.html,FALSE
+0,0.333333333,0.333333333,0.333333333,0.895316124,0.895316124,13.84180791,Specify your Prometheus server,https://docs.gitlab.com/13.12/ee/user/project/integrations/prometheus.html#manual-configuration-of-prometheus,TRUE
+0,0.003846154,0,0.011826226,0.705667734,0.630926609,0.16,Specify your Prometheus server,https://docs.gitlab.com/13.12/ee/ci/ci_cd_for_external_repos/index.html,FALSE
+0.26474914,0.021186441,0.666666667,0.34387564,0.943718016,0.785842121,35.25291768,metric library,https://docs.gitlab.com/13.12/ee/user/project/integrations/prometheus_library/index.html,TRUE
+0,0,0,0,0.453430682,0.548171759,0,metric library,https://docs.gitlab.com/runner/executors/parallels.html,FALSE
+0,0.062068966,0.5,0.827178593,0.851071179,0.795735717,22.07692308,Kubernetes,https://docs.gitlab.com/13.12/ee/user/project/integrations/prometheus_library/kubernetes.html,TRUE
+0,0.034098817,0.5,0.611696694,0.928891659,0.897202253,21.8943299,Kubernetes,https://docs.gitlab.com/13.12/ee/user/project/clusters/index.html,FALSE
+0.437162787,0.062227074,1,0.684404459,0.99999994,0.899205029,56.0991768,canary deployments,https://docs.gitlab.com/13.12/ee/user/project/canary_deployments.html,TRUE
+0,0,0,0,0.37149018,0.480193853,0,canary deployments,https://docs.gitlab.com/ce/user/permissions.html,FALSE
+0.360636628,0.036328872,1,0.824114514,1,0.860663831,52.60593269,Deploy Board,https://docs.gitlab.com/13.12/ee/user/project/deploy_boards.html,TRUE
+0,0,0,0,0.448246479,0.465368867,0,Deploy Board,https://docs.gitlab.com/13.12/runner/install/osx.html,FALSE
+0.447184925,0.065340909,1,0.87851135,0.99999994,0.913659215,55.78668178,Auto deploy,https://docs.gitlab.com/13.12/ee/topics/autodevops/stages.html#auto-deploy,TRUE
+0,0,0,0,0.57355994,0.609732747,0,Auto deploy,https://docs.gitlab.com/ee/ci/runners/build_cloud/linux_build_cloud.html,FALSE
+0.170399109,0.06779661,1,0.498880187,0.921637654,0.926690578,49.55846758,customizing the Auto Deploy Helm chart,https://docs.gitlab.com/13.12/ee/topics/autodevops/customize.html#custom-helm-chart,TRUE
+0,0,0,0,0.489649236,0.676194966,0,customizing the Auto Deploy Helm chart,https://docs.gitlab.com/ee/user/project/repository/index.html,FALSE
+0,0.097902098,0.5,0.5,0.867018282,0.731385529,24.18952618,Editing groups,https://docs.gitlab.com/13.12/ee/api/groups.html#update-group,TRUE
+0,0,0,0,0.507726133,0.537796915,0,Editing groups,https://docs.gitlab.com/ce/api/oauth2.html,FALSE
+0.490668876,0.104166667,0.666666667,0.721209831,0.91665864,0.795333385,44.86163642,System Hooks,https://docs.gitlab.com/13.12/ee/api/system_hooks.html,TRUE
+0,0.005867014,0,0.120177848,0.479583412,0.579522133,0.327471195,System Hooks,https://docs.gitlab.com/13.12/ee/install/installation.html,FALSE
+0.591920853,0.028716216,1,0.801490305,1,0.717801392,58.99850151,system hooks,https://docs.gitlab.com/13.12/ee/system_hooks/system_hooks.html,TRUE
+0,0,0,0,0.516663074,0.483368218,0,system hooks,https://docs.gitlab.com/ee/api/epic_issues.html,FALSE
+0,0.040733198,1,1,1,0.811205089,42.18778487,Webhooks,https://docs.gitlab.com/13.12/ee/user/project/integrations/webhooks.html,TRUE
+0,0,0,0,0.495104969,0.517414689,0,Webhooks,https://docs.gitlab.com/ee/user/admin_area/settings/floc.html,FALSE
+0.09632778,0.028374233,0,0.490908747,0.750656724,0.924239218,5.593253517,allow requests to the local network,https://docs.gitlab.com/13.12/ee/security/webhooks.html,TRUE
+0.401393976,0.087121212,0.666666667,0.673863662,0.918905199,0.785370767,42.34964691,Group Badges,https://docs.gitlab.com/13.12/ee/api/group_badges.html,TRUE
+0,0,0,0,0.415664703,0.464383423,0,Group Badges,https://docs.gitlab.com/13.12/charts/installation/tls.html,FALSE
+0.161854307,0.070512821,0.666666667,0.633474272,0.927388251,0.78157419,34.3589721,Group Import/Export,https://docs.gitlab.com/13.12/ee/api/group_import_export.html,TRUE
+0,0,0,0,0.697722375,0.610331476,0,Group Import/Export,https://docs.gitlab.com/13.12/ee/user/project/integrations/overview.html#integrations-listing,FALSE
+0.382245496,0.103559871,0.75,0.785327435,0.946140945,0.806690991,48.22559965,Group Relations Export,https://docs.gitlab.com/13.12/ee/api/group_relations_export.html,TRUE
+0.03010519,0.013464991,0,0.067249999,0.432179779,0.691277623,1.572798553,Group Relations Export,https://docs.gitlab.com/ce/user/project/deploy_tokens/index.html,FALSE
+0.101678135,0.021113244,0,0.418494032,0.633922696,0.761453867,4.08807989,migrate their database,https://docs.gitlab.com/13.12/ee/topics/autodevops/upgrading_postgresql.html,TRUE
+0,0,0,0,0.391417503,0.417743713,0,migrate their database,https://docs.gitlab.com/ee/user/admin_area/settings/user_and_ip_rate_limits.html,FALSE
+0.161914997,0.042721519,1,0.377491953,1,0.844535112,48.76969134,Detected an existing PostgreSQL database,https://docs.gitlab.com/13.12/ee/topics/autodevops/troubleshooting.html#detected-an-existing-postgresql-database,TRUE
+0,0,0,0,0.559498966,0.661634803,0,Detected an existing PostgreSQL database,https://docs.gitlab.com/ee/ci/environments/index.html#scope-environments-with-specs,FALSE
+0.425552078,0.068965517,1,0.600877158,1,0.935020149,59.98317682,Ignore warnings and continue deploying,https://docs.gitlab.com/13.12/ee/topics/autodevops/upgrading_auto_deploy_dependencies.html#ignore-warnings-and-continue-deploying,TRUE
+0,0.008264463,0,0.025911857,0.706202388,0.754754186,0.254237288,Ignore warnings and continue deploying,https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#new-issue-via-email,FALSE
+0.366437234,0.041958042,0.5,0.660179094,0.909977019,0.917639971,32.97841115,incremental rollouts,https://docs.gitlab.com/13.12/ee/ci/environments/incremental_rollouts.html,TRUE
+0,0,0,0,0.584695578,0.553908706,0,incremental rollouts,https://docs.gitlab.com/ee/user/project/import/github.html#mirroring-and-pipeline-status-sharing,FALSE
+0,0,0,0,0.420692712,0.292141736,0,Read more,https://docs.gitlab.com/13.12/ee/user/application_security/coverage_fuzzing/,TRUE
+0,0,0,0,0.44301936,0.450640976,0,Read more,https://docs.gitlab.com/ce/integration/akismet.html,FALSE
+0.141986423,0.030054645,0.5,0.519266991,0.861220956,0.751459777,25.94517726,GitLab Secure,https://docs.gitlab.com/13.12/ee/user/application_security/index.html,TRUE
+0,0.02962963,0,0.030954543,0.501534045,0.557617545,1.246753247,GitLab Secure,https://docs.gitlab.com/ee/user/admin_area/monitoring/health_check.html,FALSE
+0.386523973,0.047131148,0.5,0.711957181,0.950998783,0.887694001,34.03963892,Security Dashboard,https://docs.gitlab.com/13.12/ee/user/application_security/security_dashboard/index.html,TRUE
+0,0,0,0,0.486988366,0.558963656,0,Security Dashboard,https://docs.gitlab.com/ee/integration/cas.html,FALSE
+0.266311363,0.061904762,1,0.609099149,0.99999994,0.823179305,51.13028048,Vulnerability reports,https://docs.gitlab.com/13.12/ee/user/application_security/vulnerability_report/index.html,TRUE
+0,0,0,0,0.355269134,0.503442764,0,Vulnerability reports,https://docs.gitlab.com/ee/api/v3_to_v4.html,FALSE
+0.073997145,0.046474359,0.5,0.525605897,0.870302379,0.815752447,24.57444751,vulnerability’s details,https://docs.gitlab.com/13.12/ee/user/application_security/vulnerabilities,TRUE
+0,0,0,0,0.373484224,0.567261696,0,vulnerability’s details,https://docs.gitlab.com/13.12/ee/ci/runners/#shared-runners,FALSE
+0.204406954,0.082644628,1,0.574524474,1,0.83441627,50.13888642,Jira integration,https://docs.gitlab.com/13.12/ee/integration/jira/index.html,TRUE
+0,0,0,0,0.430193484,0.51064533,0,Jira integration,https://docs.gitlab.com/omnibus/package-information/omnibus_packages.html,FALSE
+0,0,0,0,0.445741981,0.410235643,0,migrate,https://docs.gitlab.com/13.12/ee/user/project/import/jira.html,TRUE
+0,0.001478561,0,0.02488433,0.528167725,0.452854127,0.083955224,migrate,https://docs.gitlab.com/ee/administration/geo/replication/troubleshooting.html,FALSE
+0,0.010362694,0.25,0.040390514,0.842644036,0.70326966,10.47904192,Jira integration,https://docs.gitlab.com/13.12/ee/integration/github.html,FALSE
+0.084900903,0.037894737,0.5,0.508667671,0.930409312,0.904308796,25.22654458,GitLab for Jira app,https://docs.gitlab.com/13.12/ee/integration/jira/connect-app.html,TRUE
+0.019510052,0.017241379,0,0.058873073,0.545656204,0.765480876,1.502461323,GitLab for Jira app,https://docs.gitlab.com/ee/topics/autodevops/index.html,FALSE
+0.563769564,0.097014925,1,0.926474549,1,0.858776212,59.05594406,smart commits,https://docs.gitlab.com/13.12/ee/integration/jira/dvcs.html#smart-commits,TRUE
+0,0.007633588,0,0.025437093,0.538913906,0.668822944,0.243902439,smart commits,https://docs.gitlab.com/ee/user/project/issues/index.html,FALSE
+0.480865785,0.14673913,1,0.848224856,0.99999994,0.860814869,58.33901701,create a user,https://docs.gitlab.com/13.12/ee/user/profile/account/create_accounts.html,TRUE
+0,0.003442341,0,0.021434338,0.698467433,0.659328341,0.172413793,create a user,https://docs.gitlab.com/ee/user/project/merge_requests/changes.html,FALSE
+0.062844682,0.034277198,0.333333333,0.51434402,0.75457859,0.824686468,17.16416252,LDAP integration,https://docs.gitlab.com/13.12/ee/administration/auth/ldap/index.html,TRUE
+0,0,0,0,0.479439437,0.457553804,0,LDAP integration,https://docs.gitlab.com/ee/user/project/issues/csv_import.html,FALSE
+0.317318763,0.039295393,1,0.550845679,1,0.867388844,54.29939871,Google Secure LDAP,https://docs.gitlab.com/13.12/ee/administration/auth/ldap/google_secure_ldap.html,TRUE
+0,0,0,0,0.472366869,0.58807236,0,Google Secure LDAP,https://docs.gitlab.com/ce/user/group/subgroups/index.html,FALSE
+0.464777058,0.116666667,1,0.582620163,0.855500579,0.8831653,62.36324347,LDAP check Rake task,https://docs.gitlab.com/13.12/ee/administration/raketasks/check.html#ldap-check,TRUE
+0,0,0,0,0.556900322,0.652241647,0,LDAP check Rake task,https://docs.gitlab.com/ee/administration/geo/replication/remove_geo_site.html,FALSE
+0.307198031,0.076923077,1,0.747080026,0.750067592,0.856585562,54.99274255,LDAP Rake Tasks - LDAP Check,https://docs.gitlab.com/13.12/ee/administration/raketasks/ldap.html#check,TRUE
+0,0.001506024,0,0.019776503,0.628142416,0.627450943,0.077021823,LDAP Rake Tasks - LDAP Check,https://docs.gitlab.com/13.12/ee/user/index.html,FALSE
+0.299214382,0.04787234,1,0.386392746,0.948002219,0.772794485,50.26829749,manually triggering housekeeping,https://docs.gitlab.com/13.12/ee/administration/housekeeping.html#manual-housekeeping,TRUE
+0,0,0,0,0.55737555,0.667910278,0,manually triggering housekeeping,https://docs.gitlab.com/ee/user/infrastructure/index.html,FALSE
+0.315510245,0.043981481,1,0.628323894,1,0.894841731,55.47598791,removes unreferenced LFS files,https://docs.gitlab.com/13.12/ee/raketasks/cleanup.html#remove-unreferenced-lfs-files,TRUE
+0,0.054054054,0,0.130326621,0.677467585,0.709740281,2.136498516,removes unreferenced LFS files,https://docs.gitlab.com/ee/user/project/issues/csv_import.html,FALSE
+0.280357025,0.035639413,0.75,0.672117154,0.950286269,0.914164722,42.45515691,Clean up stale sessions,https://docs.gitlab.com/13.12/ee/administration/operations/cleaning_up_redis_sessions.html,TRUE
+0,0,0,0,0.658879519,0.685055017,0,Clean up stale sessions,https://docs.gitlab.com/ce/user/profile/account/two_factor_authentication.html,FALSE
+0.217739752,0.048780488,1,0.332471583,0.961838961,0.842962921,49.92786421,GitLab encrypted configuration,https://docs.gitlab.com/13.12/ee/administration/encrypted_configuration.html,TRUE
+0,0.027027027,0.333333333,0.022106669,0.501059711,0.505695581,14.88601356,GitLab encrypted configuration,https://docs.gitlab.com/ee/user/markdown.html,FALSE
+0,0.153846154,0.333333333,0.333333333,0.815053225,0.831524491,14.27083333,secrets guide for adding the secret,https://docs.gitlab.com/13.12/charts/installation/secrets.html#gitlab-rails-secret,TRUE
+0,0,0,0,0.567609191,0.681572199,0,secrets guide for adding the secret,https://docs.gitlab.com/13.12/ee/user/admin_area/settings/index.html,FALSE
+0.127859842,0.041237113,0.5,0.604377912,0.813862503,0.901638865,25.60919427,TLS certificates,https://docs.gitlab.com/13.12/charts/installation/tls.html,TRUE
+0,0,0,0,0.69424665,0.648543239,0,TLS certificates,https://docs.gitlab.com/ee/integration/cas.html,FALSE
+0.373347045,0.047008547,0.666666667,0.519750458,0.921975434,0.82111448,42.74044482,global Ingress settings,https://docs.gitlab.com/13.12/charts/charts/globals.html#configure-ingress-settings,TRUE
+0,0.042016807,0,0.03235166,0.413025767,0.614539564,1.282051282,global Ingress settings,https://docs.gitlab.com/13.12/ee/administration/reply_by_email.html,FALSE
+0.666666667,0.1875,0.5,0.671279466,0.839559197,0.826946676,40.73170732,NGINX chart,https://docs.gitlab.com/13.12/charts/charts/nginx/index.html#configuring-nginx,TRUE
+0,0,0,0,0.449033767,0.458623707,0,NGINX chart,https://docs.gitlab.com/ce/user/project/issues/crosslinking_issues.html,FALSE
+0.698979592,0.08,1,0.887868113,0.999999881,0.902988136,62.42393321,Our NGINX fork,https://docs.gitlab.com/13.12/charts/charts/nginx/fork.html,TRUE
+0,0,0,0,0.48914355,0.570551217,0,Our NGINX fork,https://docs.gitlab.com/13.12/ee/user/packages/package_registry/index.html,FALSE
+0,0,0,0,0.599961042,0.6642977,0,gitlab/webservice,https://docs.gitlab.com/13.12/charts/charts/gitlab/webservice/index.html#deployments-settings,TRUE
+0,0,0,0,0.65737164,0.636786878,0,gitlab/webservice,https://docs.gitlab.com/ee/administration/operations/moving_repositories.html,FALSE
+0,0.028846154,0,0.025081786,0.518727481,0.499468744,1.355932203,GitLab documentation,https://docs.gitlab.com/13.12/ee/security/rack_attack.html,TRUE
+0,0,0,0,0.490168363,0.521331668,0,GitLab documentation,https://docs.gitlab.com/ee/user/project/merge_requests/cherry_pick_changes.html#cherry-picking-a-commit,FALSE
+0.256019013,0.034090909,1,0.351078628,1,0.89391017,53.22391234,User and IP rate limits,https://docs.gitlab.com/13.12/ee/user/admin_area/settings/user_and_ip_rate_limits.html,TRUE
+0,0,0,0,0.486787379,0.584824145,0,User and IP rate limits,https://docs.gitlab.com/ee/user/project/issues/index.html,FALSE
+0,0,0,0,0.459614456,0.647636473,0,Omnibus,https://docs.gitlab.com/13.12/omnibus/settings/environment-variables.html,TRUE
+0,0,0,0,0.324569076,0.313013732,0,Omnibus,https://docs.gitlab.com/13.12/ee/api/group_badges.html,FALSE
+0.30240444,0.059027778,1,0.77858689,1,0.937872648,54.31116131,unicorn-worker-killer,https://docs.gitlab.com/13.12/ee/administration/operations/unicorn.html#unicorn-worker-killer,TRUE
+0,0,0,0,0.373911798,0.477171093,0,unicorn-worker-killer,https://docs.gitlab.com/ee/integration/slash_commands.html,FALSE
+0.431343863,0.026315789,1,0.484166961,1,0.629151404,54.12193515,environment variables,https://docs.gitlab.com/13.12/ee/administration/environment_variables.html,TRUE
+0,0,0,0,0.602590263,0.550986648,0,environment variables,https://docs.gitlab.com/ee/user/admin_area/custom_project_templates.html,FALSE
+0.355648794,0.091743119,1,0.660751633,0.934246182,0.870040059,58.68276715,external CI/CD pipeline validation service,https://docs.gitlab.com/13.12/ee/administration/external_pipeline_validation.html,TRUE
+0,0,0,0,0.603901446,0.672180533,0,external CI/CD pipeline validation service,https://docs.gitlab.com/13.12/runner/index.html#gitlab-runner-versions,FALSE
+0.067633203,0.017670157,1,0.102602527,1,0.549626887,43.7270878,GitLab Prometheus metrics,https://docs.gitlab.com/13.12/ee/administration/monitoring/prometheus/gitlab_metrics.html,TRUE
+0,0,0,0,0.680256665,0.695349634,0,GitLab Prometheus metrics,https://docs.gitlab.com/13.12/charts/charts/nginx/index.html#configuring-nginx,FALSE
+0,0,0,0,0.476590723,0.644056439,0,explicitly allowed,https://docs.gitlab.com/13.12/ee/administration/monitoring/ip_whitelist.html,TRUE
+0,0,0,0,0.606045246,0.661797047,0,explicitly allowed,https://docs.gitlab.com/13.12/ee/operations/metrics/alerts.html#external-prometheus-instances,FALSE
+0.160760801,0.022900763,0,0.460818853,0.652838349,0.710531354,5.777731187,monitoring endpoints,https://docs.gitlab.com/13.12/ee/user/admin_area/monitoring/health_check.html,TRUE
+0,0,0,0,0.636759639,0.602793276,0,monitoring endpoints,https://docs.gitlab.com/ee/user/clusters/migrating_from_gma_to_project_template.html,FALSE
+0.298956538,0.042424242,0.666666667,0.585251556,0.934486747,0.843712866,37.52300326,Omnibus GitLab,https://docs.gitlab.com/13.12/omnibus/,TRUE
+0,0.043293718,0,0.031482074,0.614815772,0.576402724,2.366589327,Omnibus GitLab,https://docs.gitlab.com/13.12/ee/user/project/clusters/add_remove_clusters.html,FALSE
+0.346934163,0.048780488,1,0.499078329,0.99999994,0.890574515,56.38126812,Checking the versions of bundled software,https://docs.gitlab.com/13.12/omnibus/package-information/README.html#checking-the-versions-of-bundled-software,TRUE
+0,0.001165501,0,0.006302216,0.622733772,0.64758724,0.065537957,Checking the versions of bundled software,https://docs.gitlab.com/ee/development/understanding_explain_plans.html,FALSE
+0.206016746,0.019767442,0,0.475928964,0.713018239,0.869076729,7.116282191,bundling dependencies document,https://docs.gitlab.com/13.12/omnibus/package-information/omnibus_packages.html,TRUE
+0,0,0,0,0.500109375,0.665681541,0,bundling dependencies document,https://docs.gitlab.com/13.12/ee/administration/integration/terminal.html#security,FALSE
+0.833333333,0.333333333,1,0.652062953,1,1,73.84180791,GitLab Architecture Overview,https://docs.gitlab.com/13.12/ee/development/architecture.html#gitlab-architecture-overview,TRUE
+0.244588745,0.08,0,0.069505885,0.711644769,0.80822444,8.194805195,GitLab Architecture Overview,https://docs.gitlab.com/ee/api/graphql/index.html#graphiql,FALSE
+0.315104167,0.05952381,1,0.692432197,1,0.796277523,50.40853901,Shared files,https://docs.gitlab.com/13.12/ee/development/shared_files.html,TRUE
+0,0.024282561,0,0.106313976,0.673795998,0.616908491,1.161971831,Shared files,https://docs.gitlab.com/ee/user/packages/generic_packages/index.html,FALSE
+0.108445879,0.027505828,0.8,0.550758276,0.970512033,0.894306064,38.5068728,process for adding new service components,https://docs.gitlab.com/13.12/ee/development/adding_service_component.html,TRUE
+0,0.009345794,0,0.022079289,0.628089964,0.715480626,0.27027027,process for adding new service components,https://docs.gitlab.com/13.12/ee/user/project/repository/repository_mirroring.html#pulling-from-a-remote-repository,FALSE
+0.1585548,0.045175439,0.4,0.480061388,0.865172565,0.879912078,25.39044044,End-to-end testing in GitLab QA,https://docs.gitlab.com/13.12/ee/development/testing_guide/end_to_end/beginners_guide.html,TRUE
+0,0.017621145,0,0.002688586,0.546895027,0.600548744,0.701754386,End-to-end testing in GitLab QA,https://docs.gitlab.com/ee/api/milestones.html,FALSE
+0.400030079,0.027182867,0.5,0.370873398,0.861660659,0.778500319,33.37209352,page object,https://docs.gitlab.com/13.12/ee/development/testing_guide/end_to_end/page_objects.html,TRUE
+0,0,0,0,0.579947889,0.618898988,0,page object,https://docs.gitlab.com/ce/user/profile/index.html#access-your-user-settings,FALSE
+0.385805961,0.037453184,1,0.524916348,0.99999994,0.78429538,56.79742613,Dynamic element validation,https://docs.gitlab.com/13.12/ee/development/testing_guide/end_to_end/dynamic_element_validation.html,TRUE
+0,0.059734513,0.25,1,0.705328822,0.774230838,12.85714286,resources,https://docs.gitlab.com/13.12/ee/development/testing_guide/end_to_end/resources.html,TRUE
+0,0,0,0,0.428073227,0.428565919,0,resources,https://docs.gitlab.com/ee/user/group/subgroups/index.html,FALSE

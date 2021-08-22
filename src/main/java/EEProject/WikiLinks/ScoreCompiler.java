@@ -487,7 +487,7 @@ public class ScoreCompiler {
 			//SVM: 					word count, each token count, each token's proximity, 
 			
 			//Deeper NN?: occurence indexes per token, title match, word count
-			
+			singleWordReliancePenalty = 1;
 			finalScore = ((tokenProximityFactor + tokenWordCountFactor)*(1-Constants.titleFactorWeight) + titleMatchFactor*Constants.titleFactorWeight) * singleWordReliancePenalty * 100;
     	}
 		

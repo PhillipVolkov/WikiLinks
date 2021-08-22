@@ -20,7 +20,6 @@ import org.json.simple.parser.ParseException;
 import com.opencsv.CSVReader;
 
 import weka.attributeSelection.InfoGainAttributeEval;
-import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.classifiers.functions.LibSVM;
 import weka.classifiers.trees.J48;
@@ -33,31 +32,26 @@ import weka.filters.unsupervised.attribute.Remove;
 
 public class Main {
 	private static final boolean testLinks = true;
-	private static final String operation = "create train";
+	private static final String operation = "train model";
 	private static final String crawlGoal = "links";
-	private static final String processing = "normalize";
+	private static final String processing = "none";
 	
 	private static final String[] crawlStartPage = new String[] {"Gitlab Docs", "https://docs.gitlab.com/ee/", ""};
-	private static final String jsonName = "trainingSetLinks.json";
+	private static final String jsonName = "testingLinksRandom.json";
 	private static final String sentenceName = "sentences.json";
 	private static final String idfName = "idf.csv";
 	private static final String trainingDataName = "trainingSet.csv";
-	private static final String testingDataName = "testingSet.csv";
+	private static final String testingDataName = "testingSetManual.csv";
 	private static final String mlModelName = "ml.model";
 	
 	private static int counter = 0;
-	private static final int maxCount = 10;
+	private static final int minCount = 1000;
+	private static final int maxCount = 1100;
 	
 	private static Remove removeFilter;
 	
-	//TODO improve TfIdf to give similarity rating (ADD TITLES INTO SEPERATE COUNT), fix low occurrence ratings and edit links dataset
-		//Analyze low occurrences and high false positives, remove inaccurate rows
-		//Discover source of improper matches, add additional useful differentiators
-		//Use word2vec and cosine similarity for increasing synonym comprehension
-		//Add support for finding top phrases also, use that for multiple token queries
-		//MAYBE just improve title similarity matching
-	
-	//TODO standardize (minVal = -1, meanVals = 0, maxVal = 1), improve test data set, analyze low similarity
+	//TODO improve test data set, split into different categories (random, weird title, etc)
+	//TODO analyze low similarity, visualize naive output
 	
     public static void main(String[] args) {
     	
@@ -71,7 +65,8 @@ public class Main {
 	    			JSONObject savedPagesJSON = new JSONObject();
 	    	    
 		    	    int count = 0;
-		    	    for (String[] searchLinkPair : Constants.getSavedLinks()) {
+		    	    for (int i = minCount; i < Constants.getSavedLinks().size(); i++) {
+		    	    	String[] searchLinkPair = Constants.getSavedLinks().get(i);
 		    	    	//add true link
 		        	    JSONArray links = new JSONArray();
 		        	    links.add(searchLinkPair[0]);
@@ -87,7 +82,7 @@ public class Main {
 		    	    	links = new JSONArray();
 		        	    links.add(searchLinkPair[0]);
 		        	    int randIndex = Constants.getSavedLinks().indexOf(searchLinkPair);
-		        	    while (randIndex == Constants.getSavedLinks().indexOf(searchLinkPair)) {
+		        	    while (searchLinkPair[1].equals(Constants.getSavedLinks().get(randIndex)[1])) {
 		        	    	randIndex = ThreadLocalRandom.current().nextInt(0, Constants.getSavedLinks().size());
 		        	    }
 		        	    links.add(Constants.getSavedLinks().get(randIndex)[1]);
@@ -193,6 +188,8 @@ public class Main {
 	    	}
 	    	
 	    	LibSVM cls = new LibSVM();
+	    	//cls.setProbabilityEstimates(true);
+	    	cls.setNormalize(true);
 			cls.buildClassifier(data);
 			weka.core.SerializationHelper.write(mlModelName, cls);
 			
@@ -231,9 +228,11 @@ public class Main {
 	    	}
 	    	
 	    	LibSVM cls = (LibSVM) weka.core.SerializationHelper.read(mlModelName);
+	    	
 	    	Evaluation eval = new Evaluation(data);
 			eval.evaluateModel(cls, data);
 			System.out.println("Correct: " + eval.pctCorrect() + "%");
+			for (int i = 0; i < data.size(); i++) System.out.println(data.get(i).toString() + ": \t" + eval.evaluateModelOnceAndRecordPrediction(cls, data.get(i)));
 			System.out.println("------------------");
 			
 		} catch (Exception e) {
@@ -351,6 +350,7 @@ public class Main {
 			
     		ArrayList<Double[]> scores = new ArrayList<Double[]>();
     		ArrayList<String[]> labels = new ArrayList<String[]>();
+    		ArrayList<Boolean> match = new ArrayList<Boolean>();
 
     		final int numScores = 7;
     		
@@ -365,6 +365,7 @@ public class Main {
     		
     		//store all variables
 			int total = 0;
+			int index = 0;
 	        for (String[] linkPair : testLinks) {
 	        	ScoreCompiler score = new ScoreCompiler(linkPair, Constants.stem);
 	        	score.calculateMatch();
@@ -400,7 +401,10 @@ public class Main {
 	        		labels.add(labelRow);
 	        		
 		        	total++;
+		        	
+		        	match.add(testLinksCheck.get(index));
 	        	}
+	        	index++;
 		        	
 	        	System.out.println();
 	        }
@@ -454,7 +458,7 @@ public class Main {
         			writer.append(labels.get(i)[j] + ",");
         		}
     			
-    			writer.append(testLinksCheck.get(i) + "\n");
+    			writer.append(match.get(i) + "\n");
     		}
     		
 	        writer.flush();

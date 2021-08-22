@@ -1920,13 +1920,13 @@
     false
   ],
   "320": [
-    "what editions",
+    "tier badges",
     "https://docs.gitlab.com/ee/development/documentation/styleguide/index.html#product-tier-badges",
     "Indicate what editions the feature applies to",
     true
   ],
   "321": [
-    "what editions",
+    "tier badges",
     "https://docs.gitlab.com/ce/user/packages/package_registry/index.html",
     "Indicate what editions the feature applies to",
     false
@@ -2815,7 +2815,7 @@
   ],
   "469": [
     "Infrastructure as Code",
-    "https://docs.gitlab.com/ee/user/infrastructure/iac/index.html",
+    "https://docs.gitlab.com/runner/",
     "Use Infrastructure as Code to create and manage your clusters with the GitLab integration with Terraform",
     false
   ],
@@ -3553,7 +3553,7 @@
   ],
   "592": [
     "merge requests for confidential issues",
-    "https://docs.gitlab.com/ce/user/project/merge_requests/confidential.html",
+    "https://docs.gitlab.com/ee/user/project/merge_requests/allow_collaboration.html",
     "Learn how to create merge requests for confidential issues that prevent leaks of private data",
     true
   ],
@@ -4080,15 +4080,15 @@
     false
   ],
   "680": [
-    "Mailroom",
+    "Reply By Email",
     "https://docs.gitlab.com/ce/administration/reply_by_email.html",
-    "Mailroom Logrotate",
+    "",
     true
   ],
   "681": [
-    "Mailroom",
+    "Reply By Email",
     "https://docs.gitlab.com/charts/advanced/custom-images/index.html",
-    "Mailroom Logrotate",
+    "",
     false
   ],
   "682": [
@@ -4692,13 +4692,13 @@
     false
   ],
   "782": [
-    "what editions",
+    "products and features",
     "https://docs.gitlab.com/ce/development/documentation/styleguide/index.html#product-tier-badges",
     "Indicate what editions the feature applies to",
     true
   ],
   "783": [
-    "what editions",
+    "products and features",
     "https://docs.gitlab.com/ce/ci/yaml/#image",
     "Indicate what editions the feature applies to",
     false
@@ -5304,13 +5304,13 @@
     false
   ],
   "884": [
-    "API",
+    "deleting users from the API",
     "https://docs.gitlab.com/ce/api/users.html#user-deletion",
     "Administrators can also request this behavior when deleting users from the API or the Admin Area",
     true
   ],
   "885": [
-    "API",
+    "deleting users from the API",
     "https://docs.gitlab.com/ee/administration/reference_architectures/2k_users.html",
     "Administrators can also request this behavior when deleting users from the API or the Admin Area",
     false
