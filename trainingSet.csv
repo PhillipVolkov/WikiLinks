@@ -1,4 +1,5 @@
 Proximity,WordCount,TitleMatch,TfIdf,TitleSimilarity,ContentSimilarity,Score,Phrase,Link,Match
+1,0.090909091,0,0.829339223,0.351932645,0.803380787,30.47619048,relative URL,https://docs.gitlab.com/ee/integration/jira/development_panel.html#limitations,TRUE
 0,0,0,0,0.194346473,0.331754148,0,yaml,https://docs.gitlab.com/charts/advanced/external-object-storage/minio.html,FALSE
 0,0,0,0,0.19606258,0.252027363,0,Yes,https://docs.gitlab.com/ee/development/api_graphql_styleguide.html,FALSE
 0,0,0,0,0.200574562,0.461981177,0,when the pipeline succeeds,https://docs.gitlab.com/13.12/charts/advanced/external-object-storage/minio.html,FALSE
@@ -42,7 +43,6 @@ Proximity,WordCount,TitleMatch,TfIdf,TitleSimilarity,ContentSimilarity,Score,Phr
 1,4.95E-04,0,0.008246778,0.338629216,0.345339775,30.02808989,feature flags,https://docs.gitlab.com/13.12/runner/executors/docker.html,FALSE
 0,0.006442022,0,0.074350814,0.339659721,0.393702924,0.365682138,performance,https://docs.gitlab.com/ee/administration/gitaly/index.html,FALSE
 0,0,0,0,0.340620816,0.463902861,0,labels,https://docs.gitlab.com/13.12/ee/development/permissions.html#general-permissions,FALSE
-1,0.090909091,0,0.829339223,0.351932645,0.803380787,30.47619048,relative URL,https://docs.gitlab.com/ee/integration/jira/development_panel.html#limitations,TRUE
 0,0,0,0,0.354312927,0.308324516,0,epics,https://docs.gitlab.com/ce/topics/autodevops/customize.html#custom-helm-chart,FALSE
 0,0,0,0,0.357294738,0.429685503,0,incoming email,https://docs.gitlab.com/ee/update/index.html#upgrading-between-editions,FALSE
 0,5.40E-04,0,0.003619821,0.357376307,0.370183349,0.030487805,group runner,https://docs.gitlab.com/ee/administration/logs.html#productionlog,FALSE

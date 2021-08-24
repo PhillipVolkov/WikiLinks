@@ -1,0 +1,21 @@
+Proximity,WordCount,TitleMatch,TfIdf,TitleSimilarity,ContentSimilarity,Score,Phrase,Link,Match
+0.40124389427694584,0.0070921985815602835,0.0,0.2774862538376548,0.4977060854434967,0.702164351940155,16.41560942961442,zero-downtime updates,https://docs.gitlab.com/ee/administration/reference_architectures/,true
+0.4685897435897436,0.002938295788442703,0.0,0.058036123461546144,0.6826333403587341,0.7165426015853882,14.216143011917659,RBAC support,https://docs.gitlab.com/runner/install/kubernetes.html,true
+0.1997057617769827,0.007170795306388526,0.0,0.1383420354741416,0.6135269403457642,0.6498779058456421,6.365322513173427,Confirm Versions,https://docs.gitlab.com/runner/faq/,true
+0.1751086655102526,0.0021141649048625794,0.0,0.03380057289213423,0.4048880934715271,0.5828351378440857,5.376368454663822,merging of segments,https://docs.gitlab.com/ee/integration/elasticsearch.html,true
+0.10808195518678247,0.022026431718061675,0.0,0.5910250174345335,0.6359226703643799,0.7150576114654541,4.461145182346873,Users Statistics,https://docs.gitlab.com/ee/user/admin_area/,true
+0.0,0.03333333333333333,0.0,0.7207784819159276,0.5054723024368286,0.526482105255127,1.4025974025974026,endpoints,https://docs.gitlab.com/ee/user/admin_area/monitoring/health_check.html,true
+0.17264301579665708,0.020440251572327043,0.0,0.10335149257725953,0.49791643023490906,0.5558197498321533,6.217905653660032,reconfigure Gitlab,https://docs.gitlab.com/ee/administration/job_logs.html,true
+0.4475153818664049,0.04251700680272109,0.0,0.80642447870194,0.5072999000549316,0.8173841834068298,15.259202287287987,project_rename,https://docs.gitlab.com/ee/system_hooks/system_hooks.html,true
+0.2756506651243493,0.0028268551236749115,0.0,0.040133176181585836,0.6263266801834106,0.6131030917167664,8.426382698828517,SSH lookup,https://docs.gitlab.com/ee/administration/nfs.html,true
+0.11983932821087345,0.0039603960396039604,0.0,0.1169938451757309,0.5974849462509155,0.683911144733429,5.018397484406836,direct upload mode,https://docs.gitlab.com/ee/administration/object_storage.html,true
+0.0,0.0,0.0,0.0,0.603712797164917,0.555672287940979,0.0,Composer API documentation,https://docs.gitlab.com/13.12/ee/ci/pipelines/pipeline_architectures.html#basic-pipelines,false
+0.0,0.0,0.0,0.0,0.46214959025382996,0.4840414822101593,0.0,HashiCorp Vault,https://docs.gitlab.com/13.12/ee/ci/troubleshooting.html#fatal-reference-is-not-a-tree-error,false
+0.0,0.0,0.0,0.0,0.5022450089454651,0.6496111154556274,0.0,Authenticating and Reading Secrets With HashiCorp Vault,https://docs.gitlab.com/13.12/ee/user/project/description_templates.html,false
+0.0,0.0,0.0,0.0,0.5011816620826721,0.4076153635978699,0.0,Conan,https://docs.gitlab.com/13.12/ee/user/project/working_with_projects.html#create-a-project,false
+0.0010502457533353613,0.0017196904557179708,0.0,0.0276629953501162,0.6179372072219849,0.6639396548271179,0.13139638480871788,Conan API documentation,https://docs.gitlab.com/runner/configuration/advanced-configuration.html,false
+0.0,0.0,0.0,0.0,0.519556999206543,0.525514543056488,0.0,Go,https://docs.gitlab.com/omnibus/index.html#configuring,false
+0.005605177895281765,0.0046520282843319685,0.14285714285714285,0.038332709578936114,0.8253071308135986,0.6759622097015381,6.150107004034959,Go Proxy API documentation,https://docs.gitlab.com/ee/api/settings.html#list-of-settings-that-can-be-accessed-via-api-calls,false
+0.0,0.004424778761061947,0.0,0.032669532358686394,0.6136304140090942,0.6611664891242981,0.17595307917888564,Dependency Management in Go  Proxies,https://docs.gitlab.com/ee/administration/reference_architectures/1k_users.html,false
+0.0,0.0,0.0,0.0,0.38909968733787537,0.3923518657684326,0.0,Maven,https://docs.gitlab.com/runner/register/index.html,false
+0.0,0.0,0.0,0.0,0.5534307360649109,0.6324498057365417,0.0,Maven API documentation,https://docs.gitlab.com/runner/configuration/speed_up_job_execution.html#use-a-distributed-cache,false

@@ -1,6 +1,6 @@
 Proximity,WordCount,TitleMatch,TfIdf,TitleSimilarity,ContentSimilarity,Score,Phrase,Link,Match
-0,0.002109705,0,0.002309785,0.65317148,0.790366054,0.101867572,restrict which keys are permitted and their minimum lengths,https://docs.gitlab.com/ee/user/project/clusters/add_existing_cluster.html,FALSE
 0.145007009,0.03826087,0.571428571,0.385381393,0.968648672,0.934850693,30.9653054,restrict which keys are permitted and their minimum lengths,https://docs.gitlab.com/13.12/ee/security/ssh_keys_restrictions.html,TRUE
+0,0.002109705,0,0.002309785,0.65317148,0.790366054,0.101867572,restrict which keys are permitted and their minimum lengths,https://docs.gitlab.com/ee/user/project/clusters/add_existing_cluster.html,FALSE
 0.543293019,0.111188811,1,0.885795998,1,0.861078918,62.04577851,deploy key,https://docs.gitlab.com/13.12/ee/user/project/deploy_keys/index.html,TRUE
 0.586250404,0.095516569,1,0.950593237,1,0.838631868,62.26904077,Deploy Tokens,https://docs.gitlab.com/13.12/ee/user/project/deploy_tokens/index.html,TRUE
 0,0,0,0,0.382646114,0.516261101,0,Deploy Tokens,https://docs.gitlab.com/ee/user/admin_area/settings/third_party_offers.html,FALSE

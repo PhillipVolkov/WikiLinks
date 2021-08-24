@@ -1,1 +1,1178 @@
-{"0":["restrict which keys are permitted and their minimum lengths","https:\/\/docs.gitlab.com\/13.12\/ee\/security\/ssh_keys_restrictions.html","Administrators can restrict which keys are permitted and their minimum lengths",true],"1":["restrict which keys are permitted and their minimum lengths","https:\/\/docs.gitlab.com\/ee\/user\/project\/clusters\/add_existing_cluster.html","Administrators can restrict which keys are permitted and their minimum lengths",false],"2":["deploy key","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/deploy_keys\/index.html","Output similar to the following is displayed:   Accept the suggested filename and directory, unless you are generating a deploy key or want to save in a specific directory where you store other keys",true],"3":["deploy key","https:\/\/docs.gitlab.com\/ee\/api\/README.html","Output similar to the following is displayed:   Accept the suggested filename and directory, unless you are generating a deploy key or want to save in a specific directory where you store other keys",false],"4":["Deploy Tokens","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/deploy_tokens\/index.html","If this security implication is a concern for your organization, Deploy Tokens works as an alternative, but with more security control",true],"5":["Deploy Tokens","https:\/\/docs.gitlab.com\/ee\/user\/admin_area\/settings\/third_party_offers.html","If this security implication is a concern for your organization, Deploy Tokens works as an alternative, but with more security control",false],"6":["package type of your choice","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/packages\/index.html","To pull packages in the GitLab package registry, you must: Create a deploy token with read_package_registry Take note of your username For the package type of your choice, follow the authentication instructions for deploy tokens",true],"7":["package type of your choice","https:\/\/docs.gitlab.com\/13.12\/charts\/installation\/secrets.html#gitlab-rails-secret","To pull packages in the GitLab package registry, you must: Create a deploy token with read_package_registry Take note of your username For the package type of your choice, follow the authentication instructions for deploy tokens",false],"8":["Composer","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/packages\/composer_repository\/index.html","The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",true],"9":["Composer","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/merge_requests\/index.html","The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",false],"10":["Composer API documentation","https:\/\/docs.gitlab.com\/13.12\/ee\/api\/packages\/composer.html","For documentation of the specific API endpoints that the Composer client uses, see the Composer API documentation",true],"11":["Composer API documentation","https:\/\/docs.gitlab.com\/13.12\/ee\/ci\/pipelines\/pipeline_architectures.html#basic-pipelines","For documentation of the specific API endpoints that the Composer client uses, see the Composer API documentation",false],"12":["HashiCorp Vault","https:\/\/docs.gitlab.com\/13.12\/ee\/ci\/secrets\/index.html","You can also install from source (by pulling the Git repository directly) using the --prefer-source   Never commit the auth.json consider using the composer config tool with your personal access token stored in a GitLab CI\/CD variable or in HashiCorp Vault",true],"13":["HashiCorp Vault","https:\/\/docs.gitlab.com\/13.12\/ee\/ci\/troubleshooting.html#fatal-reference-is-not-a-tree-error","You can also install from source (by pulling the Git repository directly) using the --prefer-source   Never commit the auth.json consider using the composer config tool with your personal access token stored in a GitLab CI\/CD variable or in HashiCorp Vault",false],"14":["Authenticating and Reading Secrets With HashiCorp Vault","https:\/\/docs.gitlab.com\/13.12\/ee\/ci\/examples\/authenticating-with-hashicorp-vault\/index.html","Read the Authenticating and Reading Secrets With HashiCorp Vault tutorial for a version of this feature",true],"15":["Authenticating and Reading Secrets With HashiCorp Vault","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/description_templates.html","Read the Authenticating and Reading Secrets With HashiCorp Vault tutorial for a version of this feature",false],"16":["Conan","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/packages\/conan_repository\/index.html","The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",true],"17":["Conan","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/working_with_projects.html#create-a-project","The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",false],"18":["Conan API documentation","https:\/\/docs.gitlab.com\/13.12\/ee\/api\/packages\/conan.html","For documentation of the specific API endpoints that the Conan package manager client uses, see the Conan API documentation",true],"19":["Conan API documentation","https:\/\/docs.gitlab.com\/runner\/configuration\/advanced-configuration.html","For documentation of the specific API endpoints that the Conan package manager client uses, see the Conan API documentation",false],"20":["Go","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/packages\/go_proxy\/index.html","The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",true],"21":["Go","https:\/\/docs.gitlab.com\/omnibus\/index.html#configuring","The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",false],"22":["Go Proxy API documentation","https:\/\/docs.gitlab.com\/13.12\/ee\/api\/packages\/go_proxy.html","For documentation of the specific API endpoints that the Go Proxy uses, see the Go Proxy API documentation",true],"23":["Go Proxy API documentation","https:\/\/docs.gitlab.com\/ee\/api\/settings.html#list-of-settings-that-can-be-accessed-via-api-calls","For documentation of the specific API endpoints that the Go Proxy uses, see the Go Proxy API documentation",false],"24":["Dependency Management in Go  Proxies","https:\/\/docs.gitlab.com\/13.12\/ee\/development\/go_guide\/dependencies.html#proxies","For details about configuring GOPROXY >Dependency Management in Go  Proxies",true],"25":["Dependency Management in Go  Proxies","https:\/\/docs.gitlab.com\/ee\/administration\/reference_architectures\/1k_users.html","For details about configuring GOPROXY >Dependency Management in Go  Proxies",false],"26":["Maven","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/packages\/maven_repository\/index.html","The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",true],"27":["Maven","https:\/\/docs.gitlab.com\/runner\/register\/index.html","The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",false],"28":["Maven API documentation","https:\/\/docs.gitlab.com\/13.12\/ee\/api\/packages\/maven.html","For documentation of the specific API endpoints that the Maven package manager client uses, see the Maven API documentation",true],"29":["Maven API documentation","https:\/\/docs.gitlab.com\/runner\/configuration\/speed_up_job_execution.html#use-a-distributed-cache","For documentation of the specific API endpoints that the Maven package manager client uses, see the Maven API documentation",false],"30":["npm","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/packages\/npm_registry\/index.html","The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",true],"31":["npm","https:\/\/docs.gitlab.com\/ee\/user\/project\/repository\/web_editor.html#create-a-file","The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",false],"32":["npm API documentation","https:\/\/docs.gitlab.com\/13.12\/ee\/api\/packages\/npm.html","For documentation of the specific API endpoints that the npm package manager client uses, see the npm API documentation",true],"33":["npm API documentation","https:\/\/docs.gitlab.com\/ee\/administration\/packages\/dependency_proxy.html","For documentation of the specific API endpoints that the npm package manager client uses, see the npm API documentation",false],"34":["Publish npm packages to the GitLab Package Registry using semantic-release","https:\/\/docs.gitlab.com\/13.12\/ee\/ci\/examples\/semantic-release.html","To work with npm commands within GitLab CI\/CD, you can use CI_JOB_TOKEN An example .gitlab-ci.yml See the Publish npm packages to the GitLab Package Registry using semantic-release step-by-step guide and demo project for a complete example",true],"35":["Publish npm packages to the GitLab Package Registry using semantic-release","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/clusters\/add_remove_clusters.html","To work with npm commands within GitLab CI\/CD, you can use CI_JOB_TOKEN An example .gitlab-ci.yml See the Publish npm packages to the GitLab Package Registry using semantic-release step-by-step guide and demo project for a complete example",false],"36":["Continuous Integration settings","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/admin_area\/settings\/continuous_integration.html","Administrators can disable this behavior in the Continuous Integration settings",true],"37":["Continuous Integration settings","https:\/\/docs.gitlab.com\/13.12\/ee\/ci\/review_apps\/index.html","Administrators can disable this behavior in the Continuous Integration settings",false],"38":["Admin Area","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/admin_area\/settings\/index.html","You can find it in the Admin Area by navigating to Admin Area > Settings > CI\/CD",true],"39":["Admin Area","https:\/\/docs.gitlab.com\/ee\/user\/project\/time_tracking.html#estimates","You can find it in the Admin Area by navigating to Admin Area > Settings > CI\/CD",false],"40":["Diff limits","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/admin_area\/diff_limits.html","Diff limits Diff content limits",true],"41":["Diff limits","https:\/\/docs.gitlab.com\/ee\/development\/service_ping\/metrics_instrumentation.html","Diff limits Diff content limits",false],"42":["view changes between files","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/merge_requests\/changes.html","For details about diff files, view changes between files",true],"43":["view changes between files","https:\/\/docs.gitlab.com","For details about diff files, view changes between files",false],"44":["Sign-up restrictions","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/admin_area\/settings\/sign_up_restrictions.html","Sign-up restrictions Configure the way a user creates a new account",true],"45":["Sign-up restrictions","https:\/\/docs.gitlab.com\/ee\/administration\/redis\/index.html","Sign-up restrictions Configure the way a user creates a new account",false],"46":["approved","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/admin_area\/approving_users.html#approve-or-reject-a-user-sign-up","When this setting is enabled, any user visiting your GitLab domain and signing up for a new account must be explicitly approved by an administrator before they can start using their account",true],"47":["approved","https:\/\/docs.gitlab.com\/13.12\/ee\/administration\/feature_flags.html","When this setting is enabled, any user visiting your GitLab domain and signing up for a new account must be explicitly approved by an administrator before they can start using their account",false],"48":["blocked","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/admin_area\/moderate_users.html#blocking-a-user","A user pending approval: Is functionally identical to a blocked user",true],"49":["blocked","https:\/\/docs.gitlab.com\/ee\/user\/project\/clusters\/runbooks\/index.html","A user pending approval: Is functionally identical to a blocked user",false],"50":["slash commands","https:\/\/docs.gitlab.com\/13.12\/ee\/integration\/slash_commands.html","Cannot use slash commands",true],"51":["slash commands","https:\/\/docs.gitlab.com\/13.12\/ee\/ci\/directed_acyclic_graph\/index.html","Cannot use slash commands",false],"52":["integration configuration","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/integrations\/slack_slash_commands.html","For Slack, this requires an integration configuration",true],"53":["integration configuration","https:\/\/docs.gitlab.com\/ce\/development\/understanding_explain_plans.html","For Slack, this requires an integration configuration",false],"54":["Slack Notifications Service","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/integrations\/slack.html","GitLab can also send events (e.g., issue created This is the separately configured Slack Notifications Service",true],"55":["Slack Notifications Service","https:\/\/docs.gitlab.com\/13.12\/ee\/administration\/operations\/sidekiq_memory_killer.html","GitLab can also send events (e.g., issue created This is the separately configured Slack Notifications Service",false],"56":["Slack app","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/integrations\/gitlab_slack_application.html","For GitLab.com, use the Slack app instead",true],"57":["Slack app","https:\/\/docs.gitlab.com\/ee\/index.html#the-entire-devops-lifecycle","For GitLab.com, use the Slack app instead",false],"58":["ChatOps","https:\/\/docs.gitlab.com\/13.12\/ee\/ci\/chatops\/index.html","Taking the trigger term as project-name Command Effect \/project-name help Shows all available slash commands \/project-name issue new <title> <shift+return> <description> Creates a new issue with title <title> \/project-name issue show <id> Shows the issue with ID <id> \/project-name issue close <id> Closes the issue with ID <id> \/project-name issue search <query> Shows up to 5 issues matching <query> \/project-name issue move <id> to <project> Moves issue ID <id> \/project-name issue comment <id> <shift+return> <comment> Adds a new comment to an issue with ID <id> \/project-name deploy <from> to <to> Deploy from the <from> \/project-name run <job name> <arguments> Execute ChatOps job <job name> If you are using the GitLab Slack application for your GitLab.com projects, add the gitlab",true],"59":["ChatOps","https:\/\/docs.gitlab.com\/ce\/user\/admin_area\/settings\/sign_up_restrictions.html#disable-new-sign-ups","Taking the trigger term as project-name Command Effect \/project-name help Shows all available slash commands \/project-name issue new <title> <shift+return> <description> Creates a new issue with title <title> \/project-name issue show <id> Shows the issue with ID <id> \/project-name issue close <id> Closes the issue with ID <id> \/project-name issue search <query> Shows up to 5 issues matching <query> \/project-name issue move <id> to <project> Moves issue ID <id> \/project-name issue comment <id> <shift+return> <comment> Adds a new comment to an issue with ID <id> \/project-name deploy <from> to <to> Deploy from the <from> \/project-name run <job name> <arguments> Execute ChatOps job <job name> If you are using the GitLab Slack application for your GitLab.com projects, add the gitlab",false],"60":["official GitLab ChatOps icon","https:\/\/docs.gitlab.com\/13.12\/ee\/ci\/chatops\/img\/gitlab-chatops-icon.png","The official GitLab ChatOps icon is available for download",true],"61":["official GitLab ChatOps icon","https:\/\/docs.gitlab.com\/ee\/user\/project\/merge_requests\/getting_started.html","The official GitLab ChatOps icon is available for download",false],"62":["GitLab API","https:\/\/docs.gitlab.com\/13.12\/ee\/api\/users.html#block-user","Users can also be blocked using the GitLab API",true],"63":["GitLab API","https:\/\/docs.gitlab.com\/13.12\/ee\/ci\/migration\/circleci.html","Users can also be blocked using the GitLab API",false],"64":["alert bot","https:\/\/docs.gitlab.com\/13.12\/ee\/operations\/incident_management\/integrations.html","In addition, you can search for external users only with external=true It does not support external=false GitLab supports bot users such as the alert bot or the support bot",true],"65":["alert bot","https:\/\/docs.gitlab.com\/ee\/user\/project\/issues\/index.html","In addition, you can search for external users only with external=true It does not support external=false GitLab supports bot users such as the alert bot or the support bot",false],"66":["External Prometheus instances","https:\/\/docs.gitlab.com\/13.12\/ee\/operations\/metrics\/alerts.html#external-prometheus-instances","This can be configured generically or, in GitLab versions 13.1 and greater, you can configure External Prometheus instances to use this endpoint",true],"67":["External Prometheus instances","https:\/\/docs.gitlab.com\/omnibus\/","This can be configured generically or, in GitLab versions 13.1 and greater, you can configure External Prometheus instances to use this endpoint",false],"68":["configuring metrics for your CI\/CD environment","https:\/\/docs.gitlab.com\/13.12\/ee\/operations\/metrics\/index.html","After configuring metrics for your CI\/CD environment, you can set up alerting for Prometheus metrics depending on the location of your instances, and trigger actions from alerts to notify your team when environment performance falls outside of the boundaries you set",true],"69":["configuring metrics for your CI\/CD environment","https:\/\/docs.gitlab.com\/ee\/user\/project\/clusters\/add_eks_clusters.html","After configuring metrics for your CI\/CD environment, you can set up alerting for Prometheus metrics depending on the location of your instances, and trigger actions from alerts to notify your team when environment performance falls outside of the boundaries you set",false],"70":["Specify your Prometheus server","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/integrations\/prometheus.html#manual-configuration-of-prometheus","Specify your Prometheus server, and define at least one environment",true],"71":["Specify your Prometheus server","https:\/\/docs.gitlab.com\/13.12\/ee\/ci\/ci_cd_for_external_repos\/index.html","Specify your Prometheus server, and define at least one environment",false],"72":["metric library","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/integrations\/prometheus_library\/index.html","Once enabled, GitLab detects metrics from known services in the metric library",true],"73":["metric library","https:\/\/docs.gitlab.com\/runner\/executors\/parallels.html","Once enabled, GitLab detects metrics from known services in the metric library",false],"74":["Kubernetes","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/integrations\/prometheus_library\/kubernetes.html","Kubernetes NGINX NGINX Ingress Controller 0.9.0-0.15.x NGINX Ingress Controller 0.16.0+ HAProxy Amazon Cloud Watch We have tried to surface the most important metrics for each exporter, and continue to add support for additional exporters in future releases",true],"75":["Kubernetes","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/clusters\/index.html","Kubernetes NGINX NGINX Ingress Controller 0.9.0-0.15.x NGINX Ingress Controller 0.16.0+ HAProxy Amazon Cloud Watch We have tried to surface the most important metrics for each exporter, and continue to add support for additional exporters in future releases",false],"76":["canary deployments","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/canary_deployments.html","GitLab also gathers Kubernetes metrics for canary deployments, allowing easy comparison between the current deployed version and the canary",true],"77":["canary deployments","https:\/\/docs.gitlab.com\/ce\/user\/permissions.html","GitLab also gathers Kubernetes metrics for canary deployments, allowing easy comparison between the current deployed version and the canary",false],"78":["Deploy Board","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/deploy_boards.html","Leveraging Kubernetes\u2019 Canary deployments, visualize your canary deployments right inside the Deploy Board, without the need to leave GitLab",true],"79":["Deploy Board","https:\/\/docs.gitlab.com\/13.12\/runner\/install\/osx.html","Leveraging Kubernetes\u2019 Canary deployments, visualize your canary deployments right inside the Deploy Board, without the need to leave GitLab",false],"80":["Auto deploy","https:\/\/docs.gitlab.com\/13.12\/ee\/topics\/autodevops\/stages.html#auto-deploy","You can use an Auto deploy .gitlab-ci.yml template which has predefined stages and commands to use, and automatically applies the annotations",true],"81":["Auto deploy","https:\/\/docs.gitlab.com\/ee\/ci\/runners\/build_cloud\/linux_build_cloud.html","You can use an Auto deploy .gitlab-ci.yml template which has predefined stages and commands to use, and automatically applies the annotations",false],"82":["customizing the Auto Deploy Helm chart","https:\/\/docs.gitlab.com\/13.12\/ee\/topics\/autodevops\/customize.html#custom-helm-chart","Override the default values by customizing the Auto Deploy Helm chart",true],"83":["customizing the Auto Deploy Helm chart","https:\/\/docs.gitlab.com\/ee\/user\/project\/repository\/index.html","Override the default values by customizing the Auto Deploy Helm chart",false],"84":["Editing groups","https:\/\/docs.gitlab.com\/13.12\/ee\/api\/groups.html#update-group","Editing groups",true],"85":["Editing groups","https:\/\/docs.gitlab.com\/ce\/api\/oauth2.html","Editing groups",false],"86":["System Hooks","https:\/\/docs.gitlab.com\/13.12\/ee\/api\/system_hooks.html","These are different from System Hooks that are system wide and Project Hooks that are limited to one project",true],"87":["System Hooks","https:\/\/docs.gitlab.com\/13.12\/ee\/install\/installation.html","These are different from System Hooks that are system wide and Project Hooks that are limited to one project",false],"88":["system hooks","https:\/\/docs.gitlab.com\/13.12\/ee\/system_hooks\/system_hooks.html","The URL endpoint of the system hooks can also be configured using the UI in the Admin Area > System Hooks (\/admin\/hooks Read more about system hooks",true],"89":["system hooks","https:\/\/docs.gitlab.com\/ee\/api\/epic_issues.html","The URL endpoint of the system hooks can also be configured using the UI in the Admin Area > System Hooks (\/admin\/hooks Read more about system hooks",false],"90":["Webhooks","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/integrations\/webhooks.html","We follow the same structure and deprecations as Webhooks for Push and Tag events, but we never display commits",true],"91":["Webhooks","https:\/\/docs.gitlab.com\/ee\/user\/admin_area\/settings\/floc.html","We follow the same structure and deprecations as Webhooks for Push and Tag events, but we never display commits",false],"92":["allow requests to the local network","https:\/\/docs.gitlab.com\/13.12\/ee\/security\/webhooks.html","Save the following file as print_http_body.rb Pick an unused port (for example, 8000 8000 http:\/\/my.host:8000\/ When you press \u2018Test\u2019 in GitLab, you should see something like this in the console: You may need to allow requests to the local network for this receiver to be added",true],"93":["allow requests to the local network","https:\/\/docs.gitlab.com\/ee\/api\/README.html","Save the following file as print_http_body.rb Pick an unused port (for example, 8000 8000 http:\/\/my.host:8000\/ When you press \u2018Test\u2019 in GitLab, you should see something like this in the console: You may need to allow requests to the local network for this receiver to be added",false],"94":["Group Badges","https:\/\/docs.gitlab.com\/13.12\/ee\/api\/group_badges.html","Read more in the Group Badges documentation",true],"95":["Group Badges","https:\/\/docs.gitlab.com\/13.12\/charts\/installation\/tls.html","Read more in the Group Badges documentation",false],"96":["Group Import\/Export","https:\/\/docs.gitlab.com\/13.12\/ee\/api\/group_import_export.html","Read more in the Group Import\/Export and Group Relations Export documentation",true],"97":["Group Import\/Export","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/integrations\/overview.html#integrations-listing","Read more in the Group Import\/Export and Group Relations Export documentation",false],"98":["Group Relations Export","https:\/\/docs.gitlab.com\/13.12\/ee\/api\/group_relations_export.html","and Group Relations Export documentation",true],"99":["Group Relations Export","https:\/\/docs.gitlab.com\/ce\/user\/project\/deploy_tokens\/index.html","and Group Relations Export documentation",false],"100":["migrate their database","https:\/\/docs.gitlab.com\/13.12\/ee\/topics\/autodevops\/upgrading_postgresql.html","GitLab encourages users to migrate their database to the newer PostgreSQL",true],"101":["migrate their database","https:\/\/docs.gitlab.com\/ee\/user\/admin_area\/settings\/user_and_ip_rate_limits.html","GitLab encourages users to migrate their database to the newer PostgreSQL",false],"102":["Detected an existing PostgreSQL database","https:\/\/docs.gitlab.com\/13.12\/ee\/topics\/autodevops\/troubleshooting.html#detected-an-existing-postgresql-database","For more information, see Detected an existing PostgreSQL database",true],"103":["Detected an existing PostgreSQL database","https:\/\/docs.gitlab.com\/ee\/ci\/environments\/index.html#scope-environments-with-specs","For more information, see Detected an existing PostgreSQL database",false],"104":["Ignore warnings and continue deploying","https:\/\/docs.gitlab.com\/13.12\/ee\/topics\/autodevops\/upgrading_auto_deploy_dependencies.html#ignore-warnings-and-continue-deploying","For more information, see Ignore warnings and continue deploying",true],"105":["Ignore warnings and continue deploying","https:\/\/docs.gitlab.com\/ee\/user\/project\/issues\/managing_issues.html#new-issue-via-email","For more information, see Ignore warnings and continue deploying",false],"106":["incremental rollouts","https:\/\/docs.gitlab.com\/13.12\/ee\/ci\/environments\/incremental_rollouts.html","Auto Deploy supports advanced deployment strategies such as canary deployments and incremental rollouts",true],"107":["incremental rollouts","https:\/\/docs.gitlab.com\/ee\/user\/project\/import\/github.html#mirroring-and-pipeline-status-sharing","Auto Deploy supports advanced deployment strategies such as canary deployments and incremental rollouts",false],"108":["Read more","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/application_security\/coverage_fuzzing\/","Job Name CI\/CDVariable GitLab version Description .fuzz_base COVFUZZ_DISABLED From GitLab 13.2 Read more about how .fuzz_base apifuzzer_fuzz API_FUZZING_DISABLED From GitLab 13.3 If the variable is present, the job isn\u2019t created",true],"109":["Read more","https:\/\/docs.gitlab.com\/ce\/integration\/akismet.html","Job Name CI\/CDVariable GitLab version Description .fuzz_base COVFUZZ_DISABLED From GitLab 13.2 Read more about how .fuzz_base apifuzzer_fuzz API_FUZZING_DISABLED From GitLab 13.3 If the variable is present, the job isn\u2019t created",false],"110":["GitLab Secure","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/application_security\/index.html","We recommend that you use fuzz testing in addition to the other security scanners in GitLab Secure and your own test processes. If you\u2019re using GitLab CI\/CD, you can run your coverage-guided fuzz tests as part your CI\/CD workflow. You can take advantage of coverage-guided fuzzing by including the CI job in your existing .gitlab-ci.yml",true],"111":["GitLab Secure","https:\/\/docs.gitlab.com\/ee\/user\/admin_area\/monitoring\/health_check.html","We recommend that you use fuzz testing in addition to the other security scanners in GitLab Secure and your own test processes. If you\u2019re using GitLab CI\/CD, you can run your coverage-guided fuzz tests as part your CI\/CD workflow. You can take advantage of coverage-guided fuzzing by including the CI job in your existing .gitlab-ci.yml",false],"112":["Security Dashboard","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/application_security\/security_dashboard\/index.html","GitLab also provides high-level statistics of vulnerabilities across projects and groups: The Security Dashboard provides a high-level view of vulnerabilities detected in your projects, pipeline, and groups",true],"113":["Security Dashboard","https:\/\/docs.gitlab.com\/ee\/integration\/cas.html","GitLab also provides high-level statistics of vulnerabilities across projects and groups: The Security Dashboard provides a high-level view of vulnerabilities detected in your projects, pipeline, and groups",false],"114":["Vulnerability reports","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/application_security\/vulnerability_report\/index.html","Vulnerability reports: Detailed lists of all vulnerabilities for the Security Center, group, project, or pipeline",true],"115":["Vulnerability reports","https:\/\/docs.gitlab.com\/ee\/api\/v3_to_v4.html","Vulnerability reports: Detailed lists of all vulnerabilities for the Security Center, group, project, or pipeline",false],"116":["vulnerability\u2019s details","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/application_security\/vulnerabilities","vulnerability\u2019s details page is opened",true],"117":["vulnerability\u2019s details","https:\/\/docs.gitlab.com\/13.12\/ee\/ci\/runners\/#shared-runners","vulnerability\u2019s details page is opened",false],"118":["Jira integration","https:\/\/docs.gitlab.com\/13.12\/ee\/integration\/jira\/index.html","Creating a Jira issue requires that Jira integration is enabled on the project",true],"119":["Jira integration","https:\/\/docs.gitlab.com\/omnibus\/package-information\/omnibus_packages.html","Creating a Jira issue requires that Jira integration is enabled on the project",false],"120":["migrate","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/import\/jira.html","you can migrate your issues from Jira and work exclusively in GitLab",true],"121":["migrate","https:\/\/docs.gitlab.com\/ee\/administration\/geo\/replication\/troubleshooting.html","you can migrate your issues from Jira and work exclusively in GitLab",false],"122":["Jira integration","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/integrations\/jira.html","This feature uses the existing GitLab Jira integration",true],"123":["Jira integration","https:\/\/docs.gitlab.com\/13.12\/ee\/integration\/github.html","This feature uses the existing GitLab Jira integration",false],"124":["GitLab for Jira app","https:\/\/docs.gitlab.com\/13.12\/ee\/integration\/jira\/connect-app.html","GitLab for Jira app",true],"125":["GitLab for Jira app","https:\/\/docs.gitlab.com\/ee\/topics\/autodevops\/index.html","GitLab for Jira app",false],"126":["smart commits","https:\/\/docs.gitlab.com\/13.12\/ee\/integration\/jira\/dvcs.html#smart-commits","This integration method supports smart commits",true],"127":["smart commits","https:\/\/docs.gitlab.com\/ee\/user\/project\/issues\/index.html","This integration method supports smart commits",false],"128":["create a user","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/profile\/account\/create_accounts.html","In GitLab, create a user for Jira to use to connect to GitLab",true],"129":["create a user","https:\/\/docs.gitlab.com\/ee\/user\/project\/merge_requests\/changes.html","In GitLab, create a user for Jira to use to connect to GitLab",false],"130":["LDAP integration","https:\/\/docs.gitlab.com\/13.12\/ee\/administration\/auth\/ldap\/index.html","Automatically created upon first sign in with the LDAP integration",true],"131":["LDAP integration","https:\/\/docs.gitlab.com\/ee\/user\/project\/issues\/csv_import.html","Automatically created upon first sign in with the LDAP integration",false],"132":["Google Secure LDAP","https:\/\/docs.gitlab.com\/13.12\/ee\/administration\/auth\/ldap\/google_secure_ldap.html","See Google Secure LDAP for detailed configuration instructions",true],"133":["Google Secure LDAP","https:\/\/docs.gitlab.com\/ce\/user\/group\/subgroups\/index.html","See Google Secure LDAP for detailed configuration instructions",false],"134":["LDAP check Rake task","https:\/\/docs.gitlab.com\/13.12\/ee\/administration\/raketasks\/check.html#ldap-check","After configuring LDAP using the documentation below, see LDAP check Rake task for information on the LDAP check Rake task",true],"135":["LDAP check Rake task","https:\/\/docs.gitlab.com\/ee\/administration\/geo\/replication\/remove_geo_site.html","After configuring LDAP using the documentation below, see LDAP check Rake task for information on the LDAP check Rake task",false],"136":["LDAP Rake Tasks - LDAP Check","https:\/\/docs.gitlab.com\/13.12\/ee\/administration\/raketasks\/ldap.html#check","See LDAP Rake Tasks - LDAP Check for details",true],"137":["LDAP Rake Tasks - LDAP Check","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/index.html","See LDAP Rake Tasks - LDAP Check for details",false],"138":["manually triggering housekeeping","https:\/\/docs.gitlab.com\/13.12\/ee\/administration\/housekeeping.html#manual-housekeeping","manually triggering housekeeping for the affected project(s)",true],"139":["manually triggering housekeeping","https:\/\/docs.gitlab.com\/ee\/user\/infrastructure\/index.html","manually triggering housekeeping for the affected project(s)",false],"140":["removes unreferenced LFS files","https:\/\/docs.gitlab.com\/13.12\/ee\/raketasks\/cleanup.html#remove-unreferenced-lfs-files","Housekeeping also removes unreferenced LFS files from your project on the same schedule as the git gc To manually start the housekeeping process: In your project, go to Settings > General",true],"141":["removes unreferenced LFS files","https:\/\/docs.gitlab.com\/ee\/user\/project\/issues\/csv_import.html","Housekeeping also removes unreferenced LFS files from your project on the same schedule as the git gc To manually start the housekeeping process: In your project, go to Settings > General",false],"142":["Clean up stale sessions","https:\/\/docs.gitlab.com\/13.12\/ee\/administration\/operations\/cleaning_up_redis_sessions.html","Clean up stale sessions to compact the Redis database after you upgrade to GitLab 7.3",true],"143":["Clean up stale sessions","https:\/\/docs.gitlab.com\/ce\/user\/profile\/account\/two_factor_authentication.html","Clean up stale sessions to compact the Redis database after you upgrade to GitLab 7.3",false],"144":["GitLab encrypted configuration","https:\/\/docs.gitlab.com\/13.12\/ee\/administration\/encrypted_configuration.html","GitLab encrypted configuration",true],"145":["GitLab encrypted configuration","https:\/\/docs.gitlab.com\/ee\/user\/markdown.html","GitLab encrypted configuration",false],"146":["secrets guide for adding the secret","https:\/\/docs.gitlab.com\/13.12\/charts\/installation\/secrets.html#gitlab-rails-secret","The supported features are: LDAP user_bn In order to enable the encrypted configuration settings, a new base key needs to be generated for encrypted_settings_key_base Omnibus Installation Starting with 13.7 the new secret is automatically generated for you, but you need to ensure your \/etc\/gitlab\/gitlab-secrets.json GitLab Cloud Native Helm Chart Starting with GitLab 13.7, the new secret is automatically generated if you have the shared-secrets to follow the secrets guide for adding the secret",true],"147":["secrets guide for adding the secret","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/admin_area\/settings\/index.html","The supported features are: LDAP user_bn In order to enable the encrypted configuration settings, a new base key needs to be generated for encrypted_settings_key_base Omnibus Installation Starting with 13.7 the new secret is automatically generated for you, but you need to ensure your \/etc\/gitlab\/gitlab-secrets.json GitLab Cloud Native Helm Chart Starting with GitLab 13.7, the new secret is automatically generated if you have the shared-secrets to follow the secrets guide for adding the secret",false],"148":["TLS certificates","https:\/\/docs.gitlab.com\/13.12\/charts\/installation\/tls.html","TLS certificates Registry authentication certificates Registry sensitive notification headers SSH Host Keys Passwords: Initial root password Redis password GitLab Shell secret Gitaly secret Praefect secret GitLab Rails secret GitLab Workhorse secret GitLab Runner secret PostgreSQL password Praefect DB password MinIO secret Registry HTTP secret Registry notification secret Grafana password GitLab Pages secret External Services OmniAuth LDAP Password SMTP Password IMAP Password for incoming email IMAP Password for service desk Microsoft Graph client secret for incoming emails Microsoft Graph client secret for service desk S\/MIME Certificate Smartcard Authentication",true],"149":["TLS certificates","https:\/\/docs.gitlab.com\/ee\/integration\/cas.html","TLS certificates Registry authentication certificates Registry sensitive notification headers SSH Host Keys Passwords: Initial root password Redis password GitLab Shell secret Gitaly secret Praefect secret GitLab Rails secret GitLab Workhorse secret GitLab Runner secret PostgreSQL password Praefect DB password MinIO secret Registry HTTP secret Registry notification secret Grafana password GitLab Pages secret External Services OmniAuth LDAP Password SMTP Password IMAP Password for incoming email IMAP Password for service desk Microsoft Graph client secret for incoming emails Microsoft Graph client secret for service desk S\/MIME Certificate Smartcard Authentication",false],"150":["global Ingress settings","https:\/\/docs.gitlab.com\/13.12\/charts\/charts\/globals.html#configure-ingress-settings","Extensive details can be found in global Ingress settings",true],"151":["global Ingress settings","https:\/\/docs.gitlab.com\/13.12\/ee\/administration\/reply_by_email.html","Extensive details can be found in global Ingress settings",false],"152":["NGINX chart","https:\/\/docs.gitlab.com\/13.12\/charts\/charts\/nginx\/index.html#configuring-nginx","This will be templated into the NGINX chart, in place of the more complex nginx.service.loadBalancerIP https Boolean true If set to true, you will need to ensure the NGINX chart has access to the certificates",true],"153":["NGINX chart","https:\/\/docs.gitlab.com\/ce\/user\/project\/issues\/crosslinking_issues.html","This will be templated into the NGINX chart, in place of the more complex nginx.service.loadBalancerIP https Boolean true If set to true, you will need to ensure the NGINX chart has access to the certificates",false],"154":["Our NGINX fork","https:\/\/docs.gitlab.com\/13.12\/charts\/charts\/nginx\/fork.html","See Our NGINX fork for details on what was modified in our fork",true],"155":["Our NGINX fork","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/packages\/package_registry\/index.html","See Our NGINX fork for details on what was modified in our fork",false],"156":["gitlab\/webservice","https:\/\/docs.gitlab.com\/13.12\/charts\/charts\/gitlab\/webservice\/index.html#deployments-settings","For those users who need to have their path ingress.class: alb This setting will ensure that all path The only exception is when populating the gitlab\/webservice, where path",true],"157":["gitlab\/webservice","https:\/\/docs.gitlab.com\/ee\/administration\/operations\/moving_repositories.html","For those users who need to have their path ingress.class: alb This setting will ensure that all path The only exception is when populating the gitlab\/webservice, where path",false],"158":["GitLab documentation","https:\/\/docs.gitlab.com\/13.12\/ee\/security\/rack_attack.html","Takes precedence over global.psql.port puma.disableWorkerKiller false Disables Puma worker memory killer puma.workerMaxMemory 1024 The maximum memory (in megabytes) for the Puma worker killer puma.threads.min 4 The minimum amount of Puma threads puma.threads.max 4 The maximum amount of Puma threads rack_attack.git_basic_auth {} See GitLab documentation for details redis.serviceName redis Redis service name registry.api.port 5000 Registry port registry.api.protocol http Registry protocol registry.api.serviceName registry Registry service name registry.enabled true Add\/Remove registry link in all projects menu registry.tokenIssuer gitlab-issuer Registry token issuer replicaCount 1 Webservice number of replicas resources.requests.cpu 300m Webservice minimum CPU resources.requests.memory 1.5G Webservice minimum memory service.externalPort 8080 Webservice exposed port securityContext.fsGroup 1000 Group ID under which the pod should be started securityContext.runAsUser 1000 User ID under which the pod should be started serviceLabels {} Supplemental service labels service.internalPort 8080 Webservice internal port service.type ClusterIP Webservice service type service.workhorseExternalPort 8181 Workhorse exposed port service.workhorseInternalPort 8181 Workhorse internal port service.loadBalancerIP   IP address to assign to LoadBalancer (if supported by cloud provider) service.loadBalancerSourceRanges   List of IP CIDRs allowed access to LoadBalancer (if supported) Required for service.type = LoadBalancer shell.authToken.key secret Key to shell token in shell secret shell.authToken.secret gitlab-shell-secret Shell token secret shell.port nil Port number to use in SSH URLs generated by UI shutdown.blackoutSeconds 10 Number of seconds to keep Webservice running after receiving shutdown, note this must shorter than deployment.terminationGracePeriodSeconds tolerations [] Toleration labels for pod assignment trusted_proxies [] See GitLab documentation for details workhorse.logFormat json Logging format. Valid formats: json workerProcesses 2 Webservice number of workers workhorse.keywatcher true Subscribe workhorse to Redis. This is required by any deployment servicing request to \/api\/* workhorse.livenessProbe.initialDelaySeconds 20 Delay before liveness probe is initiated workhorse.livenessProbe.periodSeconds 60 How often to perform the liveness probe workhorse.livenessProbe.timeoutSeconds 30 When the liveness probe times out workhorse.livenessProbe.successThreshold 1 Minimum consecutive successes for the liveness probe to be considered successful after having failed workhorse.livenessProbe.failureThreshold 3 Minimum consecutive failures for the liveness probe to be considered failed after having succeeded workhorse.monitoring.exporter.enabled false Enable workhorse to expose Prometheus metrics workhorse.monitoring.exporter.port 9229 Port number to use for workhorse Prometheus metrics workhorse.readinessProbe.initialDelaySeconds 0 Delay before readiness probe is initiated workhorse.readinessProbe.periodSeconds 10 How often to perform the readiness probe workhorse.readinessProbe.timeoutSeconds 2 When the readiness probe times out workhorse.readinessProbe.successThreshold 1 Minimum consecutive successes for the readiness probe to be considered successful after having failed workhorse.readinessProbe.failureThreshold 3 Minimum consecutive failures for the readiness probe to be considered failed after having succeeded workhorse.imageScaler.maxProcs 2 The maximum number of image scaling processes that may run concurrently workhorse.imageScaler.maxFileSizeBytes 250000 The maximum file size in bytes for images to be processed by the scaler webServer puma Selects web server (Webservice\/Puma) that would be used for request handling priorityClassName \"\" Allow configuring pods priorityClassName",true],"159":["GitLab documentation","https:\/\/docs.gitlab.com\/ee\/user\/project\/merge_requests\/cherry_pick_changes.html#cherry-picking-a-commit","Takes precedence over global.psql.port puma.disableWorkerKiller false Disables Puma worker memory killer puma.workerMaxMemory 1024 The maximum memory (in megabytes) for the Puma worker killer puma.threads.min 4 The minimum amount of Puma threads puma.threads.max 4 The maximum amount of Puma threads rack_attack.git_basic_auth {} See GitLab documentation for details redis.serviceName redis Redis service name registry.api.port 5000 Registry port registry.api.protocol http Registry protocol registry.api.serviceName registry Registry service name registry.enabled true Add\/Remove registry link in all projects menu registry.tokenIssuer gitlab-issuer Registry token issuer replicaCount 1 Webservice number of replicas resources.requests.cpu 300m Webservice minimum CPU resources.requests.memory 1.5G Webservice minimum memory service.externalPort 8080 Webservice exposed port securityContext.fsGroup 1000 Group ID under which the pod should be started securityContext.runAsUser 1000 User ID under which the pod should be started serviceLabels {} Supplemental service labels service.internalPort 8080 Webservice internal port service.type ClusterIP Webservice service type service.workhorseExternalPort 8181 Workhorse exposed port service.workhorseInternalPort 8181 Workhorse internal port service.loadBalancerIP   IP address to assign to LoadBalancer (if supported by cloud provider) service.loadBalancerSourceRanges   List of IP CIDRs allowed access to LoadBalancer (if supported) Required for service.type = LoadBalancer shell.authToken.key secret Key to shell token in shell secret shell.authToken.secret gitlab-shell-secret Shell token secret shell.port nil Port number to use in SSH URLs generated by UI shutdown.blackoutSeconds 10 Number of seconds to keep Webservice running after receiving shutdown, note this must shorter than deployment.terminationGracePeriodSeconds tolerations [] Toleration labels for pod assignment trusted_proxies [] See GitLab documentation for details workhorse.logFormat json Logging format. Valid formats: json workerProcesses 2 Webservice number of workers workhorse.keywatcher true Subscribe workhorse to Redis. This is required by any deployment servicing request to \/api\/* workhorse.livenessProbe.initialDelaySeconds 20 Delay before liveness probe is initiated workhorse.livenessProbe.periodSeconds 60 How often to perform the liveness probe workhorse.livenessProbe.timeoutSeconds 30 When the liveness probe times out workhorse.livenessProbe.successThreshold 1 Minimum consecutive successes for the liveness probe to be considered successful after having failed workhorse.livenessProbe.failureThreshold 3 Minimum consecutive failures for the liveness probe to be considered failed after having succeeded workhorse.monitoring.exporter.enabled false Enable workhorse to expose Prometheus metrics workhorse.monitoring.exporter.port 9229 Port number to use for workhorse Prometheus metrics workhorse.readinessProbe.initialDelaySeconds 0 Delay before readiness probe is initiated workhorse.readinessProbe.periodSeconds 10 How often to perform the readiness probe workhorse.readinessProbe.timeoutSeconds 2 When the readiness probe times out workhorse.readinessProbe.successThreshold 1 Minimum consecutive successes for the readiness probe to be considered successful after having failed workhorse.readinessProbe.failureThreshold 3 Minimum consecutive failures for the readiness probe to be considered failed after having succeeded workhorse.imageScaler.maxProcs 2 The maximum number of image scaling processes that may run concurrently workhorse.imageScaler.maxFileSizeBytes 250000 The maximum file size in bytes for images to be processed by the scaler webServer puma Selects web server (Webservice\/Puma) that would be used for request handling priorityClassName \"\" Allow configuring pods priorityClassName",false],"160":["User and IP rate limits","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/admin_area\/settings\/user_and_ip_rate_limits.html","See User and IP rate limits for simpler limits that are configured in the UI",true],"161":["User and IP rate limits","https:\/\/docs.gitlab.com\/ee\/user\/project\/issues\/index.html","See User and IP rate limits for simpler limits that are configured in the UI",false],"162":["Omnibus","https:\/\/docs.gitlab.com\/13.12\/omnibus\/settings\/environment-variables.html","Set the environment variable GITLAB_THROTTLE_BYPASS_HEADER For Omnibus, set 'GITLAB_THROTTLE_BYPASS_HEADER' => 'Gitlab-Bypass-Rate-Limiting' For source installations, set export GITLAB_THROTTLE_BYPASS_HEADER=Gitlab-Bypass-Rate-Limiting in \/etc\/default\/gitlab It is important that your load balancer erases or overwrites the bypass header on all incoming traffic",true],"163":["Omnibus","https:\/\/docs.gitlab.com\/13.12\/ee\/api\/group_badges.html","Set the environment variable GITLAB_THROTTLE_BYPASS_HEADER For Omnibus, set 'GITLAB_THROTTLE_BYPASS_HEADER' => 'Gitlab-Bypass-Rate-Limiting' For source installations, set export GITLAB_THROTTLE_BYPASS_HEADER=Gitlab-Bypass-Rate-Limiting in \/etc\/default\/gitlab It is important that your load balancer erases or overwrites the bypass header on all incoming traffic",false],"164":["unicorn-worker-killer","https:\/\/docs.gitlab.com\/13.12\/ee\/administration\/operations\/unicorn.html#unicorn-worker-killer","Memory thresholds for the unicorn-worker-killer can be customized using the unicorn.memory.min default values are sane, you can increase (or lower) these values to fine-tune them for your environment or troubleshoot performance issues",true],"165":["unicorn-worker-killer","https:\/\/docs.gitlab.com\/ee\/integration\/slash_commands.html","Memory thresholds for the unicorn-worker-killer can be customized using the unicorn.memory.min default values are sane, you can increase (or lower) these values to fine-tune them for your environment or troubleshoot performance issues",false],"166":["environment variables","https:\/\/docs.gitlab.com\/13.12\/ee\/administration\/environment_variables.html","You can set the minimum and maximum memory threshold (in bytes) for the Unicorn worker killer by setting the following values \/etc\/gitlab\/gitlab.rb For GitLab 12.7 and newer:   For GitLab 12.6 and older:   Otherwise, you can set the GITLAB_UNICORN_MEMORY_MIN environment variables",true],"167":["environment variables","https:\/\/docs.gitlab.com\/ee\/user\/admin_area\/custom_project_templates.html","You can set the minimum and maximum memory threshold (in bytes) for the Unicorn worker killer by setting the following values \/etc\/gitlab\/gitlab.rb For GitLab 12.7 and newer:   For GitLab 12.6 and older:   Otherwise, you can set the GITLAB_UNICORN_MEMORY_MIN environment variables",false],"168":["external CI\/CD pipeline validation service","https:\/\/docs.gitlab.com\/13.12\/ee\/administration\/external_pipeline_validation.html","Timeout, in seconds, for an external CI\/CD pipeline validation service",true],"169":["external CI\/CD pipeline validation service","https:\/\/docs.gitlab.com\/13.12\/runner\/index.html#gitlab-runner-versions","Timeout, in seconds, for an external CI\/CD pipeline validation service",false],"170":["GitLab Prometheus metrics","https:\/\/docs.gitlab.com\/13.12\/ee\/administration\/monitoring\/prometheus\/gitlab_metrics.html","available when GitLab Prometheus metrics are enabled in the Admin area",true],"171":["GitLab Prometheus metrics","https:\/\/docs.gitlab.com\/13.12\/charts\/charts\/nginx\/index.html#configuring-nginx","available when GitLab Prometheus metrics are enabled in the Admin area",false],"172":["explicitly allowed","https:\/\/docs.gitlab.com\/13.12\/ee\/administration\/monitoring\/ip_whitelist.html","the metrics, the client IP address must be explicitly allowed",true],"173":["explicitly allowed","https:\/\/docs.gitlab.com\/13.12\/ee\/operations\/metrics\/alerts.html#external-prometheus-instances","the metrics, the client IP address must be explicitly allowed",false],"174":["monitoring endpoints","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/admin_area\/monitoring\/health_check.html","GitLab provides some monitoring endpoints that provide health check information when probed",true],"175":["monitoring endpoints","https:\/\/docs.gitlab.com\/ee\/user\/clusters\/migrating_from_gma_to_project_template.html","GitLab provides some monitoring endpoints that provide health check information when probed",false],"176":["Omnibus GitLab","https:\/\/docs.gitlab.com\/13.12\/omnibus\/","For Omnibus GitLab and Chart installations, these metrics are enabled and collected as of GitLab 9.4",true],"177":["Omnibus GitLab","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/clusters\/add_remove_clusters.html","For Omnibus GitLab and Chart installations, these metrics are enabled and collected as of GitLab 9.4",false],"178":["Checking the versions of bundled software","https:\/\/docs.gitlab.com\/13.12\/omnibus\/package-information\/README.html#checking-the-versions-of-bundled-software","Checking the versions of bundled software Package defaults Components included Deprecated Operating Systems Signed Packages Deprecation Policy Licenses of bundled dependencies",true],"179":["Checking the versions of bundled software","https:\/\/docs.gitlab.com\/ee\/development\/understanding_explain_plans.html","Checking the versions of bundled software Package defaults Components included Deprecated Operating Systems Signed Packages Deprecation Policy Licenses of bundled dependencies",false],"180":["bundling dependencies document","https:\/\/docs.gitlab.com\/13.12\/omnibus\/package-information\/omnibus_packages.html","at bundling dependencies document",true],"181":["bundling dependencies document","https:\/\/docs.gitlab.com\/13.12\/ee\/administration\/integration\/terminal.html#security","at bundling dependencies document",false],"182":["GitLab Architecture Overview","https:\/\/docs.gitlab.com\/13.12\/ee\/development\/architecture.html#gitlab-architecture-overview","The GitLab Architecture Overview shows some of these components and how they interact",true],"183":["GitLab Architecture Overview","https:\/\/docs.gitlab.com\/ee\/api\/graphql\/index.html#graphiql","The GitLab Architecture Overview shows some of these components and how they interact",false],"184":["Shared files","https:\/\/docs.gitlab.com\/13.12\/ee\/development\/shared_files.html","Shared files are not an option for the application running on the Kubernetes platform",true],"185":["Shared files","https:\/\/docs.gitlab.com\/ee\/user\/packages\/generic_packages\/index.html","Shared files are not an option for the application running on the Kubernetes platform",false],"186":["process for adding new service components","https:\/\/docs.gitlab.com\/13.12\/ee\/development\/adding_service_component.html","Refer to the process for adding new service components for more details",true],"187":["process for adding new service components","https:\/\/docs.gitlab.com\/13.12\/ee\/user\/project\/repository\/repository_mirroring.html#pulling-from-a-remote-repository","Refer to the process for adding new service components for more details",false],"188":["End-to-end testing in GitLab QA","https:\/\/docs.gitlab.com\/13.12\/ee\/development\/testing_guide\/end_to_end\/beginners_guide.html","Proposed Proposing a new component Minimal Integrating a new service with GitLab Handling service dependencies Viable Bundled with GitLab installations End-to-end testing in GitLab QA Release management Enabled on GitLab.com Complete Configurable by the GitLab orchestrator Lovable Enabled by default for the majority of users",true],"189":["End-to-end testing in GitLab QA","https:\/\/docs.gitlab.com\/ee\/api\/milestones.html","Proposed Proposing a new component Minimal Integrating a new service with GitLab Handling service dependencies Viable Bundled with GitLab installations End-to-end testing in GitLab QA Release management Enabled on GitLab.com Complete Configurable by the GitLab orchestrator Lovable Enabled by default for the majority of users",false],"190":["page object","https:\/\/docs.gitlab.com\/13.12\/ee\/development\/testing_guide\/end_to_end\/page_objects.html","Develop any missing page object libraries",true],"191":["page object","https:\/\/docs.gitlab.com\/ce\/user\/profile\/index.html#access-your-user-settings","Develop any missing page object libraries",false],"192":["Dynamic element validation","https:\/\/docs.gitlab.com\/13.12\/ee\/development\/testing_guide\/end_to_end\/dynamic_element_validation.html","In our case, data-qa-selector=\"login_field\" app\/views\/my\/view.html.haml Things to note: The name of the element and the qa_selector If the element appears on the page unconditionally, add required: true Dynamic element validation You may see .qa-selector method of definition over the .qa-selector",true],"193":["Dynamic element validation","https:\/\/docs.gitlab.com\/omnibus\/update\/README.html#version-specific-changes","In our case, data-qa-selector=\"login_field\" app\/views\/my\/view.html.haml Things to note: The name of the element and the qa_selector If the element appears on the page unconditionally, add required: true Dynamic element validation You may see .qa-selector method of definition over the .qa-selector",false],"194":["resources","https:\/\/docs.gitlab.com\/13.12\/ee\/development\/testing_guide\/end_to_end\/resources.html","Create resources (such as project, issue, user) on an ad-hoc basis",true],"195":["resources","https:\/\/docs.gitlab.com\/ee\/user\/group\/subgroups\/index.html","Create resources (such as project, issue, user) on an ad-hoc basis",false]}
+{
+  "0": [
+    "restrict which keys are permitted and their minimum lengths",
+    "https://docs.gitlab.com/13.12/ee/security/ssh_keys_restrictions.html",
+    "Administrators can restrict which keys are permitted and their minimum lengths",
+    true
+  ],
+  "1": [
+    "restrict which keys are permitted and their minimum lengths",
+    "https://docs.gitlab.com/ee/user/project/clusters/add_existing_cluster.html",
+    "Administrators can restrict which keys are permitted and their minimum lengths",
+    false
+  ],
+  "2": [
+    "deploy key",
+    "https://docs.gitlab.com/13.12/ee/user/project/deploy_keys/index.html",
+    "Output similar to the following is displayed:   Accept the suggested filename and directory, unless you are generating a deploy key or want to save in a specific directory where you store other keys",
+    true
+  ],
+  "3": [
+    "deploy key",
+    "https://docs.gitlab.com/ee/api/README.html",
+    "Output similar to the following is displayed:   Accept the suggested filename and directory, unless you are generating a deploy key or want to save in a specific directory where you store other keys",
+    false
+  ],
+  "4": [
+    "Deploy Tokens",
+    "https://docs.gitlab.com/13.12/ee/user/project/deploy_tokens/index.html",
+    "If this security implication is a concern for your organization, Deploy Tokens works as an alternative, but with more security control",
+    true
+  ],
+  "5": [
+    "Deploy Tokens",
+    "https://docs.gitlab.com/ee/user/admin_area/settings/third_party_offers.html",
+    "If this security implication is a concern for your organization, Deploy Tokens works as an alternative, but with more security control",
+    false
+  ],
+  "6": [
+    "package type of your choice",
+    "https://docs.gitlab.com/13.12/ee/user/packages/index.html",
+    "To pull packages in the GitLab package registry, you must: Create a deploy token with read_package_registry Take note of your username For the package type of your choice, follow the authentication instructions for deploy tokens",
+    true
+  ],
+  "7": [
+    "package type of your choice",
+    "https://docs.gitlab.com/13.12/charts/installation/secrets.html#gitlab-rails-secret",
+    "To pull packages in the GitLab package registry, you must: Create a deploy token with read_package_registry Take note of your username For the package type of your choice, follow the authentication instructions for deploy tokens",
+    false
+  ],
+  "8": [
+    "Composer",
+    "https://docs.gitlab.com/13.12/ee/user/packages/composer_repository/index.html",
+    "The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",
+    true
+  ],
+  "9": [
+    "Composer",
+    "https://docs.gitlab.com/13.12/ee/user/project/merge_requests/index.html",
+    "The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",
+    false
+  ],
+  "10": [
+    "Composer API documentation",
+    "https://docs.gitlab.com/13.12/ee/api/packages/composer.html",
+    "For documentation of the specific API endpoints that the Composer client uses, see the Composer API documentation",
+    true
+  ],
+  "11": [
+    "Composer API documentation",
+    "https://docs.gitlab.com/13.12/ee/ci/pipelines/pipeline_architectures.html#basic-pipelines",
+    "For documentation of the specific API endpoints that the Composer client uses, see the Composer API documentation",
+    false
+  ],
+  "12": [
+    "HashiCorp Vault",
+    "https://docs.gitlab.com/13.12/ee/ci/secrets/index.html",
+    "You can also install from source (by pulling the Git repository directly) using the --prefer-source   Never commit the auth.json consider using the composer config tool with your personal access token stored in a GitLab CI/CD variable or in HashiCorp Vault",
+    true
+  ],
+  "13": [
+    "HashiCorp Vault",
+    "https://docs.gitlab.com/13.12/ee/ci/troubleshooting.html#fatal-reference-is-not-a-tree-error",
+    "You can also install from source (by pulling the Git repository directly) using the --prefer-source   Never commit the auth.json consider using the composer config tool with your personal access token stored in a GitLab CI/CD variable or in HashiCorp Vault",
+    false
+  ],
+  "14": [
+    "Authenticating and Reading Secrets With HashiCorp Vault",
+    "https://docs.gitlab.com/13.12/ee/ci/examples/authenticating-with-hashicorp-vault/index.html",
+    "Read the Authenticating and Reading Secrets With HashiCorp Vault tutorial for a version of this feature",
+    true
+  ],
+  "15": [
+    "Authenticating and Reading Secrets With HashiCorp Vault",
+    "https://docs.gitlab.com/13.12/ee/user/project/description_templates.html",
+    "Read the Authenticating and Reading Secrets With HashiCorp Vault tutorial for a version of this feature",
+    false
+  ],
+  "16": [
+    "Conan",
+    "https://docs.gitlab.com/13.12/ee/user/packages/conan_repository/index.html",
+    "The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",
+    true
+  ],
+  "17": [
+    "Conan",
+    "https://docs.gitlab.com/13.12/ee/user/project/working_with_projects.html#create-a-project",
+    "The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",
+    false
+  ],
+  "18": [
+    "Conan API documentation",
+    "https://docs.gitlab.com/13.12/ee/api/packages/conan.html",
+    "For documentation of the specific API endpoints that the Conan package manager client uses, see the Conan API documentation",
+    true
+  ],
+  "19": [
+    "Conan API documentation",
+    "https://docs.gitlab.com/runner/configuration/advanced-configuration.html",
+    "For documentation of the specific API endpoints that the Conan package manager client uses, see the Conan API documentation",
+    false
+  ],
+  "20": [
+    "Go",
+    "https://docs.gitlab.com/13.12/ee/user/packages/go_proxy/index.html",
+    "The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",
+    true
+  ],
+  "21": [
+    "Go",
+    "https://docs.gitlab.com/omnibus/index.html#configuring",
+    "The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",
+    false
+  ],
+  "22": [
+    "Go Proxy API documentation",
+    "https://docs.gitlab.com/13.12/ee/api/packages/go_proxy.html",
+    "For documentation of the specific API endpoints that the Go Proxy uses, see the Go Proxy API documentation",
+    true
+  ],
+  "23": [
+    "Go Proxy API documentation",
+    "https://docs.gitlab.com/ee/api/settings.html#list-of-settings-that-can-be-accessed-via-api-calls",
+    "For documentation of the specific API endpoints that the Go Proxy uses, see the Go Proxy API documentation",
+    false
+  ],
+  "24": [
+    "Dependency Management in Go  Proxies",
+    "https://docs.gitlab.com/13.12/ee/development/go_guide/dependencies.html#proxies",
+    "For details about configuring GOPROXY >Dependency Management in Go  Proxies",
+    true
+  ],
+  "25": [
+    "Dependency Management in Go  Proxies",
+    "https://docs.gitlab.com/ee/administration/reference_architectures/1k_users.html",
+    "For details about configuring GOPROXY >Dependency Management in Go  Proxies",
+    false
+  ],
+  "26": [
+    "Maven",
+    "https://docs.gitlab.com/13.12/ee/user/packages/maven_repository/index.html",
+    "The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",
+    true
+  ],
+  "27": [
+    "Maven",
+    "https://docs.gitlab.com/runner/register/index.html",
+    "The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",
+    false
+  ],
+  "28": [
+    "Maven API documentation",
+    "https://docs.gitlab.com/13.12/ee/api/packages/maven.html",
+    "For documentation of the specific API endpoints that the Maven package manager client uses, see the Maven API documentation",
+    true
+  ],
+  "29": [
+    "Maven API documentation",
+    "https://docs.gitlab.com/runner/configuration/speed_up_job_execution.html#use-a-distributed-cache",
+    "For documentation of the specific API endpoints that the Maven package manager client uses, see the Maven API documentation",
+    false
+  ],
+  "30": [
+    "npm",
+    "https://docs.gitlab.com/13.12/ee/user/packages/npm_registry/index.html",
+    "The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",
+    true
+  ],
+  "31": [
+    "npm",
+    "https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file",
+    "The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",
+    false
+  ],
+  "32": [
+    "npm API documentation",
+    "https://docs.gitlab.com/13.12/ee/api/packages/npm.html",
+    "For documentation of the specific API endpoints that the npm package manager client uses, see the npm API documentation",
+    true
+  ],
+  "33": [
+    "npm API documentation",
+    "https://docs.gitlab.com/ee/administration/packages/dependency_proxy.html",
+    "For documentation of the specific API endpoints that the npm package manager client uses, see the npm API documentation",
+    false
+  ],
+  "34": [
+    "Publish npm packages to the GitLab Package Registry using semantic-release",
+    "https://docs.gitlab.com/13.12/ee/ci/examples/semantic-release.html",
+    "To work with npm commands within GitLab CI/CD, you can use CI_JOB_TOKEN An example .gitlab-ci.yml See the Publish npm packages to the GitLab Package Registry using semantic-release step-by-step guide and demo project for a complete example",
+    true
+  ],
+  "35": [
+    "Publish npm packages to the GitLab Package Registry using semantic-release",
+    "https://docs.gitlab.com/13.12/ee/user/project/clusters/add_remove_clusters.html",
+    "To work with npm commands within GitLab CI/CD, you can use CI_JOB_TOKEN An example .gitlab-ci.yml See the Publish npm packages to the GitLab Package Registry using semantic-release step-by-step guide and demo project for a complete example",
+    false
+  ],
+  "36": [
+    "Continuous Integration settings",
+    "https://docs.gitlab.com/13.12/ee/user/admin_area/settings/continuous_integration.html",
+    "Administrators can disable this behavior in the Continuous Integration settings",
+    true
+  ],
+  "37": [
+    "Continuous Integration settings",
+    "https://docs.gitlab.com/13.12/ee/ci/review_apps/index.html",
+    "Administrators can disable this behavior in the Continuous Integration settings",
+    false
+  ],
+  "38": [
+    "Admin Area",
+    "https://docs.gitlab.com/13.12/ee/user/admin_area/settings/index.html",
+    "You can find it in the Admin Area by navigating to Admin Area > Settings > CI/CD",
+    true
+  ],
+  "39": [
+    "Admin Area",
+    "https://docs.gitlab.com/ee/user/project/time_tracking.html#estimates",
+    "You can find it in the Admin Area by navigating to Admin Area > Settings > CI/CD",
+    false
+  ],
+  "40": [
+    "Diff limits",
+    "https://docs.gitlab.com/13.12/ee/user/admin_area/diff_limits.html",
+    "Diff limits Diff content limits",
+    true
+  ],
+  "41": [
+    "Diff limits",
+    "https://docs.gitlab.com/ee/development/service_ping/metrics_instrumentation.html",
+    "Diff limits Diff content limits",
+    false
+  ],
+  "42": [
+    "view changes between files",
+    "https://docs.gitlab.com/13.12/ee/user/project/merge_requests/changes.html",
+    "For details about diff files, view changes between files",
+    true
+  ],
+  "43": [
+    "view changes between files",
+    "https://docs.gitlab.com",
+    "For details about diff files, view changes between files",
+    false
+  ],
+  "44": [
+    "Sign-up restrictions",
+    "https://docs.gitlab.com/13.12/ee/user/admin_area/settings/sign_up_restrictions.html",
+    "Sign-up restrictions Configure the way a user creates a new account",
+    true
+  ],
+  "45": [
+    "Sign-up restrictions",
+    "https://docs.gitlab.com/ee/administration/redis/index.html",
+    "Sign-up restrictions Configure the way a user creates a new account",
+    false
+  ],
+  "46": [
+    "approved",
+    "https://docs.gitlab.com/13.12/ee/user/admin_area/approving_users.html#approve-or-reject-a-user-sign-up",
+    "When this setting is enabled, any user visiting your GitLab domain and signing up for a new account must be explicitly approved by an administrator before they can start using their account",
+    true
+  ],
+  "47": [
+    "approved",
+    "https://docs.gitlab.com/13.12/ee/administration/feature_flags.html",
+    "When this setting is enabled, any user visiting your GitLab domain and signing up for a new account must be explicitly approved by an administrator before they can start using their account",
+    false
+  ],
+  "48": [
+    "blocked",
+    "https://docs.gitlab.com/13.12/ee/user/admin_area/moderate_users.html#blocking-a-user",
+    "A user pending approval: Is functionally identical to a blocked user",
+    true
+  ],
+  "49": [
+    "blocked",
+    "https://docs.gitlab.com/ee/user/project/clusters/runbooks/index.html",
+    "A user pending approval: Is functionally identical to a blocked user",
+    false
+  ],
+  "50": [
+    "slash commands",
+    "https://docs.gitlab.com/13.12/ee/integration/slash_commands.html",
+    "Cannot use slash commands",
+    true
+  ],
+  "51": [
+    "slash commands",
+    "https://docs.gitlab.com/13.12/ee/ci/directed_acyclic_graph/index.html",
+    "Cannot use slash commands",
+    false
+  ],
+  "52": [
+    "integration configuration",
+    "https://docs.gitlab.com/13.12/ee/user/project/integrations/slack_slash_commands.html",
+    "For Slack, this requires an integration configuration",
+    true
+  ],
+  "53": [
+    "integration configuration",
+    "https://docs.gitlab.com/ce/development/understanding_explain_plans.html",
+    "For Slack, this requires an integration configuration",
+    false
+  ],
+  "54": [
+    "Slack Notifications Service",
+    "https://docs.gitlab.com/13.12/ee/user/project/integrations/slack.html",
+    "GitLab can also send events (e.g., issue created This is the separately configured Slack Notifications Service",
+    true
+  ],
+  "55": [
+    "Slack Notifications Service",
+    "https://docs.gitlab.com/13.12/ee/administration/operations/sidekiq_memory_killer.html",
+    "GitLab can also send events (e.g., issue created This is the separately configured Slack Notifications Service",
+    false
+  ],
+  "56": [
+    "Slack app",
+    "https://docs.gitlab.com/13.12/ee/user/project/integrations/gitlab_slack_application.html",
+    "For GitLab.com, use the Slack app instead",
+    true
+  ],
+  "57": [
+    "Slack app",
+    "https://docs.gitlab.com/ee/index.html#the-entire-devops-lifecycle",
+    "For GitLab.com, use the Slack app instead",
+    false
+  ],
+  "58": [
+    "ChatOps",
+    "https://docs.gitlab.com/13.12/ee/ci/chatops/index.html",
+    "Taking the trigger term as project-name Command Effect /project-name help Shows all available slash commands /project-name issue new <title> <shift+return> <description> Creates a new issue with title <title> /project-name issue show <id> Shows the issue with ID <id> /project-name issue close <id> Closes the issue with ID <id> /project-name issue search <query> Shows up to 5 issues matching <query> /project-name issue move <id> to <project> Moves issue ID <id> /project-name issue comment <id> <shift+return> <comment> Adds a new comment to an issue with ID <id> /project-name deploy <from> to <to> Deploy from the <from> /project-name run <job name> <arguments> Execute ChatOps job <job name> If you are using the GitLab Slack application for your GitLab.com projects, add the gitlab",
+    true
+  ],
+  "59": [
+    "ChatOps",
+    "https://docs.gitlab.com/ce/user/admin_area/settings/sign_up_restrictions.html#disable-new-sign-ups",
+    "Taking the trigger term as project-name Command Effect /project-name help Shows all available slash commands /project-name issue new <title> <shift+return> <description> Creates a new issue with title <title> /project-name issue show <id> Shows the issue with ID <id> /project-name issue close <id> Closes the issue with ID <id> /project-name issue search <query> Shows up to 5 issues matching <query> /project-name issue move <id> to <project> Moves issue ID <id> /project-name issue comment <id> <shift+return> <comment> Adds a new comment to an issue with ID <id> /project-name deploy <from> to <to> Deploy from the <from> /project-name run <job name> <arguments> Execute ChatOps job <job name> If you are using the GitLab Slack application for your GitLab.com projects, add the gitlab",
+    false
+  ],
+  "60": [
+    "official GitLab ChatOps icon",
+    "https://docs.gitlab.com/13.12/ee/ci/chatops/img/gitlab-chatops-icon.png",
+    "The official GitLab ChatOps icon is available for download",
+    true
+  ],
+  "61": [
+    "official GitLab ChatOps icon",
+    "https://docs.gitlab.com/ee/user/project/merge_requests/getting_started.html",
+    "The official GitLab ChatOps icon is available for download",
+    false
+  ],
+  "62": [
+    "GitLab API",
+    "https://docs.gitlab.com/13.12/ee/api/users.html#block-user",
+    "Users can also be blocked using the GitLab API",
+    true
+  ],
+  "63": [
+    "GitLab API",
+    "https://docs.gitlab.com/13.12/ee/ci/migration/circleci.html",
+    "Users can also be blocked using the GitLab API",
+    false
+  ],
+  "64": [
+    "alert bot",
+    "https://docs.gitlab.com/13.12/ee/operations/incident_management/integrations.html",
+    "In addition, you can search for external users only with external=true It does not support external=false GitLab supports bot users such as the alert bot or the support bot",
+    true
+  ],
+  "65": [
+    "alert bot",
+    "https://docs.gitlab.com/ee/user/project/issues/index.html",
+    "In addition, you can search for external users only with external=true It does not support external=false GitLab supports bot users such as the alert bot or the support bot",
+    false
+  ],
+  "66": [
+    "External Prometheus instances",
+    "https://docs.gitlab.com/13.12/ee/operations/metrics/alerts.html#external-prometheus-instances",
+    "This can be configured generically or, in GitLab versions 13.1 and greater, you can configure External Prometheus instances to use this endpoint",
+    true
+  ],
+  "67": [
+    "External Prometheus instances",
+    "https://docs.gitlab.com/omnibus/",
+    "This can be configured generically or, in GitLab versions 13.1 and greater, you can configure External Prometheus instances to use this endpoint",
+    false
+  ],
+  "68": [
+    "configuring metrics for your CI/CD environment",
+    "https://docs.gitlab.com/13.12/ee/operations/metrics/index.html",
+    "After configuring metrics for your CI/CD environment, you can set up alerting for Prometheus metrics depending on the location of your instances, and trigger actions from alerts to notify your team when environment performance falls outside of the boundaries you set",
+    true
+  ],
+  "69": [
+    "configuring metrics for your CI/CD environment",
+    "https://docs.gitlab.com/ee/user/project/clusters/add_eks_clusters.html",
+    "After configuring metrics for your CI/CD environment, you can set up alerting for Prometheus metrics depending on the location of your instances, and trigger actions from alerts to notify your team when environment performance falls outside of the boundaries you set",
+    false
+  ],
+  "70": [
+    "Specify your Prometheus server",
+    "https://docs.gitlab.com/13.12/ee/user/project/integrations/prometheus.html#manual-configuration-of-prometheus",
+    "Specify your Prometheus server, and define at least one environment",
+    true
+  ],
+  "71": [
+    "Specify your Prometheus server",
+    "https://docs.gitlab.com/13.12/ee/ci/ci_cd_for_external_repos/index.html",
+    "Specify your Prometheus server, and define at least one environment",
+    false
+  ],
+  "72": [
+    "metric library",
+    "https://docs.gitlab.com/13.12/ee/user/project/integrations/prometheus_library/index.html",
+    "Once enabled, GitLab detects metrics from known services in the metric library",
+    true
+  ],
+  "73": [
+    "metric library",
+    "https://docs.gitlab.com/runner/executors/parallels.html",
+    "Once enabled, GitLab detects metrics from known services in the metric library",
+    false
+  ],
+  "74": [
+    "Kubernetes",
+    "https://docs.gitlab.com/13.12/ee/user/project/integrations/prometheus_library/kubernetes.html",
+    "Kubernetes NGINX NGINX Ingress Controller 0.9.0-0.15.x NGINX Ingress Controller 0.16.0+ HAProxy Amazon Cloud Watch We have tried to surface the most important metrics for each exporter, and continue to add support for additional exporters in future releases",
+    true
+  ],
+  "75": [
+    "Kubernetes",
+    "https://docs.gitlab.com/13.12/ee/user/project/clusters/index.html",
+    "Kubernetes NGINX NGINX Ingress Controller 0.9.0-0.15.x NGINX Ingress Controller 0.16.0+ HAProxy Amazon Cloud Watch We have tried to surface the most important metrics for each exporter, and continue to add support for additional exporters in future releases",
+    false
+  ],
+  "76": [
+    "canary deployments",
+    "https://docs.gitlab.com/13.12/ee/user/project/canary_deployments.html",
+    "GitLab also gathers Kubernetes metrics for canary deployments, allowing easy comparison between the current deployed version and the canary",
+    true
+  ],
+  "77": [
+    "canary deployments",
+    "https://docs.gitlab.com/ce/user/permissions.html",
+    "GitLab also gathers Kubernetes metrics for canary deployments, allowing easy comparison between the current deployed version and the canary",
+    false
+  ],
+  "78": [
+    "Deploy Board",
+    "https://docs.gitlab.com/13.12/ee/user/project/deploy_boards.html",
+    "Leveraging Kubernetes’ Canary deployments, visualize your canary deployments right inside the Deploy Board, without the need to leave GitLab",
+    true
+  ],
+  "79": [
+    "Deploy Board",
+    "https://docs.gitlab.com/13.12/runner/install/osx.html",
+    "Leveraging Kubernetes’ Canary deployments, visualize your canary deployments right inside the Deploy Board, without the need to leave GitLab",
+    false
+  ],
+  "80": [
+    "Auto deploy",
+    "https://docs.gitlab.com/13.12/ee/topics/autodevops/stages.html#auto-deploy",
+    "You can use an Auto deploy .gitlab-ci.yml template which has predefined stages and commands to use, and automatically applies the annotations",
+    true
+  ],
+  "81": [
+    "Auto deploy",
+    "https://docs.gitlab.com/ee/ci/runners/build_cloud/linux_build_cloud.html",
+    "You can use an Auto deploy .gitlab-ci.yml template which has predefined stages and commands to use, and automatically applies the annotations",
+    false
+  ],
+  "82": [
+    "customizing the Auto Deploy Helm chart",
+    "https://docs.gitlab.com/13.12/ee/topics/autodevops/customize.html#custom-helm-chart",
+    "Override the default values by customizing the Auto Deploy Helm chart",
+    true
+  ],
+  "83": [
+    "customizing the Auto Deploy Helm chart",
+    "https://docs.gitlab.com/ee/user/project/repository/index.html",
+    "Override the default values by customizing the Auto Deploy Helm chart",
+    false
+  ],
+  "84": [
+    "Editing groups",
+    "https://docs.gitlab.com/13.12/ee/api/groups.html#update-group",
+    "Editing groups",
+    true
+  ],
+  "85": [
+    "Editing groups",
+    "https://docs.gitlab.com/ce/api/oauth2.html",
+    "Editing groups",
+    false
+  ],
+  "86": [
+    "System Hooks",
+    "https://docs.gitlab.com/13.12/ee/api/system_hooks.html",
+    "These are different from System Hooks that are system wide and Project Hooks that are limited to one project",
+    true
+  ],
+  "87": [
+    "System Hooks",
+    "https://docs.gitlab.com/13.12/ee/install/installation.html",
+    "These are different from System Hooks that are system wide and Project Hooks that are limited to one project",
+    false
+  ],
+  "88": [
+    "system hooks",
+    "https://docs.gitlab.com/13.12/ee/system_hooks/system_hooks.html",
+    "The URL endpoint of the system hooks can also be configured using the UI in the Admin Area > System Hooks (/admin/hooks Read more about system hooks",
+    true
+  ],
+  "89": [
+    "system hooks",
+    "https://docs.gitlab.com/ee/api/epic_issues.html",
+    "The URL endpoint of the system hooks can also be configured using the UI in the Admin Area > System Hooks (/admin/hooks Read more about system hooks",
+    false
+  ],
+  "90": [
+    "Webhooks",
+    "https://docs.gitlab.com/13.12/ee/user/project/integrations/webhooks.html",
+    "We follow the same structure and deprecations as Webhooks for Push and Tag events, but we never display commits",
+    true
+  ],
+  "91": [
+    "Webhooks",
+    "https://docs.gitlab.com/ee/user/admin_area/settings/floc.html",
+    "We follow the same structure and deprecations as Webhooks for Push and Tag events, but we never display commits",
+    false
+  ],
+  "92": [
+    "allow requests to the local network",
+    "https://docs.gitlab.com/13.12/ee/security/webhooks.html",
+    "Save the following file as print_http_body.rb Pick an unused port (for example, 8000 8000 http://my.host:8000/ When you press ‘Test’ in GitLab, you should see something like this in the console: You may need to allow requests to the local network for this receiver to be added",
+    true
+  ],
+  "93": [
+    "allow requests to the local network",
+    "https://docs.gitlab.com/ee/api/README.html",
+    "Save the following file as print_http_body.rb Pick an unused port (for example, 8000 8000 http://my.host:8000/ When you press ‘Test’ in GitLab, you should see something like this in the console: You may need to allow requests to the local network for this receiver to be added",
+    false
+  ],
+  "94": [
+    "Group Badges",
+    "https://docs.gitlab.com/13.12/ee/api/group_badges.html",
+    "Read more in the Group Badges documentation",
+    true
+  ],
+  "95": [
+    "Group Badges",
+    "https://docs.gitlab.com/13.12/charts/installation/tls.html",
+    "Read more in the Group Badges documentation",
+    false
+  ],
+  "96": [
+    "Group Import/Export",
+    "https://docs.gitlab.com/13.12/ee/api/group_import_export.html",
+    "Read more in the Group Import/Export and Group Relations Export documentation",
+    true
+  ],
+  "97": [
+    "Group Import/Export",
+    "https://docs.gitlab.com/13.12/ee/user/project/integrations/overview.html#integrations-listing",
+    "Read more in the Group Import/Export and Group Relations Export documentation",
+    false
+  ],
+  "98": [
+    "Group Relations Export",
+    "https://docs.gitlab.com/13.12/ee/api/group_relations_export.html",
+    "and Group Relations Export documentation",
+    true
+  ],
+  "99": [
+    "Group Relations Export",
+    "https://docs.gitlab.com/ce/user/project/deploy_tokens/index.html",
+    "and Group Relations Export documentation",
+    false
+  ],
+  "100": [
+    "migrate their database",
+    "https://docs.gitlab.com/13.12/ee/topics/autodevops/upgrading_postgresql.html",
+    "GitLab encourages users to migrate their database to the newer PostgreSQL",
+    true
+  ],
+  "101": [
+    "migrate their database",
+    "https://docs.gitlab.com/ee/user/admin_area/settings/user_and_ip_rate_limits.html",
+    "GitLab encourages users to migrate their database to the newer PostgreSQL",
+    false
+  ],
+  "102": [
+    "Detected an existing PostgreSQL database",
+    "https://docs.gitlab.com/13.12/ee/topics/autodevops/troubleshooting.html#detected-an-existing-postgresql-database",
+    "For more information, see Detected an existing PostgreSQL database",
+    true
+  ],
+  "103": [
+    "Detected an existing PostgreSQL database",
+    "https://docs.gitlab.com/ee/ci/environments/index.html#scope-environments-with-specs",
+    "For more information, see Detected an existing PostgreSQL database",
+    false
+  ],
+  "104": [
+    "Ignore warnings and continue deploying",
+    "https://docs.gitlab.com/13.12/ee/topics/autodevops/upgrading_auto_deploy_dependencies.html#ignore-warnings-and-continue-deploying",
+    "For more information, see Ignore warnings and continue deploying",
+    true
+  ],
+  "105": [
+    "Ignore warnings and continue deploying",
+    "https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#new-issue-via-email",
+    "For more information, see Ignore warnings and continue deploying",
+    false
+  ],
+  "106": [
+    "incremental rollouts",
+    "https://docs.gitlab.com/13.12/ee/ci/environments/incremental_rollouts.html",
+    "Auto Deploy supports advanced deployment strategies such as canary deployments and incremental rollouts",
+    true
+  ],
+  "107": [
+    "incremental rollouts",
+    "https://docs.gitlab.com/ee/user/project/import/github.html#mirroring-and-pipeline-status-sharing",
+    "Auto Deploy supports advanced deployment strategies such as canary deployments and incremental rollouts",
+    false
+  ],
+  "108": [
+    "Read more",
+    "https://docs.gitlab.com/13.12/ee/user/application_security/coverage_fuzzing/",
+    "Job Name CI/CDVariable GitLab version Description .fuzz_base COVFUZZ_DISABLED From GitLab 13.2 Read more about how .fuzz_base apifuzzer_fuzz API_FUZZING_DISABLED From GitLab 13.3 If the variable is present, the job isn’t created",
+    true
+  ],
+  "109": [
+    "Read more",
+    "https://docs.gitlab.com/ce/integration/akismet.html",
+    "Job Name CI/CDVariable GitLab version Description .fuzz_base COVFUZZ_DISABLED From GitLab 13.2 Read more about how .fuzz_base apifuzzer_fuzz API_FUZZING_DISABLED From GitLab 13.3 If the variable is present, the job isn’t created",
+    false
+  ],
+  "110": [
+    "GitLab Secure",
+    "https://docs.gitlab.com/13.12/ee/user/application_security/index.html",
+    "We recommend that you use fuzz testing in addition to the other security scanners in GitLab Secure and your own test processes. If you’re using GitLab CI/CD, you can run your coverage-guided fuzz tests as part your CI/CD workflow. You can take advantage of coverage-guided fuzzing by including the CI job in your existing .gitlab-ci.yml",
+    true
+  ],
+  "111": [
+    "GitLab Secure",
+    "https://docs.gitlab.com/ee/user/admin_area/monitoring/health_check.html",
+    "We recommend that you use fuzz testing in addition to the other security scanners in GitLab Secure and your own test processes. If you’re using GitLab CI/CD, you can run your coverage-guided fuzz tests as part your CI/CD workflow. You can take advantage of coverage-guided fuzzing by including the CI job in your existing .gitlab-ci.yml",
+    false
+  ],
+  "112": [
+    "Security Dashboard",
+    "https://docs.gitlab.com/13.12/ee/user/application_security/security_dashboard/index.html",
+    "GitLab also provides high-level statistics of vulnerabilities across projects and groups: The Security Dashboard provides a high-level view of vulnerabilities detected in your projects, pipeline, and groups",
+    true
+  ],
+  "113": [
+    "Security Dashboard",
+    "https://docs.gitlab.com/ee/integration/cas.html",
+    "GitLab also provides high-level statistics of vulnerabilities across projects and groups: The Security Dashboard provides a high-level view of vulnerabilities detected in your projects, pipeline, and groups",
+    false
+  ],
+  "114": [
+    "Vulnerability reports",
+    "https://docs.gitlab.com/13.12/ee/user/application_security/vulnerability_report/index.html",
+    "Vulnerability reports: Detailed lists of all vulnerabilities for the Security Center, group, project, or pipeline",
+    true
+  ],
+  "115": [
+    "Vulnerability reports",
+    "https://docs.gitlab.com/ee/api/v3_to_v4.html",
+    "Vulnerability reports: Detailed lists of all vulnerabilities for the Security Center, group, project, or pipeline",
+    false
+  ],
+  "116": [
+    "vulnerability’s details",
+    "https://docs.gitlab.com/13.12/ee/user/application_security/vulnerabilities",
+    "vulnerability’s details page is opened",
+    true
+  ],
+  "117": [
+    "vulnerability’s details",
+    "https://docs.gitlab.com/13.12/ee/ci/runners/#shared-runners",
+    "vulnerability’s details page is opened",
+    false
+  ],
+  "118": [
+    "Jira integration",
+    "https://docs.gitlab.com/13.12/ee/integration/jira/index.html",
+    "Creating a Jira issue requires that Jira integration is enabled on the project",
+    true
+  ],
+  "119": [
+    "Jira integration",
+    "https://docs.gitlab.com/omnibus/package-information/omnibus_packages.html",
+    "Creating a Jira issue requires that Jira integration is enabled on the project",
+    false
+  ],
+  "120": [
+    "migrate",
+    "https://docs.gitlab.com/13.12/ee/user/project/import/jira.html",
+    "you can migrate your issues from Jira and work exclusively in GitLab",
+    true
+  ],
+  "121": [
+    "migrate",
+    "https://docs.gitlab.com/ee/administration/geo/replication/troubleshooting.html",
+    "you can migrate your issues from Jira and work exclusively in GitLab",
+    false
+  ],
+  "122": [
+    "Jira integration",
+    "https://docs.gitlab.com/13.12/ee/user/project/integrations/jira.html",
+    "This feature uses the existing GitLab Jira integration",
+    true
+  ],
+  "123": [
+    "Jira integration",
+    "https://docs.gitlab.com/13.12/ee/integration/github.html",
+    "This feature uses the existing GitLab Jira integration",
+    false
+  ],
+  "124": [
+    "GitLab for Jira app",
+    "https://docs.gitlab.com/13.12/ee/integration/jira/connect-app.html",
+    "GitLab for Jira app",
+    true
+  ],
+  "125": [
+    "GitLab for Jira app",
+    "https://docs.gitlab.com/ee/topics/autodevops/index.html",
+    "GitLab for Jira app",
+    false
+  ],
+  "126": [
+    "smart commits",
+    "https://docs.gitlab.com/13.12/ee/integration/jira/dvcs.html#smart-commits",
+    "This integration method supports smart commits",
+    true
+  ],
+  "127": [
+    "smart commits",
+    "https://docs.gitlab.com/ee/user/project/issues/index.html",
+    "This integration method supports smart commits",
+    false
+  ],
+  "128": [
+    "create a user",
+    "https://docs.gitlab.com/13.12/ee/user/profile/account/create_accounts.html",
+    "In GitLab, create a user for Jira to use to connect to GitLab",
+    true
+  ],
+  "129": [
+    "create a user",
+    "https://docs.gitlab.com/ee/user/project/merge_requests/changes.html",
+    "In GitLab, create a user for Jira to use to connect to GitLab",
+    false
+  ],
+  "130": [
+    "LDAP integration",
+    "https://docs.gitlab.com/13.12/ee/administration/auth/ldap/index.html",
+    "Automatically created upon first sign in with the LDAP integration",
+    true
+  ],
+  "131": [
+    "LDAP integration",
+    "https://docs.gitlab.com/ee/user/project/issues/csv_import.html",
+    "Automatically created upon first sign in with the LDAP integration",
+    false
+  ],
+  "132": [
+    "Google Secure LDAP",
+    "https://docs.gitlab.com/13.12/ee/administration/auth/ldap/google_secure_ldap.html",
+    "See Google Secure LDAP for detailed configuration instructions",
+    true
+  ],
+  "133": [
+    "Google Secure LDAP",
+    "https://docs.gitlab.com/ce/user/group/subgroups/index.html",
+    "See Google Secure LDAP for detailed configuration instructions",
+    false
+  ],
+  "134": [
+    "LDAP check Rake task",
+    "https://docs.gitlab.com/13.12/ee/administration/raketasks/check.html#ldap-check",
+    "After configuring LDAP using the documentation below, see LDAP check Rake task for information on the LDAP check Rake task",
+    true
+  ],
+  "135": [
+    "LDAP check Rake task",
+    "https://docs.gitlab.com/ee/administration/geo/replication/remove_geo_site.html",
+    "After configuring LDAP using the documentation below, see LDAP check Rake task for information on the LDAP check Rake task",
+    false
+  ],
+  "136": [
+    "LDAP Rake Tasks - LDAP Check",
+    "https://docs.gitlab.com/13.12/ee/administration/raketasks/ldap.html#check",
+    "See LDAP Rake Tasks - LDAP Check for details",
+    true
+  ],
+  "137": [
+    "LDAP Rake Tasks - LDAP Check",
+    "https://docs.gitlab.com/13.12/ee/user/index.html",
+    "See LDAP Rake Tasks - LDAP Check for details",
+    false
+  ],
+  "138": [
+    "manually triggering housekeeping",
+    "https://docs.gitlab.com/13.12/ee/administration/housekeeping.html#manual-housekeeping",
+    "manually triggering housekeeping for the affected project(s)",
+    true
+  ],
+  "139": [
+    "manually triggering housekeeping",
+    "https://docs.gitlab.com/ee/user/infrastructure/index.html",
+    "manually triggering housekeeping for the affected project(s)",
+    false
+  ],
+  "140": [
+    "removes unreferenced LFS files",
+    "https://docs.gitlab.com/13.12/ee/raketasks/cleanup.html#remove-unreferenced-lfs-files",
+    "Housekeeping also removes unreferenced LFS files from your project on the same schedule as the git gc To manually start the housekeeping process: In your project, go to Settings > General",
+    true
+  ],
+  "141": [
+    "removes unreferenced LFS files",
+    "https://docs.gitlab.com/ee/user/project/issues/csv_import.html",
+    "Housekeeping also removes unreferenced LFS files from your project on the same schedule as the git gc To manually start the housekeeping process: In your project, go to Settings > General",
+    false
+  ],
+  "142": [
+    "Clean up stale sessions",
+    "https://docs.gitlab.com/13.12/ee/administration/operations/cleaning_up_redis_sessions.html",
+    "Clean up stale sessions to compact the Redis database after you upgrade to GitLab 7.3",
+    true
+  ],
+  "143": [
+    "Clean up stale sessions",
+    "https://docs.gitlab.com/ce/user/profile/account/two_factor_authentication.html",
+    "Clean up stale sessions to compact the Redis database after you upgrade to GitLab 7.3",
+    false
+  ],
+  "144": [
+    "GitLab encrypted configuration",
+    "https://docs.gitlab.com/13.12/ee/administration/encrypted_configuration.html",
+    "GitLab encrypted configuration",
+    true
+  ],
+  "145": [
+    "GitLab encrypted configuration",
+    "https://docs.gitlab.com/ee/user/markdown.html",
+    "GitLab encrypted configuration",
+    false
+  ],
+  "146": [
+    "secrets guide for adding the secret",
+    "https://docs.gitlab.com/13.12/charts/installation/secrets.html#gitlab-rails-secret",
+    "The supported features are: LDAP user_bn In order to enable the encrypted configuration settings, a new base key needs to be generated for encrypted_settings_key_base Omnibus Installation Starting with 13.7 the new secret is automatically generated for you, but you need to ensure your /etc/gitlab/gitlab-secrets.json GitLab Cloud Native Helm Chart Starting with GitLab 13.7, the new secret is automatically generated if you have the shared-secrets to follow the secrets guide for adding the secret",
+    true
+  ],
+  "147": [
+    "secrets guide for adding the secret",
+    "https://docs.gitlab.com/13.12/ee/user/admin_area/settings/index.html",
+    "The supported features are: LDAP user_bn In order to enable the encrypted configuration settings, a new base key needs to be generated for encrypted_settings_key_base Omnibus Installation Starting with 13.7 the new secret is automatically generated for you, but you need to ensure your /etc/gitlab/gitlab-secrets.json GitLab Cloud Native Helm Chart Starting with GitLab 13.7, the new secret is automatically generated if you have the shared-secrets to follow the secrets guide for adding the secret",
+    false
+  ],
+  "148": [
+    "TLS certificates",
+    "https://docs.gitlab.com/13.12/charts/installation/tls.html",
+    "TLS certificates Registry authentication certificates Registry sensitive notification headers SSH Host Keys Passwords: Initial root password Redis password GitLab Shell secret Gitaly secret Praefect secret GitLab Rails secret GitLab Workhorse secret GitLab Runner secret PostgreSQL password Praefect DB password MinIO secret Registry HTTP secret Registry notification secret Grafana password GitLab Pages secret External Services OmniAuth LDAP Password SMTP Password IMAP Password for incoming email IMAP Password for service desk Microsoft Graph client secret for incoming emails Microsoft Graph client secret for service desk S/MIME Certificate Smartcard Authentication",
+    true
+  ],
+  "149": [
+    "TLS certificates",
+    "https://docs.gitlab.com/ee/integration/cas.html",
+    "TLS certificates Registry authentication certificates Registry sensitive notification headers SSH Host Keys Passwords: Initial root password Redis password GitLab Shell secret Gitaly secret Praefect secret GitLab Rails secret GitLab Workhorse secret GitLab Runner secret PostgreSQL password Praefect DB password MinIO secret Registry HTTP secret Registry notification secret Grafana password GitLab Pages secret External Services OmniAuth LDAP Password SMTP Password IMAP Password for incoming email IMAP Password for service desk Microsoft Graph client secret for incoming emails Microsoft Graph client secret for service desk S/MIME Certificate Smartcard Authentication",
+    false
+  ],
+  "150": [
+    "global Ingress settings",
+    "https://docs.gitlab.com/13.12/charts/charts/globals.html#configure-ingress-settings",
+    "Extensive details can be found in global Ingress settings",
+    true
+  ],
+  "151": [
+    "global Ingress settings",
+    "https://docs.gitlab.com/13.12/ee/administration/reply_by_email.html",
+    "Extensive details can be found in global Ingress settings",
+    false
+  ],
+  "152": [
+    "NGINX chart",
+    "https://docs.gitlab.com/13.12/charts/charts/nginx/index.html#configuring-nginx",
+    "This will be templated into the NGINX chart, in place of the more complex nginx.service.loadBalancerIP https Boolean true If set to true, you will need to ensure the NGINX chart has access to the certificates",
+    true
+  ],
+  "153": [
+    "NGINX chart",
+    "https://docs.gitlab.com/ce/user/project/issues/crosslinking_issues.html",
+    "This will be templated into the NGINX chart, in place of the more complex nginx.service.loadBalancerIP https Boolean true If set to true, you will need to ensure the NGINX chart has access to the certificates",
+    false
+  ],
+  "154": [
+    "Our NGINX fork",
+    "https://docs.gitlab.com/13.12/charts/charts/nginx/fork.html",
+    "See Our NGINX fork for details on what was modified in our fork",
+    true
+  ],
+  "155": [
+    "Our NGINX fork",
+    "https://docs.gitlab.com/13.12/ee/user/packages/package_registry/index.html",
+    "See Our NGINX fork for details on what was modified in our fork",
+    false
+  ],
+  "156": [
+    "gitlab/webservice",
+    "https://docs.gitlab.com/13.12/charts/charts/gitlab/webservice/index.html#deployments-settings",
+    "For those users who need to have their path ingress.class: alb This setting will ensure that all path The only exception is when populating the gitlab/webservice, where path",
+    true
+  ],
+  "157": [
+    "gitlab/webservice",
+    "https://docs.gitlab.com/ee/administration/operations/moving_repositories.html",
+    "For those users who need to have their path ingress.class: alb This setting will ensure that all path The only exception is when populating the gitlab/webservice, where path",
+    false
+  ],
+  "158": [
+    "GitLab documentation",
+    "https://docs.gitlab.com/13.12/ee/security/rack_attack.html",
+    "Takes precedence over global.psql.port puma.disableWorkerKiller false Disables Puma worker memory killer puma.workerMaxMemory 1024 The maximum memory (in megabytes) for the Puma worker killer puma.threads.min 4 The minimum amount of Puma threads puma.threads.max 4 The maximum amount of Puma threads rack_attack.git_basic_auth {} See GitLab documentation for details redis.serviceName redis Redis service name registry.api.port 5000 Registry port registry.api.protocol http Registry protocol registry.api.serviceName registry Registry service name registry.enabled true Add/Remove registry link in all projects menu registry.tokenIssuer gitlab-issuer Registry token issuer replicaCount 1 Webservice number of replicas resources.requests.cpu 300m Webservice minimum CPU resources.requests.memory 1.5G Webservice minimum memory service.externalPort 8080 Webservice exposed port securityContext.fsGroup 1000 Group ID under which the pod should be started securityContext.runAsUser 1000 User ID under which the pod should be started serviceLabels {} Supplemental service labels service.internalPort 8080 Webservice internal port service.type ClusterIP Webservice service type service.workhorseExternalPort 8181 Workhorse exposed port service.workhorseInternalPort 8181 Workhorse internal port service.loadBalancerIP   IP address to assign to LoadBalancer (if supported by cloud provider) service.loadBalancerSourceRanges   List of IP CIDRs allowed access to LoadBalancer (if supported) Required for service.type = LoadBalancer shell.authToken.key secret Key to shell token in shell secret shell.authToken.secret gitlab-shell-secret Shell token secret shell.port nil Port number to use in SSH URLs generated by UI shutdown.blackoutSeconds 10 Number of seconds to keep Webservice running after receiving shutdown, note this must shorter than deployment.terminationGracePeriodSeconds tolerations [] Toleration labels for pod assignment trusted_proxies [] See GitLab documentation for details workhorse.logFormat json Logging format. Valid formats: json workerProcesses 2 Webservice number of workers workhorse.keywatcher true Subscribe workhorse to Redis. This is required by any deployment servicing request to /api/* workhorse.livenessProbe.initialDelaySeconds 20 Delay before liveness probe is initiated workhorse.livenessProbe.periodSeconds 60 How often to perform the liveness probe workhorse.livenessProbe.timeoutSeconds 30 When the liveness probe times out workhorse.livenessProbe.successThreshold 1 Minimum consecutive successes for the liveness probe to be considered successful after having failed workhorse.livenessProbe.failureThreshold 3 Minimum consecutive failures for the liveness probe to be considered failed after having succeeded workhorse.monitoring.exporter.enabled false Enable workhorse to expose Prometheus metrics workhorse.monitoring.exporter.port 9229 Port number to use for workhorse Prometheus metrics workhorse.readinessProbe.initialDelaySeconds 0 Delay before readiness probe is initiated workhorse.readinessProbe.periodSeconds 10 How often to perform the readiness probe workhorse.readinessProbe.timeoutSeconds 2 When the readiness probe times out workhorse.readinessProbe.successThreshold 1 Minimum consecutive successes for the readiness probe to be considered successful after having failed workhorse.readinessProbe.failureThreshold 3 Minimum consecutive failures for the readiness probe to be considered failed after having succeeded workhorse.imageScaler.maxProcs 2 The maximum number of image scaling processes that may run concurrently workhorse.imageScaler.maxFileSizeBytes 250000 The maximum file size in bytes for images to be processed by the scaler webServer puma Selects web server (Webservice/Puma) that would be used for request handling priorityClassName \"\" Allow configuring pods priorityClassName",
+    true
+  ],
+  "159": [
+    "GitLab documentation",
+    "https://docs.gitlab.com/ee/user/project/merge_requests/cherry_pick_changes.html#cherry-picking-a-commit",
+    "Takes precedence over global.psql.port puma.disableWorkerKiller false Disables Puma worker memory killer puma.workerMaxMemory 1024 The maximum memory (in megabytes) for the Puma worker killer puma.threads.min 4 The minimum amount of Puma threads puma.threads.max 4 The maximum amount of Puma threads rack_attack.git_basic_auth {} See GitLab documentation for details redis.serviceName redis Redis service name registry.api.port 5000 Registry port registry.api.protocol http Registry protocol registry.api.serviceName registry Registry service name registry.enabled true Add/Remove registry link in all projects menu registry.tokenIssuer gitlab-issuer Registry token issuer replicaCount 1 Webservice number of replicas resources.requests.cpu 300m Webservice minimum CPU resources.requests.memory 1.5G Webservice minimum memory service.externalPort 8080 Webservice exposed port securityContext.fsGroup 1000 Group ID under which the pod should be started securityContext.runAsUser 1000 User ID under which the pod should be started serviceLabels {} Supplemental service labels service.internalPort 8080 Webservice internal port service.type ClusterIP Webservice service type service.workhorseExternalPort 8181 Workhorse exposed port service.workhorseInternalPort 8181 Workhorse internal port service.loadBalancerIP   IP address to assign to LoadBalancer (if supported by cloud provider) service.loadBalancerSourceRanges   List of IP CIDRs allowed access to LoadBalancer (if supported) Required for service.type = LoadBalancer shell.authToken.key secret Key to shell token in shell secret shell.authToken.secret gitlab-shell-secret Shell token secret shell.port nil Port number to use in SSH URLs generated by UI shutdown.blackoutSeconds 10 Number of seconds to keep Webservice running after receiving shutdown, note this must shorter than deployment.terminationGracePeriodSeconds tolerations [] Toleration labels for pod assignment trusted_proxies [] See GitLab documentation for details workhorse.logFormat json Logging format. Valid formats: json workerProcesses 2 Webservice number of workers workhorse.keywatcher true Subscribe workhorse to Redis. This is required by any deployment servicing request to /api/* workhorse.livenessProbe.initialDelaySeconds 20 Delay before liveness probe is initiated workhorse.livenessProbe.periodSeconds 60 How often to perform the liveness probe workhorse.livenessProbe.timeoutSeconds 30 When the liveness probe times out workhorse.livenessProbe.successThreshold 1 Minimum consecutive successes for the liveness probe to be considered successful after having failed workhorse.livenessProbe.failureThreshold 3 Minimum consecutive failures for the liveness probe to be considered failed after having succeeded workhorse.monitoring.exporter.enabled false Enable workhorse to expose Prometheus metrics workhorse.monitoring.exporter.port 9229 Port number to use for workhorse Prometheus metrics workhorse.readinessProbe.initialDelaySeconds 0 Delay before readiness probe is initiated workhorse.readinessProbe.periodSeconds 10 How often to perform the readiness probe workhorse.readinessProbe.timeoutSeconds 2 When the readiness probe times out workhorse.readinessProbe.successThreshold 1 Minimum consecutive successes for the readiness probe to be considered successful after having failed workhorse.readinessProbe.failureThreshold 3 Minimum consecutive failures for the readiness probe to be considered failed after having succeeded workhorse.imageScaler.maxProcs 2 The maximum number of image scaling processes that may run concurrently workhorse.imageScaler.maxFileSizeBytes 250000 The maximum file size in bytes for images to be processed by the scaler webServer puma Selects web server (Webservice/Puma) that would be used for request handling priorityClassName \"\" Allow configuring pods priorityClassName",
+    false
+  ],
+  "160": [
+    "User and IP rate limits",
+    "https://docs.gitlab.com/13.12/ee/user/admin_area/settings/user_and_ip_rate_limits.html",
+    "See User and IP rate limits for simpler limits that are configured in the UI",
+    true
+  ],
+  "161": [
+    "User and IP rate limits",
+    "https://docs.gitlab.com/ee/user/project/issues/index.html",
+    "See User and IP rate limits for simpler limits that are configured in the UI",
+    false
+  ],
+  "162": [
+    "Omnibus",
+    "https://docs.gitlab.com/13.12/omnibus/settings/environment-variables.html",
+    "Set the environment variable GITLAB_THROTTLE_BYPASS_HEADER For Omnibus, set 'GITLAB_THROTTLE_BYPASS_HEADER' => 'Gitlab-Bypass-Rate-Limiting' For source installations, set export GITLAB_THROTTLE_BYPASS_HEADER=Gitlab-Bypass-Rate-Limiting in /etc/default/gitlab It is important that your load balancer erases or overwrites the bypass header on all incoming traffic",
+    true
+  ],
+  "163": [
+    "Omnibus",
+    "https://docs.gitlab.com/13.12/ee/api/group_badges.html",
+    "Set the environment variable GITLAB_THROTTLE_BYPASS_HEADER For Omnibus, set 'GITLAB_THROTTLE_BYPASS_HEADER' => 'Gitlab-Bypass-Rate-Limiting' For source installations, set export GITLAB_THROTTLE_BYPASS_HEADER=Gitlab-Bypass-Rate-Limiting in /etc/default/gitlab It is important that your load balancer erases or overwrites the bypass header on all incoming traffic",
+    false
+  ],
+  "164": [
+    "unicorn-worker-killer",
+    "https://docs.gitlab.com/13.12/ee/administration/operations/unicorn.html#unicorn-worker-killer",
+    "Memory thresholds for the unicorn-worker-killer can be customized using the unicorn.memory.min default values are sane, you can increase (or lower) these values to fine-tune them for your environment or troubleshoot performance issues",
+    true
+  ],
+  "165": [
+    "unicorn-worker-killer",
+    "https://docs.gitlab.com/ee/integration/slash_commands.html",
+    "Memory thresholds for the unicorn-worker-killer can be customized using the unicorn.memory.min default values are sane, you can increase (or lower) these values to fine-tune them for your environment or troubleshoot performance issues",
+    false
+  ],
+  "166": [
+    "environment variables",
+    "https://docs.gitlab.com/13.12/ee/administration/environment_variables.html",
+    "You can set the minimum and maximum memory threshold (in bytes) for the Unicorn worker killer by setting the following values /etc/gitlab/gitlab.rb For GitLab 12.7 and newer:   For GitLab 12.6 and older:   Otherwise, you can set the GITLAB_UNICORN_MEMORY_MIN environment variables",
+    true
+  ],
+  "167": [
+    "environment variables",
+    "https://docs.gitlab.com/ee/user/admin_area/custom_project_templates.html",
+    "You can set the minimum and maximum memory threshold (in bytes) for the Unicorn worker killer by setting the following values /etc/gitlab/gitlab.rb For GitLab 12.7 and newer:   For GitLab 12.6 and older:   Otherwise, you can set the GITLAB_UNICORN_MEMORY_MIN environment variables",
+    false
+  ],
+  "168": [
+    "external CI/CD pipeline validation service",
+    "https://docs.gitlab.com/13.12/ee/administration/external_pipeline_validation.html",
+    "Timeout, in seconds, for an external CI/CD pipeline validation service",
+    true
+  ],
+  "169": [
+    "external CI/CD pipeline validation service",
+    "https://docs.gitlab.com/13.12/runner/index.html#gitlab-runner-versions",
+    "Timeout, in seconds, for an external CI/CD pipeline validation service",
+    false
+  ],
+  "170": [
+    "GitLab Prometheus metrics",
+    "https://docs.gitlab.com/13.12/ee/administration/monitoring/prometheus/gitlab_metrics.html",
+    "available when GitLab Prometheus metrics are enabled in the Admin area",
+    true
+  ],
+  "171": [
+    "GitLab Prometheus metrics",
+    "https://docs.gitlab.com/13.12/charts/charts/nginx/index.html#configuring-nginx",
+    "available when GitLab Prometheus metrics are enabled in the Admin area",
+    false
+  ],
+  "172": [
+    "explicitly allowed",
+    "https://docs.gitlab.com/13.12/ee/administration/monitoring/ip_whitelist.html",
+    "the metrics, the client IP address must be explicitly allowed",
+    true
+  ],
+  "173": [
+    "explicitly allowed",
+    "https://docs.gitlab.com/13.12/ee/operations/metrics/alerts.html#external-prometheus-instances",
+    "the metrics, the client IP address must be explicitly allowed",
+    false
+  ],
+  "174": [
+    "monitoring endpoints",
+    "https://docs.gitlab.com/13.12/ee/user/admin_area/monitoring/health_check.html",
+    "GitLab provides some monitoring endpoints that provide health check information when probed",
+    true
+  ],
+  "175": [
+    "monitoring endpoints",
+    "https://docs.gitlab.com/ee/user/clusters/migrating_from_gma_to_project_template.html",
+    "GitLab provides some monitoring endpoints that provide health check information when probed",
+    false
+  ],
+  "176": [
+    "Omnibus GitLab",
+    "https://docs.gitlab.com/13.12/omnibus/",
+    "For Omnibus GitLab and Chart installations, these metrics are enabled and collected as of GitLab 9.4",
+    true
+  ],
+  "177": [
+    "Omnibus GitLab",
+    "https://docs.gitlab.com/13.12/ee/user/project/clusters/add_remove_clusters.html",
+    "For Omnibus GitLab and Chart installations, these metrics are enabled and collected as of GitLab 9.4",
+    false
+  ],
+  "178": [
+    "Checking the versions of bundled software",
+    "https://docs.gitlab.com/13.12/omnibus/package-information/README.html#checking-the-versions-of-bundled-software",
+    "Checking the versions of bundled software Package defaults Components included Deprecated Operating Systems Signed Packages Deprecation Policy Licenses of bundled dependencies",
+    true
+  ],
+  "179": [
+    "Checking the versions of bundled software",
+    "https://docs.gitlab.com/ee/development/understanding_explain_plans.html",
+    "Checking the versions of bundled software Package defaults Components included Deprecated Operating Systems Signed Packages Deprecation Policy Licenses of bundled dependencies",
+    false
+  ],
+  "180": [
+    "bundling dependencies document",
+    "https://docs.gitlab.com/13.12/omnibus/package-information/omnibus_packages.html",
+    "at bundling dependencies document",
+    true
+  ],
+  "181": [
+    "bundling dependencies document",
+    "https://docs.gitlab.com/13.12/ee/administration/integration/terminal.html#security",
+    "at bundling dependencies document",
+    false
+  ],
+  "182": [
+    "GitLab Architecture Overview",
+    "https://docs.gitlab.com/13.12/ee/development/architecture.html#gitlab-architecture-overview",
+    "The GitLab Architecture Overview shows some of these components and how they interact",
+    true
+  ],
+  "183": [
+    "GitLab Architecture Overview",
+    "https://docs.gitlab.com/ee/api/graphql/index.html#graphiql",
+    "The GitLab Architecture Overview shows some of these components and how they interact",
+    false
+  ],
+  "184": [
+    "Shared files",
+    "https://docs.gitlab.com/13.12/ee/development/shared_files.html",
+    "Shared files are not an option for the application running on the Kubernetes platform",
+    true
+  ],
+  "185": [
+    "Shared files",
+    "https://docs.gitlab.com/ee/user/packages/generic_packages/index.html",
+    "Shared files are not an option for the application running on the Kubernetes platform",
+    false
+  ],
+  "186": [
+    "process for adding new service components",
+    "https://docs.gitlab.com/13.12/ee/development/adding_service_component.html",
+    "Refer to the process for adding new service components for more details",
+    true
+  ],
+  "187": [
+    "process for adding new service components",
+    "https://docs.gitlab.com/13.12/ee/user/project/repository/repository_mirroring.html#pulling-from-a-remote-repository",
+    "Refer to the process for adding new service components for more details",
+    false
+  ],
+  "188": [
+    "End-to-end testing in GitLab QA",
+    "https://docs.gitlab.com/13.12/ee/development/testing_guide/end_to_end/beginners_guide.html",
+    "Proposed Proposing a new component Minimal Integrating a new service with GitLab Handling service dependencies Viable Bundled with GitLab installations End-to-end testing in GitLab QA Release management Enabled on GitLab.com Complete Configurable by the GitLab orchestrator Lovable Enabled by default for the majority of users",
+    true
+  ],
+  "189": [
+    "End-to-end testing in GitLab QA",
+    "https://docs.gitlab.com/ee/api/milestones.html",
+    "Proposed Proposing a new component Minimal Integrating a new service with GitLab Handling service dependencies Viable Bundled with GitLab installations End-to-end testing in GitLab QA Release management Enabled on GitLab.com Complete Configurable by the GitLab orchestrator Lovable Enabled by default for the majority of users",
+    false
+  ],
+  "190": [
+    "page object",
+    "https://docs.gitlab.com/13.12/ee/development/testing_guide/end_to_end/page_objects.html",
+    "Develop any missing page object libraries",
+    true
+  ],
+  "191": [
+    "page object",
+    "https://docs.gitlab.com/ce/user/profile/index.html#access-your-user-settings",
+    "Develop any missing page object libraries",
+    false
+  ],
+  "192": [
+    "Dynamic element validation",
+    "https://docs.gitlab.com/13.12/ee/development/testing_guide/end_to_end/dynamic_element_validation.html",
+    "In our case, data-qa-selector=\"login_field\" app/views/my/view.html.haml Things to note: The name of the element and the qa_selector If the element appears on the page unconditionally, add required: true Dynamic element validation You may see .qa-selector method of definition over the .qa-selector",
+    true
+  ],
+  "193": [
+    "Dynamic element validation",
+    "https://docs.gitlab.com/omnibus/update/README.html#version-specific-changes",
+    "In our case, data-qa-selector=\"login_field\" app/views/my/view.html.haml Things to note: The name of the element and the qa_selector If the element appears on the page unconditionally, add required: true Dynamic element validation You may see .qa-selector method of definition over the .qa-selector",
+    false
+  ],
+  "194": [
+    "resources",
+    "https://docs.gitlab.com/13.12/ee/development/testing_guide/end_to_end/resources.html",
+    "Create resources (such as project, issue, user) on an ad-hoc basis",
+    true
+  ],
+  "195": [
+    "resources",
+    "https://docs.gitlab.com/ee/user/group/subgroups/index.html",
+    "Create resources (such as project, issue, user) on an ad-hoc basis",
+    false
+  ]
+}

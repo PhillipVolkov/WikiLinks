@@ -1,0 +1,21 @@
+Proximity,WordCount,TitleMatch,TfIdf,TitleSimilarity,ContentSimilarity,Score,Phrase,Link,Match
+0.14104125929013972,0.027663934426229508,0.0,0.3062331472742002,0.7690331935882568,0.8219631910324097,5.574521360793743,Install Docker,https://docs.gitlab.com/runner/install/docker.html,true
+0.034053647092830513,0.016652433817250213,0.0,0.2686833072878457,0.6422172784805298,0.7210747003555298,1.9314072354909808,Manage templates,https://docs.gitlab.com/ee/user/project/working_with_projects.html,true
+0.0,0.002188183807439825,0.0,0.016419253056266903,0.670665442943573,0.6503787636756897,0.1048951048951049,Continous Delivery,https://docs.gitlab.com/ee/user/project/canary_deployments.html,true
+0.01965032405437992,0.01096723044397463,0.0,0.175011991795501,0.5705724954605103,0.8195619583129883,1.2281350101669195,Special Search,https://docs.gitlab.com/ee/integration/elasticsearch.html,true
+0.0,0.03728813559322034,0.0,0.21378321274363934,0.5953842401504517,0.732161283493042,1.6097560975609757,Usage with Prometheus,https://docs.gitlab.com/ee/user/clusters/integrations.html,true
+0.081962093751953,0.033437826541274814,0.0,0.28533204524891814,0.7431859970092773,0.8826291561126709,4.753138127958305,Gitlab Helm Applications,https://docs.gitlab.com/ee/user/clusters/management_project_template.html,true
+0.09989152584656391,0.02195945945945946,0.0,0.22571611241755143,0.6717665791511536,0.7936694025993347,3.9456508848859686,running pod output,https://docs.gitlab.com/ee/user/project/clusters/kubernetes_pod_logs.html,true
+0.33581499592502034,0.004807692307692308,0.0,0.05440138971635047,0.6492311954498291,0.6316276788711548,10.300438578315582,documented procedures,https://docs.gitlab.com/ee/user/project/clusters/runbooks/,true
+0.03436174556207667,0.013328776486671223,0.0,0.49606512068185804,0.8516523838043213,0.9254395365715027,1.7722972337824519,Knative Workloads,https://docs.gitlab.com/ee/user/project/clusters/serverless/,true
+0.4746527777777778,0.01485148514851485,0.0,0.4382513858038392,0.5498238205909729,0.6711333394050598,14.8855163476874,Pipeline Success,https://docs.gitlab.com/ee/user/analytics/ci_cd_analytics.html,true
+0.0,0.0,0.0,0.0,0.603712797164917,0.555672287940979,0.0,Composer API documentation,https://docs.gitlab.com/13.12/ee/ci/pipelines/pipeline_architectures.html#basic-pipelines,false
+0.0,0.0,0.0,0.0,0.46214959025382996,0.4840414822101593,0.0,HashiCorp Vault,https://docs.gitlab.com/13.12/ee/ci/troubleshooting.html#fatal-reference-is-not-a-tree-error,false
+0.0,0.0,0.0,0.0,0.5022450089454651,0.6496111154556274,0.0,Authenticating and Reading Secrets With HashiCorp Vault,https://docs.gitlab.com/13.12/ee/user/project/description_templates.html,false
+0.0,0.0,0.0,0.0,0.5011816620826721,0.4076153635978699,0.0,Conan,https://docs.gitlab.com/13.12/ee/user/project/working_with_projects.html#create-a-project,false
+0.0010502457533353613,0.0017196904557179708,0.0,0.0276629953501162,0.6179372072219849,0.6639396548271179,0.13139638480871788,Conan API documentation,https://docs.gitlab.com/runner/configuration/advanced-configuration.html,false
+0.0,0.0,0.0,0.0,0.519556999206543,0.525514543056488,0.0,Go,https://docs.gitlab.com/omnibus/index.html#configuring,false
+0.005605177895281765,0.0046520282843319685,0.14285714285714285,0.038332709578936114,0.8253071308135986,0.6759622097015381,6.150107004034959,Go Proxy API documentation,https://docs.gitlab.com/ee/api/settings.html#list-of-settings-that-can-be-accessed-via-api-calls,false
+0.0,0.004424778761061947,0.0,0.032669532358686394,0.6136304140090942,0.6611664891242981,0.17595307917888564,Dependency Management in Go  Proxies,https://docs.gitlab.com/ee/administration/reference_architectures/1k_users.html,false
+0.0,0.0,0.0,0.0,0.38909968733787537,0.3923518657684326,0.0,Maven,https://docs.gitlab.com/runner/register/index.html,false
+0.0,0.0,0.0,0.0,0.5534307360649109,0.6324498057365417,0.0,Maven API documentation,https://docs.gitlab.com/runner/configuration/speed_up_job_execution.html#use-a-distributed-cache,false

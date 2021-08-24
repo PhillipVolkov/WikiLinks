@@ -32,16 +32,16 @@ import weka.filters.unsupervised.attribute.Remove;
 
 public class Main {
 	private static final boolean testLinks = true;
-	private static final String operation = "train model";
+	private static final String operation = "test model";
 	private static final String crawlGoal = "links";
 	private static final String processing = "none";
 	
 	private static final String[] crawlStartPage = new String[] {"Gitlab Docs", "https://docs.gitlab.com/ee/", ""};
-	private static final String jsonName = "testingLinksRandom.json";
 	private static final String sentenceName = "sentences.json";
 	private static final String idfName = "idf.csv";
+	private static final String jsonName = "testingLinksMetaTopic.json";
 	private static final String trainingDataName = "trainingSet.csv";
-	private static final String testingDataName = "testingSetManual.csv";
+	private static final String testingDataName = "testingSetMetaTopic.csv";
 	private static final String mlModelName = "ml.model";
 	
 	private static int counter = 0;
@@ -50,7 +50,7 @@ public class Main {
 	
 	private static Remove removeFilter;
 	
-	//TODO improve test data set, split into different categories (random, weird title, etc)
+	//TODO improve test data set, split into different categories (random, similar but not identical, misleading title, true, false)
 	//TODO analyze low similarity, visualize naive output
 	
     public static void main(String[] args) {
@@ -142,8 +142,8 @@ public class Main {
 	    		}
     	    }
     	}
-    	else if (operation.toLowerCase().equals("create train")) createTrainSet();
-    	else if (operation.toLowerCase().equals("create test")) createTestSet();
+    	else if (operation.toLowerCase().equals("create train")) createSet(true);
+    	else if (operation.toLowerCase().equals("create test")) createSet(false);
     	else if (operation.toLowerCase().equals("train model")) trainModel();
     	else if (operation.toLowerCase().equals("test model")) testModel();
     	else if (operation.toLowerCase().equals("debug")) {
@@ -196,6 +196,9 @@ public class Main {
 			Evaluation eval = new Evaluation(data);
 			eval.crossValidateModel(cls, data, 10, new Random(1));
 			System.out.println("Correct: " + eval.pctCorrect() + "%");
+			System.out.println("true\tfalse\t<--classified as");
+			System.out.println(eval.confusionMatrix()[0][0] + "\t" + eval.confusionMatrix()[0][1] + "\t<--Are True");
+			System.out.println(eval.confusionMatrix()[1][0] + "\t" + eval.confusionMatrix()[1][1] + "\t<--Are False");
 			System.out.println("------------------");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -216,6 +219,13 @@ public class Main {
 	    	data.setClassIndex(data.numAttributes()-1);
 	    	
 	    	if (removeFilter != null) data = Filter.useFilter(data, removeFilter);
+	    	else {
+	    		removeFilter = new Remove();
+		    	removeFilter.setAttributeIndicesArray(new int[] {3, 4, 5, data.numAttributes()-1});
+		    	removeFilter.setInvertSelection(true);
+		    	removeFilter.setInputFormat(data);
+		    	data = Filter.useFilter(data, removeFilter);
+	    	}
 	    	
 	    	InfoGainAttributeEval attrEval = new InfoGainAttributeEval();
 	    	attrEval.buildEvaluator(data);
@@ -232,7 +242,10 @@ public class Main {
 	    	Evaluation eval = new Evaluation(data);
 			eval.evaluateModel(cls, data);
 			System.out.println("Correct: " + eval.pctCorrect() + "%");
-			for (int i = 0; i < data.size(); i++) System.out.println(data.get(i).toString() + ": \t" + eval.evaluateModelOnceAndRecordPrediction(cls, data.get(i)));
+			System.out.println("true\tfalse\t<--classified as");
+			System.out.println(eval.confusionMatrix()[0][0] + "\t" + eval.confusionMatrix()[0][1] + "\t<--Are True");
+			System.out.println(eval.confusionMatrix()[1][0] + "\t" + eval.confusionMatrix()[1][1] + "\t<--Are False");
+			//for (int i = 0; i < data.size(); i++) System.out.println(data.get(i).toString() + ": \t" + eval.evaluateModelOnceAndRecordPrediction(cls, data.get(i)));
 			System.out.println("------------------");
 			
 		} catch (Exception e) {
@@ -247,18 +260,32 @@ public class Main {
 			String[] row;
 			reader.readNext();
 			int matches = 0;
+			double[][] confusionMatrix = new double[2][2];
 			int count = 0;
 			
 			while ((row = reader.readNext()) != null) {
 				double match = Double.parseDouble(row[row.length-4]);
 				if (match != -1 && !Constants.debugPrint) {
 					if ((match >= Constants.threshold) == Boolean.parseBoolean(row[row.length-1])) matches++;
+					
+					//true positive
+					if ((match >= Constants.threshold) && Boolean.parseBoolean(row[row.length-1]) == true) confusionMatrix[0][0]++;
+					//false positive
+					else if ((match < Constants.threshold) && Boolean.parseBoolean(row[row.length-1]) == true) confusionMatrix[0][1]++;
+					//true negative
+					else if ((match >= Constants.threshold) && Boolean.parseBoolean(row[row.length-1]) == false) confusionMatrix[1][0]++;
+					//false negative
+					else if ((match < Constants.threshold) && Boolean.parseBoolean(row[row.length-1]) == false) confusionMatrix[1][1]++;
 				}
 				
 				count++;
 			}
 			
 			System.out.println("Naive Correct: " + ((double)matches/count*100) + "%");
+			
+			System.out.println("true\tfalse\t<--classified as");
+			System.out.println(confusionMatrix[0][0] + "\t" + confusionMatrix[0][1] + "\t<--Are True");
+			System.out.println(confusionMatrix[1][0] + "\t" + confusionMatrix[1][1] + "\t<--Are False");
 			System.out.println("------------------");
 			System.out.println();
 		}
@@ -469,7 +496,7 @@ public class Main {
 		}
     }
     
-    private static void createTrainSet() {
+    private static void createSet(boolean train) {
     	ArrayList<String[]> testLinksArr = new ArrayList<String[]>();
     	ArrayList<Boolean> testLinksCheck = new ArrayList<Boolean>();
     	
@@ -489,100 +516,8 @@ public class Main {
 			e1.printStackTrace();
 		}
     	
-		writeDataSet(trainingDataName, testLinksArr, testLinksCheck);
-    }
-    
-    private static void createTestSet() {
-    	if (!Constants.debugPrint) {
-			System.out.printf("%-72s| %-128s| %-12s| %-12s| %-22s| %-1s", "Tokens", "URL", "Parse Time", "Algo Time", "Score", "Match?");
-			System.out.println();
-		}
-
-    	ArrayList<String[]> testLinksArr;
-    	ArrayList<Boolean> testLinksCheck = new ArrayList<Boolean>();
-		
-    	if (!testLinks) {
-	    	double startTime1 = System.nanoTime();
-	        Page newPage = new Page(Constants.stem, Constants.page);
-	        Constants.putSavedPage(Constants.stem+Constants.page, newPage);
-	        
-	    	double endTime1 = System.nanoTime();
-	    	
-			System.out.printf("%-72s| %-128s| %-12s| %-12s| %-22s| %-1s", "Initial Page", Constants.stem+Constants.page, ((endTime1-startTime1)/Math.pow(10, 9)), "N/A", "N/A", "N/A");
-			System.out.println();
-
-	    	testLinksArr = newPage.getLinks();
-	    	
-	    	for (int i = 0; i < testLinksArr.size(); i++) {
-	    		testLinksCheck.add(true);
-	    	}
-    	}
-    	else {
-    		testLinksArr = new ArrayList<String[]>();
-    		
-	    	testLinksArr.add(new String[] {"Auto DevOps", "https://docs.gitlab.com/ee/user/project/clusters/index.html#auto-devops", "Use Auto DevOps to automate the CI/CD process"});
-	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"the Prometheus cluster integration is enabled", "https://docs.gitlab.com/ee/user/clusters/integrations.html#prometheus-cluster-integration", 
-	    			"When the Prometheus cluster integration is enabled, GitLab monitors the cluster’s health"});
-	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"Cluster management project", "https://docs.gitlab.com/ee/user/clusters/management_project.html", 
-	    			"Attach a Cluster management project to your cluster to manage shared resources requiring cluster-admin privileges for installation, such as an Ingress controller"});
-	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"CI/CD Pipelines", "https://docs.gitlab.com/ee/ci/pipelines/index.html", "Create CI/CD Pipelines to build, test, and deploy to your cluster"});
-	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"cluster integrations", "https://docs.gitlab.com/ee/user/clusters/integrations.html", "Connect GitLab to in-cluster applications using cluster integrations"});
-	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"project access tokens", "https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html", "project access tokens"});
-	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"GitLab to manage your cluster for you", "https://docs.gitlab.com/ee/user/project/clusters/gitlab_managed_clusters.html", "See how to allow GitLab to manage your cluster for you"});
-	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"Infrastructure as Code", "https://docs.gitlab.com/ee/user/infrastructure", 
-	    			"GitLab provides you with great solutions to help you manage your infrastrucure: Infrastructure as Code and GitOps"});
-	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"Deploy Boards", "https://docs.gitlab.com/ee/user/project/deploy_boards.html", "Use Deploy Boards to see the health and status of each CI environment running on your Kubernetes cluster"});
-	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"role-based or attribute-based access controls", "https://docs.gitlab.com/ee/user/project/clusters/cluster_access.html", "Use role-based or attribute-based access controls"});
-	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"Read more about Kubernetes monitoring", "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/kubernetes.html", "Read more about Kubernetes monitoring"});
-	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"Kubernetes with Knative", "https://docs.gitlab.com/ee/user/project/clusters/serverless/index.html", "Run serverless workloads on Kubernetes with Knative"});
-	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"Create users", "https://docs.gitlab.com/ee/api/users.html", "You can also create users through the API as an admin"});
-	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"Elasticsearch.log file", "https://docs.gitlab.com/ee/administration/logs.html#elasticsearchlog", ""});
-	    	testLinksCheck.add(true);
-
-	    	testLinksArr.add(new String[] {"Kubernetes Engine", "https://docs.gitlab.com/ee/user/project/clusters/gitlab_managed_clusters.html", ""});
-	    	testLinksCheck.add(false);
-	    	testLinksArr.add(new String[] {"Kubernetes Pipeline", "https://docs.gitlab.com/ee/user/clusters/management_project.html", ""});
-	    	testLinksCheck.add(false);
-	    	testLinksArr.add(new String[] {"find users api tokens", "https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html", ""});
-	    	testLinksCheck.add(false);
-	    	testLinksArr.add(new String[] {"gitlab search index", "https://docs.gitlab.com/ee/integration/elasticsearch.html", ""});
-	    	testLinksCheck.add(false);
-
-	    	testLinksArr.add(new String[] {"package", "https://docs.gitlab.com/ee/user/packages/index.html", ""});
-	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"environment", "https://docs.gitlab.com/ee/ci/environments/index.html", "Use Deploy Boards to see the health and status of each CI environment running on your Kubernetes cluster"});
-	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"NGINX Ingress", "https://docs.gitlab.com/ee/user/project/integrations/prometheus_library/nginx.html", "Automatic monitoring of NGINX Ingress is also supported"});
-	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"Kubernetes podlogs", "https://docs.gitlab.com/ee/user/project/clusters/kubernetes_pod_logs.html", "View your Kubernetes podlogs directly in GitLab"});
-	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"instance level", "https://docs.gitlab.com/ee/user/instance/clusters/index.html", "On the instance level, to use the same cluster across multiple groups and projects."});
-	    	testLinksCheck.add(true);
-	    	testLinksArr.add(new String[] {"group level", "https://docs.gitlab.com/ee/user/group/clusters/index.html", "On the group level, to use the same cluster across multiple projects within your group"});
-	    	testLinksCheck.add(true);
-	    	
-	    	testLinksArr.add(new String[] {"developers", "https://docs.gitlab.com/ee/user/permissions.html", "The whole cluster security is based on a model where developers are trusted, so only trusted users should be allowed to control your clusters"});
-	    	testLinksCheck.add(false);
-	    	testLinksArr.add(new String[] {"dynamic names", "https://docs.gitlab.com/ee/ci/environments/index.html", ""});
-	    	testLinksCheck.add(false);
-	    	testLinksArr.add(new String[] {"dependency", "https://docs.gitlab.com/ee/user/packages/index.html", ""});
-	    	testLinksCheck.add(false);
-    	}
-    	
-    	writeDataSet(testingDataName, testLinksArr, testLinksCheck);
+		if (train) writeDataSet(trainingDataName, testLinksArr, testLinksCheck);
+		else writeDataSet(testingDataName, testLinksArr, testLinksCheck);
     }
     
     private static void verifyLinks(ArrayList<String[]> links, ArrayList<Boolean> check) {

@@ -1,0 +1,122 @@
+{
+  "0": [
+    "Install Docker",
+    "https://docs.gitlab.com/runner/install/docker.html",
+    "",
+    true
+  ],
+  "1": [
+    "Manage templates",
+    "https://docs.gitlab.com/ee/user/project/working_with_projects.html",
+    "",
+    true
+  ],
+  "2": [
+    "Continous Delivery",
+    "https://docs.gitlab.com/ee/user/project/canary_deployments.html",
+    "",
+    true
+  ],
+  "3": [
+    "Special Search",
+    "https://docs.gitlab.com/ee/integration/elasticsearch.html",
+    "",
+    true
+  ],
+  "4": [
+    "Usage with Prometheus",
+    "https://docs.gitlab.com/ee/user/clusters/integrations.html",
+    "",
+    true
+  ],
+  "5": [
+    "Gitlab Helm Applications",
+    "https://docs.gitlab.com/ee/user/clusters/management_project_template.html",
+    "",
+    true
+  ],
+  "6": [
+    "running pod output",
+    "https://docs.gitlab.com/ee/user/project/clusters/kubernetes_pod_logs.html",
+    "",
+    true
+  ],
+  "7": [
+    "documented procedures",
+    "https://docs.gitlab.com/ee/user/project/clusters/runbooks/",
+    "",
+    true
+  ],
+  "8": [
+    "Knative Workloads",
+    "https://docs.gitlab.com/ee/user/project/clusters/serverless/",
+    "",
+    true
+  ],
+  "9": [
+    "Pipeline Success",
+    "https://docs.gitlab.com/ee/user/analytics/ci_cd_analytics.html",
+    "",
+    true
+  ],
+  "10": [
+    "Composer API documentation",
+    "https://docs.gitlab.com/13.12/ee/ci/pipelines/pipeline_architectures.html#basic-pipelines",
+    "For documentation of the specific API endpoints that the Composer client uses, see the Composer API documentation",
+    false
+  ],
+  "11": [
+    "HashiCorp Vault",
+    "https://docs.gitlab.com/13.12/ee/ci/troubleshooting.html#fatal-reference-is-not-a-tree-error",
+    "You can also install from source (by pulling the Git repository directly) using the --prefer-source   Never commit the auth.json consider using the composer config tool with your personal access token stored in a GitLab CI/CD variable or in HashiCorp Vault",
+    false
+  ],
+  "12": [
+    "Authenticating and Reading Secrets With HashiCorp Vault",
+    "https://docs.gitlab.com/13.12/ee/user/project/description_templates.html",
+    "Read the Authenticating and Reading Secrets With HashiCorp Vault tutorial for a version of this feature",
+    false
+  ],
+  "13": [
+    "Conan",
+    "https://docs.gitlab.com/13.12/ee/user/project/working_with_projects.html#create-a-project",
+    "The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",
+    false
+  ],
+  "14": [
+    "Conan API documentation",
+    "https://docs.gitlab.com/runner/configuration/advanced-configuration.html",
+    "For documentation of the specific API endpoints that the Conan package manager client uses, see the Conan API documentation",
+    false
+  ],
+  "15": [
+    "Go",
+    "https://docs.gitlab.com/omnibus/index.html#configuring",
+    "The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",
+    false
+  ],
+  "16": [
+    "Go Proxy API documentation",
+    "https://docs.gitlab.com/ee/api/settings.html#list-of-settings-that-can-be-accessed-via-api-calls",
+    "For documentation of the specific API endpoints that the Go Proxy uses, see the Go Proxy API documentation",
+    false
+  ],
+  "17": [
+    "Dependency Management in Go  Proxies",
+    "https://docs.gitlab.com/ee/administration/reference_architectures/1k_users.html",
+    "For details about configuring GOPROXY >Dependency Management in Go  Proxies",
+    false
+  ],
+  "18": [
+    "Maven",
+    "https://docs.gitlab.com/runner/register/index.html",
+    "The Package Registry supports the following formats: Package type GitLab version Composer 13.2+ Conan 12.6+ Go 13.1+ Maven 11.3+ npm 11.7+ NuGet 12.8+ PyPI 12.10+ Generic packages 13.5+ Ruby gems 13.10+ You can also use the API to administer the Package Registry",
+    false
+  ],
+  "19": [
+    "Maven API documentation",
+    "https://docs.gitlab.com/runner/configuration/speed_up_job_execution.html#use-a-distributed-cache",
+    "For documentation of the specific API endpoints that the Maven package manager client uses, see the Maven API documentation",
+    false
+  ]
+}

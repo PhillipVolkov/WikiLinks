@@ -1,0 +1,21 @@
+Proximity,WordCount,TitleMatch,TfIdf,TitleSimilarity,ContentSimilarity,Score,Phrase,Link,Match
+0.0,0.1039426523297491,0.0,0.5,0.653222382068634,0.666589081287384,4.416243654822335,Guide to Packages,https://docs.gitlab.com/ee/api/packages/composer.html,true
+0.037411950731519004,0.01077752117013087,0.0,0.09682768841932682,0.6674495339393616,0.7979904413223267,2.0074269343702493,Package Client Example,https://docs.gitlab.com/ee/api/packages/debian.html,true
+0.07961860713896099,0.037037037037037035,0.0,0.33594144552291727,0.6377273201942444,0.6685034036636353,4.38474428555844,Charts in Package Registry,https://docs.gitlab.com/ee/api/packages/helm.html,true
+0.10376990712347366,0.06345177664974619,0.0,0.24182234422422688,0.6218977570533752,0.7171805500984192,5.516943367550364,Package Registery Documentation,https://docs.gitlab.com/ee/api/packages/maven.html,true
+0.0,0.021608643457382955,0.0,0.09667791080929293,0.6246483325958252,0.5734658241271973,1.139240506329114,Documentation for Access,https://docs.gitlab.com/ee/api/members.html,true
+0.030257098753241424,0.031746031746031744,0.0,0.11234465114449135,0.6382567286491394,0.7871046662330627,2.541376328933876,Organizing issues,https://docs.gitlab.com/ee/user/project/milestones/index.html,true
+0.015870475936482536,0.012121212121212121,0.0,0.0889711781355678,0.5430633425712585,0.6534051895141602,0.9046857066659046,Types of names,https://docs.gitlab.com/ee/api/namespaces.html,true
+0.0,0.08764940239043825,0.0,0.41745265730006653,0.6620477437973022,0.7148401141166687,3.606557377049181,Packages for Python,https://docs.gitlab.com/ee/api/packages/pypi.html,true
+0.0,0.0028653295128939827,0.0,0.012164607126805534,0.5542488694190979,0.5698285698890686,0.14760147601476015,Methods for finding,https://docs.gitlab.com/ee/api/search.html,true
+0.0,0.07446808510638298,0.0,0.16128879061618048,0.6524163484573364,0.6240769624710083,3.1738035264483626,Manage Documentation Pages,https://docs.gitlab.com/ee/api/wikis.html,true
+0.0,0.0,0.0,0.0,0.603712797164917,0.555672287940979,0.0,Composer API documentation,https://docs.gitlab.com/13.12/ee/ci/pipelines/pipeline_architectures.html#basic-pipelines,false
+0.0,0.0,0.0,0.0,0.46214959025382996,0.4840414822101593,0.0,HashiCorp Vault,https://docs.gitlab.com/13.12/ee/ci/troubleshooting.html#fatal-reference-is-not-a-tree-error,false
+0.0,0.0,0.0,0.0,0.5022450089454651,0.6496111154556274,0.0,Authenticating and Reading Secrets With HashiCorp Vault,https://docs.gitlab.com/13.12/ee/user/project/description_templates.html,false
+0.0,0.0,0.0,0.0,0.5011816620826721,0.4076153635978699,0.0,Conan,https://docs.gitlab.com/13.12/ee/user/project/working_with_projects.html#create-a-project,false
+0.0010502457533353613,0.0017196904557179708,0.0,0.0276629953501162,0.6179372072219849,0.6639396548271179,0.13139638480871788,Conan API documentation,https://docs.gitlab.com/runner/configuration/advanced-configuration.html,false
+0.0,0.0,0.0,0.0,0.519556999206543,0.525514543056488,0.0,Go,https://docs.gitlab.com/omnibus/index.html#configuring,false
+0.005605177895281765,0.0046520282843319685,0.14285714285714285,0.038332709578936114,0.8253071308135986,0.6759622097015381,6.150107004034959,Go Proxy API documentation,https://docs.gitlab.com/ee/api/settings.html#list-of-settings-that-can-be-accessed-via-api-calls,false
+0.0,0.004424778761061947,0.0,0.032669532358686394,0.6136304140090942,0.6611664891242981,0.17595307917888564,Dependency Management in Go  Proxies,https://docs.gitlab.com/ee/administration/reference_architectures/1k_users.html,false
+0.0,0.0,0.0,0.0,0.38909968733787537,0.3923518657684326,0.0,Maven,https://docs.gitlab.com/runner/register/index.html,false
+0.0,0.0,0.0,0.0,0.5534307360649109,0.6324498057365417,0.0,Maven API documentation,https://docs.gitlab.com/runner/configuration/speed_up_job_execution.html#use-a-distributed-cache,false
